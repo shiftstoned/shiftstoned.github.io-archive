@@ -1,22 +1,39 @@
 <!DOCTYPE html>
 
+<!--
+
+    Eternal Power Calculator
+    Copyright (C) 2018  Matt Kimball
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+-->
+
 <html>
 
 <head>
     <title>Shiftstoned - Power Calculator</title>
 
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="semantic.min.css">
     <link rel="stylesheet" href="epc.css">
-    <link rel="stylesheet" href="../shiftstoned.css">
 </head>
 
 <body>
-    <center>
-        <br><br><br>
-        <a href="../"><img src="../shiftstonedsigils.png"></a>
-        <br><br>
-    </center>
-
     <!--
         Pre-load all the influence icons symbols.
         The graph drawing pulls the influence symbols from these elements.
@@ -29,101 +46,253 @@
         <img id="icon-shadow" src="icon-shadow.png">
     </div>
 
-    <div id="deck-and-table">
-        <div id="deck-text-div">
-            <div id="deck-paste-text">
-                Paste a decklist below
-            </div>
+    <!--  A dialog displayed when the "About" button is clicked  -->
+    <div id="about-modal" class="ui tiny modal">
+        <div class="header">About Shiftstoned Power Calculator</div>
 
-            <!--  The input decklist for the table  -->
-            <textarea id="deck-text" rows="20">
-4 Seek Power (Set1 #408)
-4 Torch (Set1 #8)
-4 Strategize (Set3 #165)
-2 Vanquish (Set1 #143)
-3 Eilyn's Choice (Set2 #220)
-4 Hailstorm (Set1003 #11)
-4 Wisdom of the Elders (Set1 #218)
-4 Auric Runehammer (Set1 #166)
-4 Rise to the Challenge (Set1 #320)
-4 Shelterwing Rider (Set2 #223)
-4 Harsh Rule (Set1 #172)
-2 Throne Warden (Set1 #514)
-1 Starsteel Daisho (Set1 #328)
-4 Icaria, the Liberator (Set1 #329)
-3 Fire Sigil (Set1 #1)
-5 Justice Sigil (Set1 #126)
-2 Primal Sigil (Set1 #187)
-4 Crest of Fury (Set3 #266)
-3 Hooru Banner (Set2 #216)
-2 Seat of Fury (Set0 #53)
-4 Seat of Glory (Set0 #56)
-4 Seat of Order (Set0 #51)
-</textarea>
+        <div id="about-text" class="modal-body">
+            <p>
+            Eternal Power Calculator is a tool for probability analysis of
+            decks for <a href="https://www.direwolfdigital.com/eternal/">
+            Eternal Card Game</a>.  It is designed to help understand
+            the odds of drawing resources to play specific cards by
+            a specific turn.
 
-            <!--  Any syntax error in the decklist is reported here  -->
-            <div id="deck-validation-result"></div>
+            <p>
+            The probabilities represent only the odds of drawing power and
+            influence sources, without a mulligan.  Note that the requirements
+            for playing those sources isn't considered for the purposes of
+            computing odds.
+
+            <p>
+            For example, Vara's Favor is considered to be a source of both
+            one power and one shadow influence for the purposes of the
+            probability table, but the prerequisite of two power and one shadow
+            influence, in order to play Vara's Favor, isn't a factor in the
+            calculation.
+
+            <p>
+            The original source code for Eternal Power Calculator is
+            <a href="https://github.com/matt-kimball/epc">available
+            on GitHub</a>.
         </div>
 
-        <div id="table-or-graph">
-            <!--  Buttons to switch between the table and the graph  -->
-            <div id="table-or-graph-menu">
-                <div id="graph-menu-item" class="menu-item active-menu-item">
-                    <div class="menu-item-text">
-                        Influence Graph
+        <div class="actions">
+            <button class="ui positive right button">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!--  Dialog for importing a deck list  -->
+    <div id="import-modal" class="ui tiny modal">
+        <div class="header">
+            Paste a deck from Eternal
+        </div>
+
+        <div id="import-form" class="ui form modal-body">
+            <div class="field">
+                <label>Deck list</label>
+                <textarea id="import-modal-deck" rows="20"></textarea>
+            </div>
+
+            <!--  Syntax errors in the decklist are reported here  -->
+            <div class="ui label" id="import-validation-result">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button
+                    id="import-modal-import-button"
+                    class="ui positive right button">
+                IMPORT
+            </button>
+        </div>
+    </div>
+
+    <!--  Dialog for adding a new card  -->
+    <div id="add-card-modal" class="ui mini modal">
+        <div class="header">
+            Select a card
+        </div>
+
+        <div id="card-select" class="modal-body">
+            <!--  All card names are added by gatherCards in epc-ui.js  -->
+            <select
+                    id="add-card-dropdown"
+                    class="ui fluid search selection dropdown">
+                <option value="">Card</option>
+            </select>
+        </div>
+
+        <div class="actions">
+            <button
+                    id="add-card-modal-add-button"
+                    class="ui positive right button">
+                ADD
+            </button>
+        </div>
+    </div>
+
+    <!--  A dialog used to report syntax errors in the card list  -->
+    <div id="card-list-error-modal" class="ui small modal">
+        <div class="header">Card list error</div>
+
+        <div id="card-list-error-text" class="modal-body">
+        </div>
+
+        <div class="actions">
+            <button class="ui positive right button">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <div id="calculator-content">
+        <img id="background" src="EternalThroneBackground.jpeg">
+
+        <div id="shiftstoned-heading">
+            <div id="heading-top">
+                <a href="https://www.shiftstoned.com/">
+                    <img id="shiftstoned-img" src="shiftstoned.png">
+                </a>
+                <img id="power-calculator-img" src="power-calculator.png">
+            </div>
+            <div id="heading-page-top"></div>
+        </div>
+
+        <!--
+            The main body of the app, with an editable deck and the
+            graph or table.
+        -->
+        <div id="calculator-body">
+            <div id="influence-panel">
+                <div id="card-count-panel">
+                    <div id="card-count-number">
+                    </div>
+                    <div id="card-count-label">
+                        CARDS
                     </div>
                 </div>
-                <div id="table-menu-item" class="menu-item">
-                    <div class="menu-item-text">
-                        Power Odds Table
+
+                <div id="power-sources-panel">
+                    <div id="power-sources-number">
+                    </div>
+                    <div id="power-sources-label">
+                        POWER SOURCES
+                    </div>
+                </div>
+
+                <div id="fire-sources-panel">
+                    <img src="icon-fire.png">
+                    <div id="fire-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="time-sources-panel">
+                    <img src="icon-time.png">
+                    <div id="time-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="justice-sources-panel">
+                    <img src="icon-justice.png">
+                    <div id="justice-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="primal-sources-panel">
+                    <img src="icon-primal.png">
+                    <div id="primal-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="shadow-sources-panel">
+                    <img src="icon-shadow.png">
+                    <div id="shadow-sources-number" class="influence-number">
                     </div>
                 </div>
             </div>
 
-            <div id="table-and-sources">
-                <!--  The table of draw odds is generated here  -->
-                <div id="power-table-div">
+            <div id="deck-edit-panel">
+                <div id="deck-edit-buttons" class="actions">
+                    <button
+                            id="import-button" class="ui button">
+                        IMPORT
+                    </button>
+                    <div
+                            class="ui custom popup transition hidden">
+                        <strong>Greetings Huckleberry!</strong>
+                        <br>
+                        Import a deck to get started
+                    </div>
+
+                    <button
+                            id="export-button" class="ui button"
+                            data-position="top center"
+                            data-content="Deck copied to clipboard">
+                        EXPORT
+                    </button>
+
+                    <button id="about-button" class="ui right button">
+                        ABOUT
+                    </button>
+                </div>
+
+                <div id="deck-edit">
+                    <div id="deck-edit-rows">
+                    </div>
+                </div>
+
+                <div id="deck-edit-footer">
+                    <button id="add-card-button" class="ui button">
+                        ADD CARD
+                    </button>
+                </div>
+            </div>
+
+            <div id="charts-panel">
+                <!--  Buttons to switch between the table and the graph  -->
+                <div id="charts-menu">
+                    <div id="graph-menu-item" class="active">
+                        <img src="influence-graph-menu.png">
+                    </div>
+                    <div id="table-menu-item" class="">
+                        <img src="power-odds-table-menu.png">
+                    </div>
+                </div>
+
+                <div id="charts-heading">
+                </div>
+
+                <div id="power-table-container">
+                    <!--  The table of draw odds is generated here  -->
+                    <div id="power-table-div">
+                    </div>
+
+                    <!--
+                        Text describing the power and influence sources
+                        is generated here.
+                    -->
+                    <p>
+                </div>
+
+                <div id="power-graph-container">
+                    <!-- The graph of power and influence is generated here  -->
+                    <div id="power-graph-div">
+                    </div>
                 </div>
 
                 <!--
-                    Text describing the power and influence sources
-                    is generated here.
+                    An automatically generated list of power and influence
+                    sources used when computing odds
                 -->
-                <p>
                 <div id="power-table-sources">
                 </div>
             </div>
 
-            <div id="power-graph-container">
-                <!-- The graph of power and influence is generated here  -->
-                <div id="power-graph-div">
-                </div>
+            <div id="calculator-body-footer">
             </div>
-        </div>
-    </div>
-
-    <p>
-    <div id="calculator-description">
-        <div id="calculator-description-body">
-            <h3>About the probabilities</h3>
-
-            <p>
-            The number of draws represent cards drawn beyond the opening hand.
-
-            <p>
-            The probabilities in the table represent only the odds of
-            drawing power and influence sources, without a mulligan.
-            The requirements for playing those sources isn't considered
-            for the purposes of computing odds.  For example, Vara's Favor
-            is considered to be a source of both one power and one shadow
-            influence for the purposes of the probability table, but the
-            prerequisite of two power and one shadow influence, in order
-            to play Vara's Favor, isn't a factor in the calculation.
-
-            <p>
-            The original source for Eternal Power Calculator is
-            <a href="https://github.com/matt-kimball/epc">available
-            on Github</a>.
         </div>
     </div>
 
@@ -131,1118 +300,1107 @@
 
         A list of all possible Eternal cards
 
-        Each line contains a card identifier, then the influence
-        generated by that particular card, and then a list of 
-        influence requirements for that card.
-
-        The influence required can have multiple influence
-        values, separated by commas.  (i.e. "2FP,FF,PP")  The first
-        value is the casting cost, followed by influence effect
-        requirements.  Cards like the cycle of Champions have
-        influence card effects in addition to the casting cost.
-        (i.e. Champion of Glory has FF and JJ effects in
-        the body of the card.)
+        See epc-deck.js for a description of the card list format.
 
     -->
     <script id="card-list" type="text/plain">
-        Set0 #3; 1F; 2F
-        Set0 #4;; 2F
-        Set0 #6;; 5F
-        Set0 #9;; 1T
-        Set0 #11; 1T; 2T
-        Set0 #14;; 4T
-        Set0 #15;; 3T
-        Set0 #18; 1J; 2J
-        Set0 #21;; 4J
-        Set0 #24; 1P; 2P
-        Set0 #27;; 3P
-        Set0 #30;; 5P
-        Set0 #33;; 2S
-        Set0 #35; 1S; 2S
-        Set0 #36;; 3S
-        Set0 #51; 1JP;
-        Set0 #53; 1FP;
-        Set0 #54; 1FT;
-        Set0 #55; 1JS;
-        Set0 #56; 1FJ;
-        Set0 #58; 1TJ;
-        Set0 #60; 1FS;
-        Set0 #61; 1TS;
-        Set0 #62; 1PS;
-        Set0 #63; 1TP;
+        Set0 #3; 1F; 2F; Kaleb's Favor;
+        Set0 #4;; 2F; Blazing Renegade;
+        Set0 #6;; 5F; Flash Fire;
+        Set0 #9;; 1T; Silence;
+        Set0 #11; 1T; 2T; Talir's Favored;
+        Set0 #14;; 4T; Timekeeper;
+        Set0 #15;; 3T; Oasis Sanctuary;
+        Set0 #18; 1J; 2J; Rolant's Favor;
+        Set0 #21;; 4J; Mantle of Justice;
+        Set0 #24; 1P; 2P; Eilyn's Favor;
+        Set0 #27;; 3P; Thunderbird;
+        Set0 #30;; 5P; Primal Incarnation;
+        Set0 #33;; 2S; Vampire Bat;
+        Set0 #35; 1S; 2S; Vara's Favor;
+        Set0 #36;; 3S; Devouring Shadow;
+        Set0 #51; 1JP;; Seat of Order;
+        Set0 #53; 1FP;; Seat of Fury;
+        Set0 #54; 1FT;; Seat of Impulse;
+        Set0 #55; 1JS;; Seat of Vengeance;
+        Set0 #56; 1FJ;; Seat of Glory;
+        Set0 #58; 1TJ;; Seat of Progress;
+        Set0 #60; 1FS;; Seat of Chaos;
+        Set0 #61; 1TS;; Seat of Mystery;
+        Set0 #62; 1PS;; Seat of Cunning;
+        Set0 #63; 1TP;; Seat of Wisdom;
 
-        Set1 #1; 1F;
-        Set1 #2;; 2FFF
-        Set1 #3;; 2FF
-        Set1 #4;; 1F
-        Set1 #5;; 1F
-        Set1 #6;; 1F
-        Set1 #8;; 1F
-        Set1 #9;; 2F
-        Set1 #10;; 1F
-        Set1 #11;; 1F
-        Set1 #12;; 1F
-        Set1 #13;; 1F
-        Set1 #14;; 1F
-        Set1 #15;; 1F
-        Set1 #16;; 1F
-        Set1 #17;; 2F
-        Set1 #18;; 2F
-        Set1 #19;; 2F
-        Set1 #20;; 2F
-        Set1 #21;; 2F
-        Set1 #22;; 2F
-        Set1 #23;; 2F
-        Set1 #25;; 2F
-        Set1 #26;; 3FF
-        Set1 #27;; 3F
-        Set1 #28;; 4F
-        Set1 #29;; 3F
-        Set1 #30;; 3F
-        Set1 #31;; 3F
-        Set1 #32;; 3F
-        Set1 #33;; 3F
-        Set1 #34;; 3FF
-        Set1 #35;; 4F
-        Set1 #36;; 4F
-        Set1 #37;; 4F
-        Set1 #38;; 4F
-        Set1 #39;; 4F
-        Set1 #40;; 4FF
-        Set1 #41;; 4F
-        Set1 #42;; 4FF
-        Set1 #43;; 4F
-        Set1 #44;; 5F
-        Set1 #45;; 5F
-        Set1 #46;; 5F
-        Set1 #47;; 6FFF
-        Set1 #48;; 5FF
-        Set1 #49;; 5F
-        Set1 #50;; 5FF
-        Set1 #51;; 5FF
-        Set1 #52;; 6FF
-        Set1 #53;; 6F
-        Set1 #54;; 6FF
-        Set1 #55;; 6FF
-        Set1 #56;; 6FF
-        Set1 #58;; 6F
-        Set1 #59;; 7FF
-        Set1 #60;; 7FF
-        Set1 #61;; 8FFF
-        Set1 #62;; 9FF
-        Set1 #63; 1T;
-        Set1 #64;; TTT
-        Set1 #66;; 2T
-        Set1 #67;; 1T
-        Set1 #68;; 1T
-        Set1 #69;; 1T
-        Set1 #70;; 1T
-        Set1 #71;; 1T
-        Set1 #72;; 1T
-        Set1 #73;; 1T
-        Set1 #74; 1; 1T
-        Set1 #75;; 1T
-        Set1 #76;; 3T
-        Set1 #77;; 2T
-        Set1 #78;; 2T
-        Set1 #79;; 2TP
-        Set1 #80;; 2T
-        Set1 #81; 1X; 3T
-        Set1 #82;; 2T
-        Set1 #83;; 2T
-        Set1 #84;; 2T
-        Set1 #85;; 2T
-        Set1 #86;; 3TT
-        Set1 #88;; 2T
-        Set1 #89;; 3T
-        Set1 #90;; 3T
-        Set1 #91;; 3T
-        Set1 #92;; 3T
-        Set1 #93; 1X; 3T
-        Set1 #94;; 3TT
-        Set1 #95;; 3T
-        Set1 #96;; 3T
-        Set1 #97;; 4T
-        Set1 #98;; 4T
-        Set1 #99;; 4TT
-        Set1 #100;; 4TT
-        Set1 #101;; 4T
-        Set1 #102;; 4T
-        Set1 #103;; 4T
-        Set1 #104;; 4T
-        Set1 #105;; 4TT
-        Set1 #107;; 5TT
-        Set1 #108;; 7TTT
-        Set1 #109;; 6T
-        Set1 #110;; 3TT
-        Set1 #111;; 5S
-        Set1 #112;; 5TT
-        Set1 #113;; 5TT
-        Set1 #114;; 5TT
-        Set1 #115;; 5T
-        Set1 #116;; 6T
-        Set1 #117;; 6T
-        Set1 #118;; 6TTT
-        Set1 #119;; 7TTT
-        Set1 #120;; 7TT
-        Set1 #121;; 7TT
-        Set1 #122;; 7TTT
-        Set1 #123;; 8TT
-        Set1 #124;; 8TTT
-        Set1 #125;; 3JJ
-        Set1 #126; 1J;
-        Set1 #127;; 1J
-        Set1 #128;; 1J
-        Set1 #129;; 2J
-        Set1 #130;; 1J
-        Set1 #131;; 1J
-        Set1 #132;; 2J
-        Set1 #133;; 1J
-        Set1 #134;; 1J
-        Set1 #135;; 2J
-        Set1 #136;; 2J
-        Set1 #137;; 2J
-        Set1 #138;; 2J
-        Set1 #139;; 2J
-        Set1 #140;; 2J
-        Set1 #141;; 2J
-        Set1 #142;; 2J
-        Set1 #143;; 2J
-        Set1 #144;; 2J
-        Set1 #145;; 3J
-        Set1 #146;; 3J
-        Set1 #147;; 3J
-        Set1 #148;; 4J
-        Set1 #149;; 3J
-        Set1 #150;; 3J
-        Set1 #151;; 3JJ
-        Set1 #152;; 3J
-        Set1 #153;; 3J
-        Set1 #154;; 3J
-        Set1 #155;; 3JJ
-        Set1 #156;; 3J
-        Set1 #157; 2JJ; 3J
-        Set1 #158;; 4J
-        Set1 #159;; 5J
-        Set1 #160;; 5J
-        Set1 #162;; 4J
-        Set1 #163;; 4J
-        Set1 #164;; 4J
-        Set1 #165;; 3J
-        Set1 #166;; 4JJ
-        Set1 #167;; 4JJ
-        Set1 #168;; 4J
-        Set1 #169;; 4J
-        Set1 #170;; 4J
-        Set1 #171;; 5JJ
-        Set1 #172;; 5JJ
-        Set1 #174;; 5JJ
-        Set1 #175;; 5JJ
-        Set1 #176;; 6JJ
-        Set1 #177;; 6JJ
-        Set1 #178;; 6JJ
-        Set1 #180;; 6J
-        Set1 #181;; 6JJ
-        Set1 #182;; 6JJJ
-        Set1 #183;; 7JJ
-        Set1 #184;; 7J
-        Set1 #185;; 8JJJ
-        Set1 #186;; 8JJ
-        Set1 #187; 1P;
-        Set1 #188;; F
-        Set1 #189;; 1P
-        Set1 #190;; 1P
-        Set1 #191;; 1P
-        Set1 #192;; 1P
-        Set1 #193;; 1P
-        Set1 #194;; 2P
-        Set1 #195;; 2P
-        Set1 #196;; 2P
-        Set1 #197;; 2P
-        Set1 #199;; 2P
-        Set1 #200;; 2P
-        Set1 #201;; 2P
-        Set1 #202;; 2P
-        Set1 #203;; 2P
-        Set1 #204;; 3P
-        Set1 #205;; 2P
-        Set1 #206;; 2P
-        Set1 #207;; 2P
-        Set1 #208;; 3P
-        Set1 #209;; 3P
-        Set1 #210;; 3P
-        Set1 #211;; 3P
-        Set1 #212;; 3P
-        Set1 #213;; 3S
-        Set1 #214;; 3P
-        Set1 #215;; 2P
-        Set1 #216;; 3P
-        Set1 #217;; 3P
-        Set1 #218;; 3PP
-        Set1 #219;; 4P
-        Set1 #220;; 4P
-        Set1 #221;; 4P
-        Set1 #222;; 4P
-        Set1 #223;; 4PP
-        Set1 #224;; 4PP
-        Set1 #225;; 4TP
-        Set1 #226;; 5P
-        Set1 #227;; 5P
-        Set1 #228;; 7PPP
-        Set1 #229;; 4P
-        Set1 #230;; 4P
-        Set1 #231;; 5PP
-        Set1 #232;; 5PP
-        Set1 #233;; 5PPP
-        Set1 #234;; 5PP
-        Set1 #235;; 5P
-        Set1 #236;; 6PP
-        Set1 #237;; 6PPP
-        Set1 #238;; 7P
-        Set1 #239;; 6PPP
-        Set1 #240;; 6PP
-        Set1 #241;; 6PP
-        Set1 #242;; 7P
-        Set1 #243;; 6PPP
-        Set1 #244;; 8PPPP
-        Set1 #245;; 8PPP
-        Set1 #246;; 7PP
-        Set1 #247;; 5PP
-        Set1 #248;; 10PPP
-        Set1 #249; 1S;
-        Set1 #250;; 1S
-        Set1 #251;; 1S
-        Set1 #252;; 1S
-        Set1 #253;; 2FS
-        Set1 #254;; 1S
-        Set1 #255;; 1S
-        Set1 #256;; 1S
-        Set1 #257;; 1S
-        Set1 #258;; 1S
-        Set1 #259;; 2S
-        Set1 #260;; 1S
-        Set1 #261;; 2S
-        Set1 #262;; 2S
-        Set1 #263;; 2S
-        Set1 #264;; 2S
-        Set1 #265;; 2S
-        Set1 #266;; 3S
-        Set1 #267;; 3S
-        Set1 #268;; 2SS
-        Set1 #269;; 2S
-        Set1 #270;; 2S
-        Set1 #271;; 3S
-        Set1 #272;; 3S
-        Set1 #273;; 3SS
-        Set1 #274;; 3S
-        Set1 #275;; 3S
-        Set1 #276;; 3S
-        Set1 #277;; 3S
-        Set1 #278;; 3S
-        Set1 #279;; 3S
-        Set1 #280;; 3S
-        Set1 #281;; 3S
-        Set1 #282;; 3S
-        Set1 #283;; 4S
-        Set1 #284;; 4S
-        Set1 #285;; 4SS
-        Set1 #286;; 4SS
-        Set1 #287;; 4SS
-        Set1 #288;; 4S
-        Set1 #289;; 4SS
-        Set1 #290;; 4SS
-        Set1 #291;; 4SS
-        Set1 #292;; 5SS
-        Set1 #293;; 5S
-        Set1 #294;; 5SS
-        Set1 #295;; 5SS
-        Set1 #297;; 2S
-        Set1 #299;; 5SSS
-        Set1 #300;; 6SS
-        Set1 #301;; 6S
-        Set1 #302;; 6SS
-        Set1 #303;; 6SSSS
-        Set1 #304;; 6SS
-        Set1 #305;; 7SS
-        Set1 #306;; 7SSS
-        Set1 #307;; 8SSS
-        Set1 #308;; 8SS
-        Set1 #309;; 9SSS
-        Set1 #310;; 24SSSSSS
-        Set1 #311;; 1FJ
-        Set1 #312;; 2FJ
-        Set1 #314;; 2FJ,FF,JJ
-        Set1 #315;; 3FJ
-        Set1 #316;; 3FJ
-        Set1 #317;; 5FFJJ
-        Set1 #318;; 4FJ
-        Set1 #319;; 4FJ
-        Set1 #320;; 4FJ
-        Set1 #321;; 4FJ
-        Set1 #322;; 4FJ
-        Set1 #323;; 4FJ
-        Set1 #324;; 5FJ
-        Set1 #326;; 3FFJ
-        Set1 #327;; 6FJ
-        Set1 #328;; 6FFJJ
-        Set1 #329;; 7FFFJJJ
-        Set1 #330;; 1TJ
-        Set1 #331;; 2TJ
-        Set1 #332;; 2TJ
-        Set1 #333;; 3TJ
-        Set1 #334;; 3TJ
-        Set1 #335;; 3TJ
-        Set1 #336;; 3TJ
-        Set1 #337;; 4TJ
-        Set1 #338;; 4TJ
-        Set1 #339;; 5TJ
-        Set1 #340;; 4TJ
-        Set1 #341;; 4TTJ
-        Set1 #343;; 5TTJJ
-        Set1 #345;; 6TJ,TTTTTT,JJJJJJ
-        Set1 #346;; 6TJ
-        Set1 #347;; 7TTTJJJ
-        Set1 #348;; 10TJ
-        Set1 #350;; 1TP
-        Set1 #351;; 2TP
-        Set1 #353;; 2TP
-        Set1 #354;; 3TP
-        Set1 #355;; 3TP
-        Set1 #356;; 3TTP
-        Set1 #357;; 3TP
-        Set1 #358;; 4TP,TTTT,PPPP
-        Set1 #359;; 4TPP
-        Set1 #360;; 5P
-        Set1 #361;; 5TTPP
-        Set1 #362;; 5TTPP
-        Set1 #363;; 5TP
-        Set1 #364;; 6TP
-        Set1 #365;; 8TTPP
-        Set1 #366;; 7TTTPPP
-        Set1 #367;; 7PPP
-        Set1 #368;; 5PS
-        Set1 #369;; 3PS
-        Set1 #371;; 5PS,PPPPP,SSSSS
-        Set1 #372;; 2PS
-        Set1 #373;; 5PS
-        Set1 #374;; 2PS
-        Set1 #375;; 3PS
-        Set1 #377;; 2PS
-        Set1 #378;; 3PPSS
-        Set1 #379;; 1PS
-        Set1 #380;; 3PS
-        Set1 #381;; 4PS
-        Set1 #382;; 3PS
-        Set1 #383;; 7PPPSSS
-        Set1 #384;; 8PPSS
-        Set1 #385;; 6PS
-        Set1 #386;; 3PSS
-        Set1 #387;; 4FS
-        Set1 #388;; 4FS
-        Set1 #389;; 4FFS
-        Set1 #390;; 6FFSS
-        Set1 #391;; 5FS
-        Set1 #392;; 1FS
-        Set1 #394;; 2FS
-        Set1 #395;; 5FS
-        Set1 #396;; 6FS
-        Set1 #397;; 3FS
-        Set1 #398;; 2FS
-        Set1 #399;; 3FS
-        Set1 #400;; 7FFFSSS
-        Set1 #402;; 3FS,FFF,SSS
-        Set1 #403;; 7FFSS
-        Set1 #404;; 5FS
-        Set1 #406;;
-        Set1 #407;; 1
-        Set1 #408; 1X; 1
-        Set1 #409; PS; 2
-        Set1 #410; TJ; 2
-        Set1 #411; FJ; 2
-        Set1 #412; TP; 2
-        Set1 #413; FS; 2
-        Set1 #414;; 2
-        Set1 #415;; 2
-        Set1 #416;; 3
-        Set1 #417; 1PS;
-        Set1 #418; 1P;
-        Set1 #419; 1FS;
-        Set1 #420; 1T;
-        Set1 #421; 1TP;
-        Set1 #422; 1J;
-        Set1 #423; 1F;
-        Set1 #424; 1TJ;
-        Set1 #425; 1X;
-        Set1 #426; 1S;
-        Set1 #427; 1FJ;
-        Set1 #480;; 4TT
-        Set1 #488;; 6P
-        Set1 #501;; 2T
-        Set1 #502;; 2TT
-        Set1 #503;; 4T
-        Set1 #504;; 1J
-        Set1 #505;; 3J
-        Set1 #506;; 3SS
-        Set1 #510;; 4F
-        Set1 #511;; 3PP
-        Set1 #512;; 3F
-        Set1 #513; 1X; 2T
-        Set1 #514;; 5JJ
-        Set1 #516;; 3SS
-        Set1 #517;; 2P
-        Set1 #518;; 4TTSS
-        Set1 #519;; 4JJPP
-        Set1 #520;; 5FFTT
-        Set1 #521;; 5JJSS
-        Set1 #522;; 4FFPP
+        Set1 #1; 1F;; Fire Sigil;
+        Set1 #2;; 2FFF; Flame Blast;
+        Set1 #3;; 2FF; Charchain Flail;
+        Set1 #4;; 1F; Heavy Axe;
+        Set1 #5;; 1F; Grenadin Drone;
+        Set1 #6;; 1F; Light the Fuse;
+        Set1 #8;; 1F; Torch;
+        Set1 #9;; 2F; Frontier Jito;
+        Set1 #10;; 1F; Temper;
+        Set1 #11;; 1F; Ruthless Stranger;
+        Set1 #12;; 1F; Ticking Grenadin;
+        Set1 #13;; 1F; Oni Ronin;
+        Set1 #14;; 1F; Warhelm;
+        Set1 #15;; 1F; Ruin;
+        Set1 #16;; 1F; Pyroknight;
+        Set1 #17;; 2F; Rampage;
+        Set1 #18;; 2F; Song of War;
+        Set1 #19;; 2F; Brazen Daredevil;
+        Set1 #20;; 2F; Rakano Outlaw;
+        Set1 #21;; 2F; Pyre Adept;
+        Set1 #22;; 2F; Bladekin Apprentice;
+        Set1 #23;; 2F; Ornate Katana;
+        Set1 #25;; 2F; Piercing Shot;
+        Set1 #26;; 3FF; Shogun's Scepter;
+        Set1 #27;; 3F; Rakano Flagbearer;
+        Set1 #28;; 4F; Burn Out;
+        Set1 #29;; 3F; Assembly Line;
+        Set1 #30;; 3F; Rebel Sharpshooter;
+        Set1 #31;; 3F; Granite Acolyte;
+        Set1 #32;; 3F; Oni Quartermaster;
+        Set1 #33;; 3F; Rally;
+        Set1 #34;; 3FF; Censari Brigand;
+        Set1 #35;; 4F; Centaur Outrider;
+        Set1 #36;; 4F; Guerrilla Fighter;
+        Set1 #37;; 4F; Recogulator;
+        Set1 #38;; 4F; Steelfang Chakram;
+        Set1 #39;; 4F; Cloud of Ash;
+        Set1 #40;; 4FF; Furnace Mage;
+        Set1 #41;; 4F; Magma Javelin;
+        Set1 #42;; 4FF; Outlands Sniper;
+        Set1 #43;; 4F; Rebel Illuminator;
+        Set1 #44;; 5F; Oni Striker;
+        Set1 #45;; 5F; Infernus;
+        Set1 #46;; 5F; Calderan Gunsmith;
+        Set1 #47;; 6FFF; Soulfire Drake;
+        Set1 #48;; 5FF; Obliterate;
+        Set1 #49;; 5F; Dusthoof Brawler;
+        Set1 #50;; 5FF; Centaur Raidleader;
+        Set1 #51;; 5FF; Shogun of the Wastes;
+        Set1 #52;; 6FF; Stonescar Maul;
+        Set1 #53;; 6F; Frontline Cyclops;
+        Set1 #54;; 6FF; Worldpyre Phoenix;
+        Set1 #55;; 6FF; Hellfire Rifle;
+        Set1 #56;; 6FF; General Izalio;
+        Set1 #58;; 6F; Crowd Favorite;
+        Set1 #59;; 7FF; Claw of the First Dragon;
+        Set1 #60;; 7FF; Steelbound Dragon;
+        Set1 #61;; 8FFF; Kaleb, Uncrowned Prince;
+        Set1 #62;; 9FF; Lavablood Goliath;
+        Set1 #63; 1T;; Time Sigil;
+        Set1 #64;; TTT; Sand Warrior;
+        Set1 #66;; 2T; Copper Conduit;
+        Set1 #67;; 1T; Infinite Hourglass;
+        Set1 #68;; 1T; Water of Life;
+        Set1 #69;; 1T; Ornamental Daggers;
+        Set1 #70;; 1T; Slow;
+        Set1 #71;; 1T; Excavate;
+        Set1 #72;; 1T; Humbug;
+        Set1 #73;; 1T; Sanctuary Priest;
+        Set1 #74; 1; 1T; Initiate of the Sands;
+        Set1 #75;; 1T; Predator's Instinct;
+        Set1 #76;; 3T; Unlock Potential;
+        Set1 #77;; 2T; Bold Adventurer;
+        Set1 #78;; 2T; Voice of the Speaker;
+        Set1 #79;; 2TP; Twinning Ritual;
+        Set1 #80;; 2T; Teleport;
+        Set1 #81; 1X; 3T; Secret Pages;
+        Set1 #82;; 2T; Friendly Wisp;
+        Set1 #83;; 2T; Sauropod Wrangler;
+        Set1 #84;; 2T; Ephemeral Wisp;
+        Set1 #85;; 2T; Accelerate;
+        Set1 #86;; 3TT; Dawnwalker;
+        Set1 #88;; 2T; Synchronized Strike;
+        Set1 #89;; 3T; Dune Phantom;
+        Set1 #90;; 3T; Ageless Mentor;
+        Set1 #91;; 3T; Dispel;
+        Set1 #92;; 3T; Determined Stranger;
+        Set1 #93; 1X; 3T; Amber Acolyte;
+        Set1 #94;; 3TT; Clockroach;
+        Set1 #95;; 3T; Decay;
+        Set1 #96;; 3T; Scorpion Wasp;
+        Set1 #97;; 4T; Steward of Prophecy;
+        Set1 #98;; 4T; Healer's Cloak;
+        Set1 #99;; 4TT; Sandstorm Titan;
+        Set1 #100;; 4TT; Praxis Displacer;
+        Set1 #101;; 4T; Towertop Patrol;
+        Set1 #102;; 4T; Xenan Guardian;
+        Set1 #103;; 4T; Xenan Obelisk;
+        Set1 #104;; 4T; Marisen's Disciple;
+        Set1 #105;; 4TT; Ancient Lore;
+        Set1 #107;; 5TT; Idol of Destran;
+        Set1 #108;; 7TTT; Elysian Pathfinder;
+        Set1 #109;; 6T; Divining Rod;
+        Set1 #110;; 3TT; Reliquary Raider;
+        Set1 #111;; 5S; Merciless Stranger;
+        Set1 #112;; 5TT; Striking Snake Formation;
+        Set1 #113;; 5TT; Twinbrood Sauropod;
+        Set1 #114;; 5TT; Towering Terrazon;
+        Set1 #115;; 5T; Lumen Defender;
+        Set1 #116;; 6T; Mystic Ascendant;
+        Set1 #117;; 6T; Lumen Shepherd;
+        Set1 #118;; 6TTT; Predatory Carnosaur;
+        Set1 #119;; 7TTT; Ancient Terrazon;
+        Set1 #120;; 7TT; Dormant Sentinel;
+        Set1 #121;; 7TT; Hall of Lost Kings;
+        Set1 #122;; 7TTT; Pillar of Amar;
+        Set1 #123;; 8TT; Marisen, the Eldest;
+        Set1 #124;; 8TTT; Talir, Who Sees Beyond;
+        Set1 #125;; 3JJ; Gilded Glaive;
+        Set1 #126; 1J;; Justice Sigil;
+        Set1 #127;; 1J; Valkyrie Aspirant;
+        Set1 #128;; 1J; Elder's Feather;
+        Set1 #129;; 2J; Inspire;
+        Set1 #130;; 1J; Finest Hour;
+        Set1 #131;; 1J; Tinker Apprentice;
+        Set1 #132;; 2J; Protect;
+        Set1 #133;; 1J; Detain;
+        Set1 #134;; 1J; District Infantry;
+        Set1 #135;; 2J; Argenport Soldier;
+        Set1 #136;; 2J; Reinforce;
+        Set1 #137;; 2J; Minotaur Grunt;
+        Set1 #138;; 2J; Tinker Overseer;
+        Set1 #139;; 2J; Crownwatch Paladin;
+        Set1 #140;; 2J; Paladin Oathbook;
+        Set1 #141;; 2J; Rebuke;
+        Set1 #142;; 2J; Crownwatch Longsword;
+        Set1 #143;; 2J; Vanquish;
+        Set1 #144;; 2J; Eager Owlet;
+        Set1 #145;; 3J; Valorous Stranger;
+        Set1 #146;; 3J; Auric Sentry;
+        Set1 #147;; 3J; Brightmace Paladin;
+        Set1 #148;; 4J; Bronze Cuirass;
+        Set1 #149;; 3J; Order of the Spire;
+        Set1 #150;; 3J; Loyal Watchwing;
+        Set1 #151;; 3JJ; Valkyrie Enforcer;
+        Set1 #152;; 3J; Silverwing Familiar;
+        Set1 #153;; 3J; Emerald Acolyte;
+        Set1 #154;; 3J; Spire Chaplain;
+        Set1 #155;; 3JJ; Hooru Envoy;
+        Set1 #156;; 3J; Hero of the People;
+        Set1 #157; 2JJ; 3J; Privilege of Rank;
+        Set1 #158;; 4J; Copperhall Recruit;
+        Set1 #159;; 5J; Hooru Fledgling;
+        Set1 #160;; 5J; Combrei Magister;
+        Set1 #162;; 4J; Stalwart Shield;
+        Set1 #163;; 4J; Armorsmith;
+        Set1 #164;; 4J; Treasury Gate;
+        Set1 #165;; 3J; Mark of Shame;
+        Set1 #166;; 4JJ; Auric Runehammer;
+        Set1 #167;; 4JJ; Silverwing Avenger;
+        Set1 #168;; 4J; Copperhall Blessing;
+        Set1 #169;; 4J; Crownwatch Cavalry;
+        Set1 #170;; 4J; Hammer of Might;
+        Set1 #171;; 5JJ; Mithril Mace;
+        Set1 #172;; 5JJ; Harsh Rule;
+        Set1 #174;; 5JJ; Marshal Ironthorn;
+        Set1 #175;; 5JJ; Silverwing Commander;
+        Set1 #176;; 6JJ; Fourth-Tree Elder;
+        Set1 #177;; 6JJ; Plated Demolisher;
+        Set1 #178;; 6JJ; Ceremonial Mask;
+        Set1 #180;; 6J; Civic Peacekeeper;
+        Set1 #181;; 6JJ; Valkyrie Wings;
+        Set1 #182;; 6JJJ; Augmented Form;
+        Set1 #183;; 7JJ; Rolant's Honor Guard;
+        Set1 #184;; 7J; Flight Lieutenant;
+        Set1 #185;; 8JJJ; Rolant, the Iron Fist;
+        Set1 #186;; 8JJ; Sword of the Sky King;
+        Set1 #187; 1P;; Primal Sigil;
+        Set1 #188;; F; Trail Stories;
+        Set1 #189;; 1P; Unstable Form;
+        Set1 #190;; 1P; Levitate;
+        Set1 #191;; 1P; Yeti Spy;
+        Set1 #192;; 1P; Blind Storyteller;
+        Set1 #193;; 1P; Permafrost;
+        Set1 #194;; 2P; Static Bolt;
+        Set1 #195;; 2P; Wild Cloudsnake;
+        Set1 #196;; 2P; Herald's Song;
+        Set1 #197;; 2P; Lightning Strike;
+        Set1 #199;; 2P; Cloudsnake Saddle;
+        Set1 #200;; 2P; Backlash;
+        Set1 #201;; 2P; East-Wind Herald;
+        Set1 #202;; 2P; Whispering Wind;
+        Set1 #203;; 2P; Yeti Snowslinger;
+        Set1 #204;; 3P; Tundra Explorer;
+        Set1 #205;; 2P; Violent Gust;
+        Set1 #206;; 2P; Lightning Storm;
+        Set1 #207;; 2P; Second Sight;
+        Set1 #208;; 3P; Skysnapper;
+        Set1 #209;; 3P; Flash Freeze;
+        Set1 #210;; 3P; Eye of Winter;
+        Set1 #211;; 3P; Polymorph;
+        Set1 #212;; 3P; Cobalt Acolyte;
+        Set1 #213;; 3S; Scheme;
+        Set1 #214;; 3P; Ice Sprite;
+        Set1 #215;; 2P; Scaly Gruan;
+        Set1 #216;; 3P; Icebreaker;
+        Set1 #217;; 3P; Mirror Image;
+        Set1 #218;; 3PP; Wisdom of the Elders;
+        Set1 #219;; 4P; Serpent Trainer;
+        Set1 #220;; 4P; Jarrall's Frostkin;
+        Set1 #221;; 4P; Rain of Frogs;
+        Set1 #222;; 4P; Yeti Troublemaker;
+        Set1 #223;; 4PP; Deranged Dinomancer;
+        Set1 #224;; 4PP; Stormcaller;
+        Set1 #225;; 4TP; Nesting Avisaur;
+        Set1 #226;; 5P; Jotun Warrior;
+        Set1 #227;; 5P; Jotun Hurler;
+        Set1 #228;; 7PPP; Elysian Trailblazer;
+        Set1 #229;; 4P; Soaring Stranger;
+        Set1 #230;; 4P; Windshaper;
+        Set1 #231;; 5PP; West-Wind Herald;
+        Set1 #232;; 5PP; Crystallize;
+        Set1 #233;; 5PPP; Magus of the Mist;
+        Set1 #234;; 5PP; Staff of Stories;
+        Set1 #235;; 5P; Aerial Ace;
+        Set1 #236;; 6PP; Sapphire Dragon;
+        Set1 #237;; 6PPP; Hatchery Hunter;
+        Set1 #238;; 7P; Araktodon;
+        Set1 #239;; 6PPP; Jarrall Iceheart;
+        Set1 #240;; 6PP; North-Wind Herald;
+        Set1 #241;; 6PP; Celestial Omen;
+        Set1 #242;; 7P; Mistveil Drake;
+        Set1 #243;; 6PPP; Thunderstrike Dragon;
+        Set1 #244;; 8PPPP; Channel the Tempest;
+        Set1 #245;; 8PPP; Eilyn, Queen of the Wilds;
+        Set1 #246;; 7PP; Rimescale Draconus;
+        Set1 #247;; 5PP; Skycrag Wyvarch;
+        Set1 #248;; 10PPP; Scourge of Frosthome;
+        Set1 #249; 1S;; Shadow Sigil;
+        Set1 #250;; 1S; Dark Return;
+        Set1 #251;; 1S; Suffocate;
+        Set1 #252;; 1S; Sabotage;
+        Set1 #253;; 2FS; Hair-Trigger Stranger;
+        Set1 #254;; 1S; Pilfer;
+        Set1 #255;; 1S; Slumbering Stone;
+        Set1 #256;; 1S; Direfang Spider;
+        Set1 #257;; 1S; Knifejack;
+        Set1 #258;; 1S; Ghostform;
+        Set1 #259;; 2S; Rapid Shot;
+        Set1 #260;; 1S; Blood Beetle;
+        Set1 #261;; 2S; Devour;
+        Set1 #262;; 2S; Sporefolk;
+        Set1 #263;; 2S; Venomfang Dagger;
+        Set1 #264;; 2S; Dark Wisp;
+        Set1 #265;; 2S; Scavenging Vulture;
+        Set1 #266;; 3S; Blackguard Sidearm;
+        Set1 #267;; 3S; Madness;
+        Set1 #268;; 2SS; Argenport Instigator;
+        Set1 #269;; 2S; Annihilate;
+        Set1 #270;; 2S; Lethrai Ranger;
+        Set1 #271;; 3S; Direwood Beastcaller;
+        Set1 #272;; 3S; Torrent of Spiders;
+        Set1 #273;; 3SS; Desperado;
+        Set1 #274;; 3S; Plague;
+        Set1 #275;; 3S; Lifedrinker;
+        Set1 #276;; 3S; Amethyst Acolyte;
+        Set1 #277;; 3S; Execute;
+        Set1 #278;; 3S; Ravenous Thornbeast;
+        Set1 #279;; 3S; Lethrai Nightblade;
+        Set1 #280;; 3S; Shadowlands Guide;
+        Set1 #281;; 3S; Xenan Destroyer;
+        Set1 #282;; 3S; Beastcaller's Amulet;
+        Set1 #283;; 4S; Cabal Recruiter;
+        Set1 #284;; 4S; Back-Alley Bouncer;
+        Set1 #285;; 4SS; Lethrai Falchion;
+        Set1 #286;; 4SS; Impending Doom;
+        Set1 #287;; 4SS; Steward of the Past;
+        Set1 #288;; 4S; Stonescar Magus;
+        Set1 #289;; 4SS; Subvert;
+        Set1 #290;; 4SS; Deathstrike;
+        Set1 #291;; 4SS; Soul Collector;
+        Set1 #292;; 5SS; Grasping at Shadows;
+        Set1 #293;; 5S; Lurking Sanguar;
+        Set1 #294;; 5SS; Oblivion Spike;
+        Set1 #295;; 5SS; Ashara, the Deadshot;
+        Set1 #297;; 2S; Cabal Cutthroat;
+        Set1 #299;; 5SSS; Umbren Reaper;
+        Set1 #300;; 6SS; Argenport Ringmaster;
+        Set1 #301;; 6S; Direwood Rampager;
+        Set1 #302;; 6SS; Spirit Drain;
+        Set1 #303;; 6SSSS; Whispers in the Void;
+        Set1 #304;; 6SS; Horsesnatcher Bat;
+        Set1 #305;; 7SS; Venomspine Hydra;
+        Set1 #306;; 7SSS; Azindel's Gift;
+        Set1 #307;; 8SSS; Vara, Fate-Touched;
+        Set1 #308;; 8SS; Touch of the Umbren;
+        Set1 #309;; 9SSS; The Last Word;
+        Set1 #310;; 24SSSSSS; The Witching Hour;
+        Set1 #311;; 1FJ; Fearless Nomad;
+        Set1 #312;; 2FJ; Rakano Artisan;
+        Set1 #314;; 2FJ,FF,JJ; Champion of Glory;
+        Set1 #315;; 3FJ; Sword of Icaria;
+        Set1 #316;; 3FJ; Crownwatch Deserter;
+        Set1 #317;; 5FFJJ; Deepforged Plate;
+        Set1 #318;; 4FJ; Longhorn Sergeant;
+        Set1 #319;; 4FJ; Battleblur Centaur;
+        Set1 #320;; 4FJ; Rise to the Challenge;
+        Set1 #321;; 4FJ; Renegade Valkyrie;
+        Set1 #322;; 4FJ; Righteous Fury;
+        Set1 #323;; 4FJ; Navani, Warsinger;
+        Set1 #324;; 5FJ; Field Captain;
+        Set1 #326;; 3FFJ; Ijin, Imperial Armorer;
+        Set1 #327;; 6FJ; Ferocious Stranger;
+        Set1 #328;; 6FFJJ; Starsteel Daisho;
+        Set1 #329;; 7FFFJJJ; Icaria, the Liberator;
+        Set1 #330;; 1TJ; Safe Return;
+        Set1 #331;; 2TJ; Awakened Student;
+        Set1 #332;; 2TJ; Desert Marshal;
+        Set1 #333;; 3TJ; Combrei Healer;
+        Set1 #334;; 3TJ; Stand Together;
+        Set1 #335;; 3TJ; Knight-Chancellor Siraf;
+        Set1 #336;; 3TJ; Vodakhan's Staff;
+        Set1 #337;; 4TJ; Enlightened Stranger;
+        Set1 #338;; 4TJ; The Great Parliament;
+        Set1 #339;; 5TJ; Stronghold's Visage;
+        Set1 #340;; 4TJ; Copperhall Elite;
+        Set1 #341;; 4TTJ; Karmic Guardian;
+        Set1 #343;; 5TTJJ; Reality Warden;
+        Set1 #345;; 6TJ,TTTTTT,JJJJJJ; Champion of Progress;
+        Set1 #346;; 6TJ; Minotaur Ambassador;
+        Set1 #347;; 7TTTJJJ; Vodakhan, Temple Speaker;
+        Set1 #348;; 10TJ; A New Tomorrow;
+        Set1 #350;; 1TP; Call the Ancients;
+        Set1 #351;; 2TP; Accelerated Evolution;
+        Set1 #353;; 2TP; Storm Lynx;
+        Set1 #354;; 3TP; Pteriax Hatchling;
+        Set1 #355;; 3TP; Crown of Possibilities;
+        Set1 #356;; 3TTP; False Prince;
+        Set1 #357;; 3TP; Amaran Camel;
+        Set1 #358;; 4TP,TTTT,PPPP; Champion of Wisdom;
+        Set1 #359;; 4TPP; Crystalline Chalice;
+        Set1 #360;; 5P; Psionic Savant;
+        Set1 #361;; 5TTPP; Explorer Emeritus;
+        Set1 #362;; 5TTPP; Cirso, the Great Glutton;
+        Set1 #363;; 5TP; Hunting Pteriax;
+        Set1 #364;; 6TP; Fortunate Stranger;
+        Set1 #365;; 8TTPP; Shimmerpack;
+        Set1 #366;; 7TTTPPP; Curiox, the Collector;
+        Set1 #367;; 7PPP; Strength of the Pack;
+        Set1 #368;; 5PS; Withering Witch;
+        Set1 #369;; 3PS; Trickster's Cloak;
+        Set1 #371;; 5PS,PPPPP,SSSSS; Champion of Cunning;
+        Set1 #372;; 2PS; Grim Stranger;
+        Set1 #373;; 5PS; Spell Swipe;
+        Set1 #374;; 2PS; Haunting Scream;
+        Set1 #375;; 3PS; Gorgon Fanatic;
+        Set1 #377;; 2PS; Gorgon Swiftblade;
+        Set1 #378;; 3PPSS; Midnight Gale;
+        Set1 #379;; 1PS; Twilight Raptor;
+        Set1 #380;; 3PS; Feln Cauldron;
+        Set1 #381;; 4PS; Feeding Time;
+        Set1 #382;; 3PS; Recurring Nightmare;
+        Set1 #383;; 7PPPSSS; Nightmaw, Sight Unseen;
+        Set1 #384;; 8PPSS; Snowcrush Animist;
+        Set1 #385;; 6PS; Black-Sky Harbinger;
+        Set1 #386;; 3PSS; Feln Bloodcaster;
+        Set1 #387;; 4FS; Statuary Maiden;
+        Set1 #388;; 4FS; Black Iron Manacles;
+        Set1 #389;; 4FFS; Bandit Queen;
+        Set1 #390;; 6FFSS; Infernal Tyrant;
+        Set1 #391;; 5FS; Scraptank;
+        Set1 #392;; 1FS; Combust;
+        Set1 #394;; 2FS; Treachery;
+        Set1 #395;; 5FS; Warband Chieftain;
+        Set1 #396;; 6FS; Smuggler's Stash;
+        Set1 #397;; 3FS; Bloodrite Kalis;
+        Set1 #398;; 2FS; Obsidian Golem;
+        Set1 #399;; 3FS; Brimstone Altar;
+        Set1 #400;; 7FFFSSS; Voprex, the Great Ruin;
+        Set1 #402;; 3FS,FFF,SSS; Champion of Chaos;
+        Set1 #403;; 7FFSS; Stonescar Leviathan;
+        Set1 #404;; 5FS; Runic Revolver;
+        Set1 #406;;; Spiked Helm;
+        Set1 #407;; 1; Worn Shield;
+        Set1 #408; 1X; 1; Seek Power;
+        Set1 #409; PS; 2; Feln Stranger;
+        Set1 #410; TJ; 2; Combrei Stranger;
+        Set1 #411; FJ; 2; Rakano Stranger;
+        Set1 #412; TP; 2; Elysian Stranger;
+        Set1 #413; FS; 2; Stonescar Stranger;
+        Set1 #414;; 2; Daze;
+        Set1 #415;; 2; Alchemical Blast;
+        Set1 #416;; 3; Forsworn Stranger;
+        Set1 #417; 1PS;; Feln Banner;
+        Set1 #418; 1P;; Cobalt Monument;
+        Set1 #419; 1FS;; Stonescar Banner;
+        Set1 #420; 1T;; Amber Monument;
+        Set1 #421; 1TP;; Elysian Banner;
+        Set1 #422; 1J;; Emerald Monument;
+        Set1 #423; 1F;; Granite Monument;
+        Set1 #424; 1TJ;; Combrei Banner;
+        Set1 #425; 1X;; Diplomatic Seal;
+        Set1 #426; 1S;; Amethyst Monument;
+        Set1 #427; 1FJ;; Rakano Banner;
+        Set1 #480;; 4TT; Vault of the Praxis;
+        Set1 #488;; 6P; Scouting Party;
+        Set1 #501;; 2T; Refresh;
+        Set1 #502;; 2TT; Temple Scribe;
+        Set1 #503;; 4T; Horned Vorlunk;
+        Set1 #504;; 1J; Steadfast Deputy;
+        Set1 #505;; 3J; Treasury Guard;
+        Set1 #506;; 3SS; Cabal Countess;
+        Set1 #510;; 4F; Morningstar;
+        Set1 #511;; 3PP; Wump, Party Starter;
+        Set1 #512;; 3F; Fevered Scout;
+        Set1 #513; 1X; 2T; Find the Way;
+        Set1 #514;; 5JJ; Throne Warden;
+        Set1 #516;; 3SS; Xenan Cultist;
+        Set1 #517;; 2P; Borderlands Waykeeper;
+        Set1 #518;; 4TTSS; Azindel, the Wayfinder;
+        Set1 #519;; 4JJPP; Rilgon, Hooru Operative;
+        Set1 #520;; 5FFTT; Arcanum Monitor;
+        Set1 #521;; 5JJSS; Oathbreaker;
+        Set1 #522;; 4FFPP; Alpine Tracker;
 
-        Set2 #1;; 1F
-        Set2 #2;; 1F
-        Set2 #3;; 1F
-        Set2 #4;; 1F
-        Set2 #5;; 1F
-        Set2 #6;; 1F
-        Set2 #7;; 2F
-        Set2 #8;; 2F
-        Set2 #9;; 3F
-        Set2 #10;; 3F
-        Set2 #11;; 3F
-        Set2 #12;; 3FF
-        Set2 #13;; 3F
-        Set2 #14;; 3F
-        Set2 #15;; 3F
-        Set2 #16;; 3F
-        Set2 #17;; 4F
-        Set2 #18;; 4FF
-        Set2 #19;; 5F
-        Set2 #20;; 4F
-        Set2 #21;; 4FFF
-        Set2 #22;; 4FF
-        Set2 #23;; 4F
-        Set2 #24;; 4F
-        Set2 #25;; 4F,6
-        Set2 #26;; 5F
-        Set2 #27;; 5F
-        Set2 #28;; 5FF
-        Set2 #29;; 5F
-        Set2 #30;; 6FF
-        Set2 #31;; 6FF
-        Set2 #32;; 6FFF
-        Set2 #33;; 7F
-        Set2 #34;; 9FF
-        Set2 #35;; 1T
-        Set2 #36;; 1T
-        Set2 #37;; 1T
-        Set2 #38;; 1T
-        Set2 #39;; 2T
-        Set2 #40; 2X; 2T
-        Set2 #41;; 2T
-        Set2 #42;; 2T,6
-        Set2 #43;; 2T
-        Set2 #44;; 2T
-        Set2 #45;; 3T
-        Set2 #46; 1; 3T
-        Set2 #47;; 3T
-        Set2 #48;; 2T
-        Set2 #49;; 3T
-        Set2 #50;; 4T
-        Set2 #51;; 4TT
-        Set2 #52;; 4T
-        Set2 #53;; 4TT
-        Set2 #54;; 4TT
-        Set2 #55;; 4T
-        Set2 #56;; 5T
-        Set2 #57;; 5T
-        Set2 #58;; 5T
-        Set2 #59;; 4TT
-        Set2 #60;; 5TT
-        Set2 #61;; 6T
-        Set2 #62;; 5TT
-        Set2 #63;; 5TT
-        Set2 #64;; 6TT
-        Set2 #65;; 6TTT
-        Set2 #66;; 6T
-        Set2 #67;; 7TT
-        Set2 #68;; 8T
-        Set2 #69;; 1J
-        Set2 #70;; 1J
-        Set2 #71;; 2J,6
-        Set2 #72;; 2J
-        Set2 #73;; 2J
-        Set2 #74;; 2J
-        Set2 #75;; 2J
-        Set2 #76;; 2J
-        Set2 #77;; 2J
-        Set2 #78;; 3J
-        Set2 #79;; 3J
-        Set2 #80;; 3J
-        Set2 #81;; 3J
-        Set2 #82;; 3J
-        Set2 #83;; 3JJ
-        Set2 #84;; 3J
-        Set2 #85;; 4J
-        Set2 #86;; 4JJJ
-        Set2 #87;; 4J
-        Set2 #88;; 4J
-        Set2 #89;; 4J
-        Set2 #90;; 4JJ
-        Set2 #91;; 4JJ
-        Set2 #92;; 4J
-        Set2 #93;; 5JJ
-        Set2 #94;; 5J
-        Set2 #95;; 6J
-        Set2 #96;; 6J
-        Set2 #97;; 6JJ
-        Set2 #98;; 6JJ
-        Set2 #99;; 6JJ
-        Set2 #100;; 7JJJ
-        Set2 #101;; 8JJJJ
-        Set2 #102;; 8J
-        Set2 #103;; 1P
-        Set2 #104;; 1P
-        Set2 #105;; 1P
-        Set2 #106;; 1P
-        Set2 #107;; 2PP
-        Set2 #108;; 2P
-        Set2 #109;; 2P
-        Set2 #110;; 2P
-        Set2 #111;; 2P
-        Set2 #112;; 2P
-        Set2 #113;; 2P
-        Set2 #114;; 3PP
-        Set2 #115;; 3P
-        Set2 #116;; 3P
-        Set2 #117;; 3P
-        Set2 #118;; 3P
-        Set2 #119;; 3PP
-        Set2 #120;; 3P
-        Set2 #121;; 3P,6
-        Set2 #122;; 4PP
-        Set2 #123;; 4P
-        Set2 #124;; 4PP
-        Set2 #125;; 4PP
-        Set2 #126;; 4PP
-        Set2 #127;; 5PPP
-        Set2 #128;; 5P
-        Set2 #129;; 5PP
-        Set2 #130;; 4PP
-        Set2 #131;; 6P
-        Set2 #132;; 6P
-        Set2 #133;; 6P
-        Set2 #134;; 6P
-        Set2 #135;; 7PP
-        Set2 #136;; 7PP
-        Set2 #137;; 1S
-        Set2 #138;; 1S
-        Set2 #139;; 1S
-        Set2 #140;; 1S
-        Set2 #141;; 1S
-        Set2 #142;; 2S,6
-        Set2 #143;; 2S
-        Set2 #144;; 2S
-        Set2 #145;; 2S
-        Set2 #146;; 3S
-        Set2 #147;; 2S
-        Set2 #148;; 3S
-        Set2 #149;; 3S
-        Set2 #150;; 3S
-        Set2 #151;; 3S
-        Set2 #152;; 3S
-        Set2 #153;; 3S
-        Set2 #154;; 3S
-        Set2 #155;; 3SS
-        Set2 #156;; 4S
-        Set2 #157;; 4S
-        Set2 #158;; 4SS
-        Set2 #159;; 4SS
-        Set2 #160;; 4S
-        Set2 #161;; 4S
-        Set2 #162;; 4SS
-        Set2 #163;; 4SS
-        Set2 #164;; 5SSS
-        Set2 #165;; 5S
-        Set2 #166;; 6SS
-        Set2 #167;; 6SS
-        Set2 #168;; 7S
-        Set2 #169;; 7SS
-        Set2 #170;; 8SS
-        Set2 #171; 1FT;
-        Set2 #172;; 1FFTT
-        Set2 #173;; 3FT,FFF,TTT
-        Set2 #174;; 2FT
-        Set2 #175;; 3FT
-        Set2 #176;; 2FT
-        Set2 #177;; 4FT
-        Set2 #178;; 4FT
-        Set2 #179;; 4FFT,8
-        Set2 #180;; 5FT
-        Set2 #181;; 5FT
-        Set2 #182;; 5FT
-        Set2 #183;; 6FFFTTT
-        Set2 #184;; 7FT
-        Set2 #185;; 7FFTT
-        Set2 #186; 1FP;
-        Set2 #187;; 2FP,FF,PP
-        Set2 #188;; 2FP
-        Set2 #189;; 2FP
-        Set2 #190;; 3FP
-        Set2 #191;; 3FFP
-        Set2 #192;; 4FP
-        Set2 #193;; 4FP
-        Set2 #194;; 4FP
-        Set2 #195;; 4FP,5
-        Set2 #196;; 6FP
-        Set2 #197;; 7FP
-        Set2 #198;; 7FP
-        Set2 #199;; 8FFFPPP
-        Set2 #200;; 10FFPP
-        Set2 #201; 1TS;
-        Set2 #202;; 2TS
-        Set2 #203;; 1TS
-        Set2 #204;; 3TSS,8
-        Set2 #205;; 3TS,5
-        Set2 #206;; 2TS
-        Set2 #207;; 3TS
-        Set2 #208;; 4TTSS
-        Set2 #209;; 4TS
-        Set2 #210;; 4TS
-        Set2 #211;; 5TS
-        Set2 #212;; 4TS
-        Set2 #213;; 6TS,TTTTTT,SSSSSS
-        Set2 #214;; 7TS
-        Set2 #215;; 9TTTSSS
-        Set2 #216; 1JP;
-        Set2 #217;; 2JP
-        Set2 #218;; 2JP,6
-        Set2 #219;; 3JPP
-        Set2 #220;; 3JP
-        Set2 #221;; 3JP
-        Set2 #222;; 4JJPP
-        Set2 #223;; 4JJPP
-        Set2 #224;; 4JP
-        Set2 #225;; 5JP,JJJJJ,PPPPP
-        Set2 #226;; 5JP
-        Set2 #227;; 6JP
-        Set2 #228;; 6JP
-        Set2 #229;; 6JJJPPP
-        Set2 #230;; 12JJPP
-        Set2 #231; 1JS;
-        Set2 #232;; 2JS
-        Set2 #233;; 2JS
-        Set2 #234;; 4JJS,7
-        Set2 #235;; 3JS
-        Set2 #236;; 3JS
-        Set2 #237;; 4JS,JJJJ,SSSS
-        Set2 #238;; 4JS
-        Set2 #239;; 3JS
-        Set2 #240;; 4JS
-        Set2 #241;; 5JS
-        Set2 #242;; 5JJSS
-        Set2 #243;; 5JS
-        Set2 #244;; 5JS
-        Set2 #245;; 7JJJSSS
-        Set2 #246; JS; 2
-        Set2 #247; JP; 2
-        Set2 #248; FT; 2
-        Set2 #249;; 2
-        Set2 #250; FP; 2
-        Set2 #251; TS; 2
-        Set2 #252;; 5
-        Set2 #253;; 12
-        Set2 #254;; 6JJPP
-        Set2 #255;; 5S
-        Set2 #256;; 7TT
+        Set2 #1;; 1F; Firemane Cub;
+        Set2 #2;; 1F; Forge Wolf;
+        Set2 #3;; 1F; Young Gun;
+        Set2 #4;; 1F; Hidden Shiv;
+        Set2 #5;; 1F; On the Hunt;
+        Set2 #6;; 1F; Pummel;
+        Set2 #7;; 2F; Blinkwolf;
+        Set2 #8;; 2F; Smith's Hammer;
+        Set2 #9;; 3F; Granite Ring;
+        Set2 #10;; 3F; Grenade;
+        Set2 #11;; 3F; Hipshot;
+        Set2 #12;; 3FF; Jawbone Hatchet;
+        Set2 #13;; 3F; Sparkbot;
+        Set2 #14;; 3F; Stonescar Excavator;
+        Set2 #15;; 3F; Stoneshaker;
+        Set2 #16;; 3F; Twinbarrel;
+        Set2 #17;; 4F; Audacious Bandit;
+        Set2 #18;; 4FF; Outlands Brute;
+        Set2 #19;; 5F; Dustblind;
+        Set2 #20;; 4F; Grenadin Cannoneer;
+        Set2 #21;; 4FFF; Groundbreaker;
+        Set2 #22;; 4FF; Library Phoenix;
+        Set2 #23;; 4F; Reforge;
+        Set2 #24;; 4F; Swift Stranger;
+        Set2 #25;; 4F,6; Thunderhoof Warrior;
+        Set2 #26;; 5F; Gun Down;
+        Set2 #27;; 5F; Pit Fighter;
+        Set2 #28;; 5FF; Pouncing Drake;
+        Set2 #29;; 5F; Stonepowder Heretic;
+        Set2 #30;; 6FF; Bad News;
+        Set2 #31;; 6FF; Cannonbearer;
+        Set2 #32;; 6FFF; Flamestoker;
+        Set2 #33;; 7F; Burning Glaive;
+        Set2 #34;; 9FF; Sindok, Rage Incarnate;
+        Set2 #35;; 1T; Cult Aspirant;
+        Set2 #36;; 1T; Envelop;
+        Set2 #37;; 1T; Excavation Assistant;
+        Set2 #38;; 1T; Wandering Wisp;
+        Set2 #39;; 2T; Trail Runner;
+        Set2 #40; 2XX; 2T; Forgotten Find;
+        Set2 #41;; 2T; Oasis Seeker;
+        Set2 #42;; 2T,6; Sand Viper;
+        Set2 #43;; 2T; Sandstorm;
+        Set2 #44;; 2T; Xenan Initiation;
+        Set2 #45;; 3T; Amber Ring;
+        Set2 #46; 1; 3T; Avirax Familiar;
+        Set2 #47;; 3T; Disciplined Amanera;
+        Set2 #48;; 2T; Evelina, Valley Searcher;
+        Set2 #49;; 3T; Shepherd's Horn;
+        Set2 #50;; 4T; Archive Curator;
+        Set2 #51;; 4TT; Bolster;
+        Set2 #52;; 4T; Camp Physician;
+        Set2 #53;; 4TT; Snapping Brushstalker;
+        Set2 #54;; 4TT; Striped Araktodon;
+        Set2 #55;; 4T; Viper's Bite;
+        Set2 #56;; 5T; Amaran Archaeologist;
+        Set2 #57;; 5T; Awakened Sentinel;
+        Set2 #58;; 5T; Battle-Tested Stranger;
+        Set2 #59;; 4TT; Beckoning Lumen;
+        Set2 #60;; 5TT; Humbug Swarm;
+        Set2 #61;; 6T; Pack Hunt;
+        Set2 #62;; 5TT; Time Weaver;
+        Set2 #63;; 5TT; Waystone Infuser;
+        Set2 #64;; 6TT; Plated Goliath;
+        Set2 #65;; 6TTT; Sentinel's Might;
+        Set2 #66;; 6T; Voyaging Lumen;
+        Set2 #67;; 7TT; Rhinarc Huntpack;
+        Set2 #68;; 8T; Belching Behemoth;
+        Set2 #69;; 1J; Crownwatch Squire;
+        Set2 #70;; 1J; Minotaur Oathkeeper;
+        Set2 #71;; 2J,6; Copperhall Herald;
+        Set2 #72;; 2J; Stalwart Silverwing;
+        Set2 #73;; 2J; Strength of Many;
+        Set2 #74;; 2J; Talon of Nostrix;
+        Set2 #75;; 2J; Tinker;
+        Set2 #76;; 2J; Tranquil Scholar;
+        Set2 #77;; 2J; Sparring Partner;
+        Set2 #78;; 3J; Copperhall Cudgel;
+        Set2 #79;; 3J; Copperhall Shieldman;
+        Set2 #80;; 3J; Emerald Ring;
+        Set2 #81;; 3J; Fencing Master;
+        Set2 #82;; 3J; Highbranch Sentry;
+        Set2 #83;; 3JJ; Spirit Guide;
+        Set2 #84;; 3J; Tireless Stranger;
+        Set2 #85;; 4J; Shard of the Spire;
+        Set2 #86;; 4JJJ; Peacekeeper's Prod;
+        Set2 #87;; 4J; Rabblerouser;
+        Set2 #88;; 4J; Spiked Buckler;
+        Set2 #89;; 4J; Valkyrie Militant;
+        Set2 #90;; 4JJ; Valkyrie Spireguard;
+        Set2 #91;; 4JJ; Victor's Cry;
+        Set2 #92;; 4J; Crownwatch Press-Gang;
+        Set2 #93;; 5JJ; Minotaur Duelist;
+        Set2 #94;; 5J; Scepter of Nobility;
+        Set2 #95;; 6J; Aerialist's Khopesh;
+        Set2 #96;; 6J; Horngrinder;
+        Set2 #97;; 6JJ; Prosecutor-at-Arms;
+        Set2 #98;; 6JJ; Rolant's Fist;
+        Set2 #99;; 6JJ; Roosting Owl;
+        Set2 #100;; 7JJJ; Leave a Witness;
+        Set2 #101;; 8JJJJ; Elias, the Broken Wing;
+        Set2 #102;; 8J; Valkyrie Linebreaker;
+        Set2 #103;; 1P; Cloudsnake Hatchling;
+        Set2 #104;; 1P; Hearty Stranger;
+        Set2 #105;; 1P; Snowcrust Yeti;
+        Set2 #106;; 1P; Weather the Storm;
+        Set2 #107;; 2PP; Cloudsnake Breeder;
+        Set2 #108;; 2P; Dragonbreath;
+        Set2 #109;; 2P; Maelstrom Bell;
+        Set2 #110;; 2P; Mating Call;
+        Set2 #111;; 2P; Trailblaze;
+        Set2 #112;; 2P; Talon Dive;
+        Set2 #113;; 2P; Yeti Snowchucker;
+        Set2 #114;; 3PP; Cloudsnake Harrier;
+        Set2 #115;; 3P; Cobalt Ring;
+        Set2 #116;; 3P; Crafty Yeti;
+        Set2 #117;; 3P; Foothills Alpha;
+        Set2 #118;; 3P; Icebow;
+        Set2 #119;; 3PP; Mind Link;
+        Set2 #120;; 3P; Skyrider Vanguard;
+        Set2 #121;; 3P,6; Stormcrasher;
+        Set2 #122;; 4PP; Jotun Cyclops;
+        Set2 #123;; 4P; Ridgeline Watcher;
+        Set2 #124;; 4PP; Serpent Mount;
+        Set2 #125;; 4PP; Skyward Seer;
+        Set2 #126;; 4PP; Torgov, Icecap Trader;
+        Set2 #127;; 5PPP; Pearlescent Drake;
+        Set2 #128;; 5P; Skywalk Instructor;
+        Set2 #129;; 5PP; Swindle;
+        Set2 #130;; 4PP; Watcher of the Big Ones;
+        Set2 #131;; 6P; Boltcrafter Shaman;
+        Set2 #132;; 6P; Cirso's Meddling;
+        Set2 #133;; 6P; Iceknuckle Jotun;
+        Set2 #134;; 6P; Lumbering Gruan;
+        Set2 #135;; 7PP; Adaptive Predator;
+        Set2 #136;; 7PP; Icequake;
+        Set2 #137;; 1S; Brash Shorthorn;
+        Set2 #138;; 1S; Fallen Oni;
+        Set2 #139;; 1S; Jack's Knife;
+        Set2 #140;; 1S; Swear Vengeance;
+        Set2 #141;; 1S; Tock Tick;
+        Set2 #142;; 2S,6; Longshot Marksman;
+        Set2 #143;; 2S; Piercing Grief;
+        Set2 #144;; 2S; Scare;
+        Set2 #145;; 2S; Threaten;
+        Set2 #146;; 3S; Amethyst Ring;
+        Set2 #147;; 2S; Cabal Slasher;
+        Set2 #148;; 3S; Cat Burglar;
+        Set2 #149;; 3S; Lethrai Memory-Keeper;
+        Set2 #150;; 3S; Skeeter;
+        Set2 #151;; 3S; Sorrow's Shroud;
+        Set2 #152;; 3S; Spur On;
+        Set2 #153;; 3S; Trigger-Happy;
+        Set2 #154;; 3S; Means to an End;
+        Set2 #155;; 3SS; Extract;
+        Set2 #156;; 4S; Cabal Bludgeoner;
+        Set2 #157;; 4S; Cripple;
+        Set2 #158;; 4SS; Hatecleaver;
+        Set2 #159;; 4SS; Memory Dredger;
+        Set2 #160;; 4S; Relentless Gorehorn;
+        Set2 #161;; 4S; Savage Stranger;
+        Set2 #162;; 4SS; Xenan Fanatic;
+        Set2 #163;; 4SS; Minotaur Lighthoof;
+        Set2 #164;; 5SSS; Obrak, the Feaster;
+        Set2 #165;; 5S; Umbren Thirster;
+        Set2 #166;; 6SS; Direwood Prowler;
+        Set2 #167;; 6SS; Slimespitter Slug;
+        Set2 #168;; 7S; Cabal Rogue;
+        Set2 #169;; 7SS; Inspire Obedience;
+        Set2 #170;; 8SS; Sleepless Night;
+        Set2 #171; 1FT;; Praxis Banner;
+        Set2 #172;; 1FFTT; Alluring Ember;
+        Set2 #173;; 3FT,FFF,TTT; Champion of Impulse;
+        Set2 #174;; 2FT; Noble Firemane;
+        Set2 #175;; 3FT; Journeyman Armorer;
+        Set2 #176;; 2FT; Purify;
+        Set2 #177;; 4FT; Brilliant Discovery;
+        Set2 #178;; 4FT; Clever Stranger;
+        Set2 #179;; 4FFT,8; Diogo Málaga;
+        Set2 #180;; 5FT; Talir's Choice;
+        Set2 #181;; 5FT; Shatterglass Mage;
+        Set2 #182;; 5FT; Workshop Forge;
+        Set2 #183;; 6FFFTTT; Heart of the Vault;
+        Set2 #184;; 7FT; Sandglass Sentinel;
+        Set2 #185;; 7FFTT; Moment of Creation;
+        Set2 #186; 1FP;; Skycrag Banner;
+        Set2 #187;; 2FP,FF,PP; Champion of Fury;
+        Set2 #188;; 2FP; Kaleb's Choice;
+        Set2 #189;; 2FP; Rockslide;
+        Set2 #190;; 3FP; Clan Hero;
+        Set2 #191;; 3FFP; Vadius, Clan Father;
+        Set2 #192;; 4FP; Calderan Cradle;
+        Set2 #193;; 4FP; Hunter's Harpoon;
+        Set2 #194;; 4FP; Mortar;
+        Set2 #195;; 4FP,5; Storm Glider;
+        Set2 #196;; 6FP; Towering Stranger;
+        Set2 #197;; 7FP; Knucklebones;
+        Set2 #198;; 7FP; Topaz Drake;
+        Set2 #199;; 8FFFPPP; Molot & Nakova;
+        Set2 #200;; 10FFPP; Decimate;
+        Set2 #201; 1TS;; Xenan Banner;
+        Set2 #202;; 2TS; Blistersting Wasp;
+        Set2 #203;; 1TS; Bloodcall Invocation;
+        Set2 #204;; 3TSS,8; Ayan, the Abductor;
+        Set2 #205;; 3TS,5; Shadowlands Bonepicker;
+        Set2 #206;; 2TS; Vara's Choice;
+        Set2 #207;; 3TS; Banish;
+        Set2 #208;; 4TTSS; Katra, the Devoted;
+        Set2 #209;; 4TS; Xenan Augury;
+        Set2 #210;; 4TS; Xenan Cupbearer;
+        Set2 #211;; 5TS; Bloodcall Invoker;
+        Set2 #212;; 4TS; Mask of Torment;
+        Set2 #213;; 6TS,TTTTTT,SSSSSS; Champion of Mystery;
+        Set2 #214;; 7TS; Prophetic Stranger;
+        Set2 #215;; 9TTTSSS; Worldjoiner;
+        Set2 #216; 1JP;; Hooru Banner;
+        Set2 #217;; 2JP; Bring Down;
+        Set2 #218;; 2JP,6; Kothon, the Far-Watcher;
+        Set2 #219;; 3JPP; Aerialist Trainer;
+        Set2 #220;; 3JP; Eilyn's Choice;
+        Set2 #221;; 3JP; Spellshield Architect;
+        Set2 #222;; 4JJPP; Master's Lesson;
+        Set2 #223;; 4JJPP; Shelterwing Rider;
+        Set2 #224;; 4JP; Shield Bash;
+        Set2 #225;; 5JP,JJJJJ,PPPPP; Champion of Order;
+        Set2 #226;; 5JP; Duelist's Blade;
+        Set2 #227;; 6JP; Highwind Glider;
+        Set2 #228;; 6JP; Meditative Stranger;
+        Set2 #229;; 6JJJPPP; Nostrix, Lord of Visions;
+        Set2 #230;; 12JJPP; Aid of the Hooru;
+        Set2 #231; 1JS;; Argenport Banner;
+        Set2 #232;; 2JS; Auric Bully;
+        Set2 #233;; 2JS; Auric Vigilante;
+        Set2 #234;; 4JJS,7; Bartholo, the Seducer;
+        Set2 #235;; 3JS; Bloodletter;
+        Set2 #236;; 3JS; Slay;
+        Set2 #237;; 4JS,JJJJ,SSSS; Champion of Vengeance;
+        Set2 #238;; 4JS; Sanguine Sword;
+        Set2 #239;; 3JS; Stonepowder Alchemist;
+        Set2 #240;; 4JS; Streetwise Informant;
+        Set2 #241;; 5JS; Bereaved Stranger;
+        Set2 #242;; 5JJSS; Inquisitor Makto;
+        Set2 #243;; 5JS; Rolant's Choice;
+        Set2 #244;; 5JS; Valkyrie Denouncer;
+        Set2 #245;; 7JJJSSS; Grinva, Judge of Battles;
+        Set2 #246; JS; 2; Argenport Stranger;
+        Set2 #247; JP; 2; Hooru Stranger;
+        Set2 #248; FT; 2; Praxis Stranger;
+        Set2 #249;; 2; Reunite;
+        Set2 #250; FP; 2; Skycrag Stranger;
+        Set2 #251; TS; 2; Xenan Stranger;
+        Set2 #252;; 5; Veteran Mercenary;
+        Set2 #253;; 12; Spirit of Resistance;
+        Set2 #254;; 6JJPP; Kosul Brigade;
+        Set2 #255;; 5S; Colony Matron;
+        Set2 #256;; 7TT; Tesya, Omen Shaper;
 
-        Set3 #1; 1F;
-        Set3 #2;; F
-        Set3 #3;; 1F
-        Set3 #4;; 1F
-        Set3 #5;; 1F
-        Set3 #6;; 1F,4
-        Set3 #7;; 2F
-        Set3 #8;; 2F
-        Set3 #9;; 2F
-        Set3 #10;; 2F
-        Set3 #11;; 2F
-        Set3 #12;; 2F
-        Set3 #13;; 2F
-        Set3 #14;; 2F
-        Set3 #15;; 3F
-        Set3 #16;; 3FF
-        Set3 #17;; 3F
-        Set3 #18;; 3F
-        Set3 #19;; 3FF
-        Set3 #20;; 3FF
-        Set3 #21;; 3F
-        Set3 #22;; 3F
-        Set3 #23;; 3FF
-        Set3 #24;; 3F
-        Set3 #25;; 3F
-        Set3 #26;; 3F
-        Set3 #27;; 3FF
-        Set3 #28;; 4FF
-        Set3 #29;; 4F
-        Set3 #30;; 4F
-        Set3 #31;; 4FF
-        Set3 #32;; 4F
-        Set3 #33;; 4F
-        Set3 #34;; 5FF
-        Set3 #35;; 5F
-        Set3 #36;; 5FFF
-        Set3 #37;; 5FF
-        Set3 #38;; 5F
-        Set3 #39;; 5FF
-        Set3 #40;; 6FF
-        Set3 #41;; 6FF
-        Set3 #42;; 6FF
-        Set3 #43;; 6FF
-        Set3 #44;; 6FF
-        Set3 #45;; 6FF
-        Set3 #46;; 7FF
-        Set3 #47;; 7FFF
-        Set3 #48;; 7FF
-        Set3 #49;; 8FF
-        Set3 #50;; 8F
-        Set3 #51; 1T;
-        Set3 #52;; T
-        Set3 #53;; 1T
-        Set3 #54;; 1T
-        Set3 #55;; 1T
-        Set3 #56;; 1T
-        Set3 #57;; 1T
-        Set3 #58;; 1T
-        Set3 #59;; 1T
-        Set3 #60;; 2T
-        Set3 #61;; 2T
-        Set3 #62;; 2T
-        Set3 #63;; 2T
-        Set3 #64;; 2T
-        Set3 #65; 1X; 2T
-        Set3 #66;; 3T
-        Set3 #67;; 3TT
-        Set3 #68;; 3T
-        Set3 #69;; 3TT
-        Set3 #70;; 3TT
-        Set3 #71;; 3T
-        Set3 #72;; 3T,5
-        Set3 #73;; 3T
-        Set3 #74;; 4TT
-        Set3 #75;; 4T
-        Set3 #76;; 3TT
-        Set3 #77;; 4T
-        Set3 #78;; 4T
-        Set3 #79;; 4T
-        Set3 #80;; 4TT
-        Set3 #81;; 4T
-        Set3 #82;; 5T
-        Set3 #83;; 5T
-        Set3 #84;; 5TT
-        Set3 #85;; 5TT
-        Set3 #86;; 4TT
-        Set3 #87;; 5TTT
-        Set3 #88;; 6TTTT
-        Set3 #89;; 6TT
-        Set3 #90;; 6T
-        Set3 #91;; 6TT
-        Set3 #92;; 7TT
-        Set3 #93;; 7TTT
-        Set3 #94;; 8T
-        Set3 #95;; 8T
-        Set3 #96;; 8TTT
-        Set3 #97;; 9TT
-        Set3 #98;; 9TT
-        Set3 #99;; 10T
-        Set3 #100;; 16TTTT
-        Set3 #101; 1J;
-        Set3 #102;; 2J
-        Set3 #103;; 1J,2
-        Set3 #104;; 1J
-        Set3 #105;; 1J
-        Set3 #106;; 2J
-        Set3 #107;; 1J
-        Set3 #108; 1J; 2J
-        Set3 #109;; 2J
-        Set3 #110;; 2J
-        Set3 #111;; 2J
-        Set3 #112;; 2J
-        Set3 #113;; 2JJ,7
-        Set3 #114;; 3J
-        Set3 #115;; 3J
-        Set3 #116;; 4J
-        Set3 #117;; 3J
-        Set3 #118;; 3J
-        Set3 #119;; 3JJ
-        Set3 #120;; 3J
-        Set3 #121;; 3J
-        Set3 #122;; 3JJ
-        Set3 #123;; 3J
-        Set3 #124;; 3J
-        Set3 #125;; 4JJ
-        Set3 #126;; 4JJ
-        Set3 #127;; 4J
-        Set3 #128;; 4J
-        Set3 #129;; 4J
-        Set3 #130;; 4J
-        Set3 #131;; 4JJ
-        Set3 #132;; 4J
-        Set3 #133;; 4J
-        Set3 #134;; 4J,6
-        Set3 #135;; 4JJ
-        Set3 #136;; 5JJJ
-        Set3 #137;; 4J
-        Set3 #138;; 5JJ
-        Set3 #139;; 6JJ
-        Set3 #140;; 6JJ
-        Set3 #141;; 6JJ
-        Set3 #142;; 7J
-        Set3 #143;; 6JJJ
-        Set3 #144;; 6J
-        Set3 #145;; 6J
-        Set3 #146;; 7JJ
-        Set3 #147;; 7JJJ
-        Set3 #148;; 7JJJ
-        Set3 #149;; 8JJ
-        Set3 #150;; 9JJ
-        Set3 #151; 1P;
-        Set3 #152;; 1P
-        Set3 #153;; 1P
-        Set3 #154;; 1P
-        Set3 #155;; 1P
-        Set3 #156;; 1P
-        Set3 #157;; 1P,3
-        Set3 #158;; 1P
-        Set3 #159;; 2P
-        Set3 #160;; 2P
-        Set3 #161;; 2P
-        Set3 #162;; 2P
-        Set3 #163;; 2P
-        Set3 #164;; 2P,8
-        Set3 #165;; 2P
-        Set3 #166;; 2P
-        Set3 #167;; 2P
-        Set3 #168;; 2P
-        Set3 #169;; 2P
-        Set3 #170;; 3PP
-        Set3 #171;; 3P
-        Set3 #172;; 4P
-        Set3 #173;; 3P
-        Set3 #174;; 3P
-        Set3 #175;; 3PP,5
-        Set3 #176;; 3P
-        Set3 #177;; 3P
-        Set3 #178;; 3PPP,6
-        Set3 #179;; 4P
-        Set3 #180;; 4P
-        Set3 #181;; 4P
-        Set3 #182;; 4P
-        Set3 #183;; 4P
-        Set3 #184;; 4P
-        Set3 #185;; 4P
-        Set3 #186;; 4PP
-        Set3 #187;; 5PPP
-        Set3 #188;; 5P
-        Set3 #189;; 5PP
-        Set3 #190;; 5P
-        Set3 #191;; 5PP
-        Set3 #192;; 5PP
-        Set3 #193;; 6PP
-        Set3 #194;; 6P
-        Set3 #195;; 6PP
-        Set3 #196;; 7PPP
-        Set3 #197;; 7PP
-        Set3 #198;; 7PP
-        Set3 #199;; 8P
-        Set3 #200;; 14PPP
-        Set3 #201; 1S;
-        Set3 #202;; 1S
-        Set3 #203;; 1S
-        Set3 #204;; 1S
-        Set3 #205;; 1S,3
-        Set3 #206;; 1S
-        Set3 #207;; 1S
-        Set3 #208;; 1S,2
-        Set3 #209;; 2S,4
-        Set3 #210;; 2S
-        Set3 #211;; 2S
-        Set3 #212;; 2SS,10
-        Set3 #213;; 2S
-        Set3 #214;; 2S
-        Set3 #215;; 2S
-        Set3 #216;; 2S
-        Set3 #217;; 2S,5
-        Set3 #218;; 2S
-        Set3 #219;; 2S
-        Set3 #220;; 3SS
-        Set3 #221;; 3SS
-        Set3 #222;; 3S
-        Set3 #223;; 3S
-        Set3 #224;; 3S
-        Set3 #225;; 4SSS
-        Set3 #226;; 3SS
-        Set3 #227;; 4S
-        Set3 #228;; 4S
-        Set3 #229;; 4S
-        Set3 #230;; 4SS
-        Set3 #231;; 4S
-        Set3 #232;; 5S
-        Set3 #233;; 5SS
-        Set3 #234;; 5SS
-        Set3 #235;; 5SSS
-        Set3 #236;; 5S
-        Set3 #237;; 5S
-        Set3 #238;; 5SS
-        Set3 #239;; 6S
-        Set3 #240;; 6S
-        Set3 #241;; 6SS
-        Set3 #242;; 6SS
-        Set3 #243;; 6SS
-        Set3 #244;; 6SS
-        Set3 #245;; 7SS
-        Set3 #246;; 7SS
-        Set3 #247;; 8SSS
-        Set3 #248;; 8SSS
-        Set3 #249;; 8SS
-        Set3 #250;; 9SS
-        Set3 #251; 1FT;
-        Set3 #252;; 3FT
-        Set3 #253;; 4FT
-        Set3 #254;; 3FJ
-        Set3 #255;; 4FFPP
-        Set3 #256;; 4FFJJ
-        Set3 #257;; 5FP
-        Set3 #258;; 3TJ
-        Set3 #259;; 3TJ
-        Set3 #260;; 4TP
-        Set3 #261; 1TP;
-        Set3 #262;; 5JP
-        Set3 #263;; 7JJPP
-        Set3 #264; 1JS;
-        Set3 #265;; 4JJSS
-        Set3 #266; 1FP;
-        Set3 #267; 1PS;
-        Set3 #268; 1FS;
-        Set3 #269;; 3FS
-        Set3 #270;; 6FFSS
-        Set3 #271;; 4TS
-        Set3 #272;; 5TTSS
-        Set3 #273;; 3JS
-        Set3 #274;; 3JS
-        Set3 #275;; 4FFSS
-        Set3 #276;; 3PS
-        Set3 #277;; 4PPSS
-        Set3 #278;; 6FFTTPP
-        Set3 #279; 1X;
-        Set3 #280;; 1,6
-        Set3 #301;; 3PS
-        Set3 #302;; 6SS
-        Set3 #303;; 2FT
-        Set3 #304;; 4JP,8
+        Set3 #1; 1F;; Granite Waystone;
+        Set3 #2;; F; Helpful Doorbot;
+        Set3 #3;; 1F; Iceberg Frontrunner;
+        Set3 #4;; 1F; Kaleb, Reborn;
+        Set3 #5;; 1F; Kennelmaster;
+        Set3 #6;; 1F,4; Scrap Hound;
+        Set3 #7;; 2F; Combustion Cell;
+        Set3 #8;; 2F; Disassembler;
+        Set3 #9;; 2F; Into the Furnace;
+        Set3 #10;; 2F; Miner's Musket;
+        Set3 #11;; 2F; Oni Cavediver;
+        Set3 #12;; 2F; Spark Hatcher;
+        Set3 #13;; 2F; Unpredictable Outlaw;
+        Set3 #14;; 2F; Yeti Sage;
+        Set3 #15;; 3F; Backpacker's Machete;
+        Set3 #16;; 3FF; Coalscrounger;
+        Set3 #17;; 3F; First-Shot Rioter;
+        Set3 #18;; 3F; Hoof Slash;
+        Set3 #19;; 3FF; Milos Izalio, Heir to Rebellion;
+        Set3 #20;; 3FF; Purge the Darkness;
+        Set3 #21;; 3F; Ruby Catalyst;
+        Set3 #22;; 3F; Ruincrawler Yeti;
+        Set3 #23;; 3FF; Scrap Heap;
+        Set3 #24;; 3F; Skycrag Huntsman;
+        Set3 #25;; 3F; Temple Raider;
+        Set3 #26;; 3F; Toppletower;
+        Set3 #27;; 3FF; Tumblebang;
+        Set3 #28;; 4FF; Ancient Defenses;
+        Set3 #29;; 4F; Barbarian Camp;
+        Set3 #30;; 4F; Hellfire Oni;
+        Set3 #31;; 4FF; Kyojun, Grand Shugo;
+        Set3 #32;; 4F; Stonescar Sawed-Off;
+        Set3 #33;; 4F; Wandering Forge;
+        Set3 #34;; 5FF; Hotbarrel Revolver;
+        Set3 #35;; 5F; Inner Fire;
+        Set3 #36;; 5FFF; Jekk, Hunted Fugitive;
+        Set3 #37;; 5FF; Parapet Sentry;
+        Set3 #38;; 5F; Powderkeg Rider;
+        Set3 #39;; 5FF; Staff of the Arch-Magister;
+        Set3 #40;; 6FF; Barkeep's Friend;
+        Set3 #41;; 6FF; Molten Fist;
+        Set3 #42;; 6FF; Oni Gunwright;
+        Set3 #43;; 6FF; Sky Terror;
+        Set3 #44;; 6FF; Sureshot;
+        Set3 #45;; 6FF; Tempered Sentinel;
+        Set3 #46;; 7FF; Gearcruncher;
+        Set3 #47;; 7FFF; Improvised Rubbler;
+        Set3 #48;; 7FF; Rock Carapace;
+        Set3 #49;; 8FF; Great-Kiln Titan;
+        Set3 #50;; 8F; Heroic Bravo;
+        Set3 #51; 1T;; Amber Waystone;
+        Set3 #52;; T; Azurite Prixis;
+        Set3 #53;; 1T; Amaran Shoveler;
+        Set3 #54;; 1T; Ancient Bauble;
+        Set3 #55;; 1T; Gloaming Wisp;
+        Set3 #56;; 1T; Hesitate;
+        Set3 #57;; 1T; Lucky Prospector;
+        Set3 #58;; 1T; Talir's Intervention;
+        Set3 #59;; 1T; Twilight Hunt;
+        Set3 #60;; 2T; Accelerated Impact;
+        Set3 #61;; 2T; Ask for Directions;
+        Set3 #62;; 2T; Cryptic Etchings;
+        Set3 #63;; 2T; Disjunction;
+        Set3 #64;; 2T; Nocturnal Creeper;
+        Set3 #65; 1X; 2T; Trail Maker;
+        Set3 #66;; 3T; Baying Serasaur;
+        Set3 #67;; 3TT; Dig Site;
+        Set3 #68;; 3T; Lastlight Infusion;
+        Set3 #69;; 3TT; Lunar Magus;
+        Set3 #70;; 3TT; Moondial;
+        Set3 #71;; 3T; Premonition Wisp;
+        Set3 #72;; 3T,5; Seasoned Spelunker;
+        Set3 #73;; 3T; Serene Excavator;
+        Set3 #74;; 4TT; Ageless Sentinel;
+        Set3 #75;; 4T; Fantastic Revelation;
+        Set3 #76;; 3TT; Gear Master;
+        Set3 #77;; 4T; Hissing Spiketail;
+        Set3 #78;; 4T; Insistent Automaton;
+        Set3 #79;; 4T; Lost in the Mist;
+        Set3 #80;; 4TT; Lumen Reclaimer;
+        Set3 #81;; 4T; Sandspitter;
+        Set3 #82;; 5T; First Watch;
+        Set3 #83;; 5T; Fishing Dinoch;
+        Set3 #84;; 5TT; Frenzied Omnivore;
+        Set3 #85;; 5TT; Sandbinder Sentinel;
+        Set3 #86;; 4TT; Stirring Sand;
+        Set3 #87;; 5TTT; Worldbearer Behemoth;
+        Set3 #88;; 6TTTT; Invoke the Waystones;
+        Set3 #89;; 6TT; Panoptic Guardian;
+        Set3 #90;; 6T; Timeworn Sentinel;
+        Set3 #91;; 6TT; Tomb Protector;
+        Set3 #92;; 7TT; Serasaur Bull;
+        Set3 #93;; 7TTT; Talir, Unbound;
+        Set3 #94;; 8T; Dinosaur Stampede;
+        Set3 #95;; 8T; Intriguing Ancient;
+        Set3 #96;; 8TTT; Temporal Distortion;
+        Set3 #97;; 9TT; Emerging Colossus;
+        Set3 #98;; 9TT; Scourstone Sentinel;
+        Set3 #99;; 10T; Foraging Sauropod;
+        Set3 #100;; 16TTTT; Novaquake Titan;
+        Set3 #101; 1J;; Emerald Waystone;
+        Set3 #102;; 2J; Soaring Guard;
+        Set3 #103;; 1J,2; Humble Instructor;
+        Set3 #104;; 1J; Rolant's Intervention;
+        Set3 #105;; 1J; Steady Marshal;
+        Set3 #106;; 2J; Wanted Poster;
+        Set3 #107;; 1J; Whetstone;
+        Set3 #108; 1J; 2J; Copperhall Porter;
+        Set3 #109;; 2J; Crackshot Fugitive;
+        Set3 #110;; 2J; Curfew Enforcement;
+        Set3 #111;; 2J; Rampart Protector;
+        Set3 #112;; 2J; Reinvigorate;
+        Set3 #113;; 2JJ,7; Tax Collector;
+        Set3 #114;; 3J; Copperhall Marshal;
+        Set3 #115;; 3J; Crownwatch Legionnaire;
+        Set3 #116;; 4J; Entrapment;
+        Set3 #117;; 3J; Showdown;
+        Set3 #118;; 3J; Signal Flag;
+        Set3 #119;; 3JJ; Silverwing Smith;
+        Set3 #120;; 3J; Stella, the Shotcaller;
+        Set3 #121;; 3J; Tandem Watchwing;
+        Set3 #122;; 3JJ; Unseen Commando;
+        Set3 #123;; 3J; Valkyrie Cadet;
+        Set3 #124;; 3J; Valkyrie Justiciar;
+        Set3 #125;; 4JJ; Bisma, Revered Elder;
+        Set3 #126;; 4JJ; Caltrops;
+        Set3 #127;; 4J; Curse of Taxation;
+        Set3 #128;; 4J; Ground Crew;
+        Set3 #129;; 4J; Ironclad Oath;
+        Set3 #130;; 4J; Lawman's Sidearm;
+        Set3 #131;; 4JJ; Rakano Sheriff;
+        Set3 #132;; 4J; Shielded Shortbarrel;
+        Set3 #133;; 4J; Shieldsmith;
+        Set3 #134;; 4J,6; Spiritblade Stalker;
+        Set3 #135;; 4JJ; Valkyrie Bodyguard;
+        Set3 #136;; 5JJJ; Amilli, Cloudmarshal;
+        Set3 #137;; 4J; Frontier Confessor;
+        Set3 #138;; 5JJ; Hammer of Authority;
+        Set3 #139;; 6JJ; Valkyrie Arcanist;
+        Set3 #140;; 6JJ; Challenge by Law;
+        Set3 #141;; 6JJ; Crownwatch Quartermaster;
+        Set3 #142;; 7J; Emerald Spear;
+        Set3 #143;; 6JJJ; Regent's Blade;
+        Set3 #144;; 6J; Tower Shield;
+        Set3 #145;; 6J; Town Watchman;
+        Set3 #146;; 7JJ; Aerial Attendant;
+        Set3 #147;; 7JJJ; Crown of Authority;
+        Set3 #148;; 7JJJ; Last Stand at the Gate;
+        Set3 #149;; 8JJ; Minsod, the Peerless;
+        Set3 #150;; 9JJ; Silverwing Rallier;
+        Set3 #151; 1P;; Cobalt Waystone;
+        Set3 #152;; 1P; Eilyn's Intervention;
+        Set3 #153;; 1P; Farplace Finder;
+        Set3 #154;; 1P; Jump Kick;
+        Set3 #155;; 1P; Powderglider;
+        Set3 #156;; 1P; Savage Skybrood;
+        Set3 #157;; 1P,3; Sinister Opportunist;
+        Set3 #158;; 1P; Snow Pelting;
+        Set3 #159;; 2P; Darkbolt;
+        Set3 #160;; 2P; Darkveil Agent;
+        Set3 #161;; 2P; Fearless Yeti;
+        Set3 #162;; 2P; Horizon Seeker;
+        Set3 #163;; 2P; Iceberg Mason;
+        Set3 #164;; 2P,8; Storm Talisman;
+        Set3 #165;; 2P; Strategize;
+        Set3 #166;; 2P; Twilight Hermit;
+        Set3 #167;; 2P; Unseal;
+        Set3 #168;; 2P; Winter's Grasp;
+        Set3 #169;; 2P; Yeti Windflyer;
+        Set3 #170;; 3PP; Daring Pioneer;
+        Set3 #171;; 3P; Electropy;
+        Set3 #172;; 4P; Lastlight Druid;
+        Set3 #173;; 3P; Nocturnal Observer;
+        Set3 #174;; 3P; Snowfort;
+        Set3 #175;; 3PP,5; Sunken Tower;
+        Set3 #176;; 3P; Voracious Fosora;
+        Set3 #177;; 3P; Wild Rider;
+        Set3 #178;; 3PPP,6; Yeti Furflinger;
+        Set3 #179;; 4P; Clutchmate;
+        Set3 #180;; 4P; Cutbrush Cartographer;
+        Set3 #181;; 4P; Freewing Glider;
+        Set3 #182;; 4P; Meditation Trainer;
+        Set3 #183;; 4P; Nocturnal Kyrex;
+        Set3 #184;; 4P; Regression;
+        Set3 #185;; 4P; Slushdumper;
+        Set3 #186;; 4PP; Thudrock, Arctic Artisan;
+        Set3 #187;; 5PPP; Jotun Feast-Caller;
+        Set3 #188;; 5P; Jotun Punter;
+        Set3 #189;; 5PP; Lida, Most Skilled;
+        Set3 #190;; 5P; Stampede Driver;
+        Set3 #191;; 5PP; Unchecked Rage;
+        Set3 #192;; 5PP; Alu, Death-Dreamer;
+        Set3 #193;; 6PP; Eilyn's Frostrider;
+        Set3 #194;; 6P; Riddle Game;
+        Set3 #195;; 6PP; Slope Sergeant;
+        Set3 #196;; 7PPP; Jotun Birth Song;
+        Set3 #197;; 7PP; Novice Herdrider;
+        Set3 #198;; 7PP; Bellowing Thunderfoot;
+        Set3 #199;; 8P; Surveying Mantasaur;
+        Set3 #200;; 14PPP; Clutchkeeper;
+        Set3 #201; 1S;; Amethyst Waystone;
+        Set3 #202;; 1S; Affliction;
+        Set3 #203;; 1S; Arachnophobia;
+        Set3 #204;; 1S; Grenamender;
+        Set3 #205;; 1S,3; Stonescar Sneak;
+        Set3 #206;; 1S; Trusty Revolver;
+        Set3 #207;; 1S; Vara's Intervention;
+        Set3 #208;; 1S,2; Wisplight;
+        Set3 #209;; 2S,4; Battlefield Scavenger;
+        Set3 #210;; 2S; Corrupt;
+        Set3 #211;; 2S; Cowardice;
+        Set3 #212;; 2SS,10; Dreamsnatcher;
+        Set3 #213;; 2S; Flashy Duelist;
+        Set3 #214;; 2S; Grenadin Bellower;
+        Set3 #215;; 2S; Hideout Pistol;
+        Set3 #216;; 2S; Infused Strike;
+        Set3 #217;; 2S,5; Miris Nightshade;
+        Set3 #218;; 2S; Sleeping Draught;
+        Set3 #219;; 2S; Unseen Agent;
+        Set3 #220;; 3SS; Ashara, Ruthless Assassin;
+        Set3 #221;; 3SS; Darkclaw Ravager;
+        Set3 #222;; 3S; Duskcaller;
+        Set3 #223;; 3S; Maimed Watchwing;
+        Set3 #224;; 3S; Prickly Grenadin;
+        Set3 #225;; 4SSS; Deadly Confrontation;
+        Set3 #226;; 3SS; Devastating Setback;
+        Set3 #227;; 4S; Devious Drone;
+        Set3 #228;; 4S; Extinguish;
+        Set3 #229;; 4S; Final-Shot Rioter;
+        Set3 #230;; 4SS; Street Leecher;
+        Set3 #231;; 4S; Vainglory Patrol;
+        Set3 #232;; 5S; Cover of Darkness;
+        Set3 #233;; 5SS; Headsman's Axe;
+        Set3 #234;; 5SS; Moonlit Gargoyle;
+        Set3 #235;; 5SSS; Shadowlands Tyrant;
+        Set3 #236;; 5S; Stonescar Scrapper;
+        Set3 #237;; 5S; Triggerman;
+        Set3 #238;; 5SS; Umbren Coaxer;
+        Set3 #239;; 6S; Drifting Death;
+        Set3 #240;; 6S; Finback Komonat;
+        Set3 #241;; 6SS; Gunrustler;
+        Set3 #242;; 6SS; Malediction Reader;
+        Set3 #243;; 6SS; Solitude;
+        Set3 #244;; 6SS; Zelia, the Vain;
+        Set3 #245;; 7SS; Dangerous Bargain;
+        Set3 #246;; 7SS; Repulsive Gorger;
+        Set3 #247;; 8SSS; Encroaching Darkness;
+        Set3 #248;; 8SSS; Nametaker;
+        Set3 #249;; 8SS; Valkyrie Harvester;
+        Set3 #250;; 9SS; Callous Survivalist;
+        Set3 #251; 1FT;; Crest of Impulse;
+        Set3 #252;; 3FT; Mysterium Orb;
+        Set3 #253;; 4FT; Monolith Guardian;
+        Set3 #254;; 3FJ; Whirling Duo;
+        Set3 #255;; 4FFPP; Kaleb's Intervention;
+        Set3 #256;; 4FFJJ; Tinker Dronedropper;
+        Set3 #257;; 5FP; Iceberg Warchief;
+        Set3 #258;; 3TJ; Auric Record Keeper;
+        Set3 #259;; 3TJ; Shush;
+        Set3 #260;; 4TP; Scaletender;
+        Set3 #261; 1TP;; Crest of Wisdom;
+        Set3 #262;; 5JP; Deepwood Ranger;
+        Set3 #263;; 7JJPP; Eilyn, Clan Mother;
+        Set3 #264; 1JS;; Crest of Vengeance;
+        Set3 #265;; 4JJSS; Crownwatch Traitor;
+        Set3 #266; 1FP;; Crest of Fury;
+        Set3 #267; 1PS;; Crest of Cunning;
+        Set3 #268; 1FS;; Crest of Chaos;
+        Set3 #269;; 3FS; Recycler;
+        Set3 #270;; 6FFSS; Failed Reflection;
+        Set3 #271;; 4TS; Duskwalker;
+        Set3 #272;; 5TTSS; Agile Deathjaw;
+        Set3 #273;; 3JS; Inquisitor's Halberd;
+        Set3 #274;; 3JS; Rooftop Vigilante;
+        Set3 #275;; 4FFSS; Vicious Highwayman;
+        Set3 #276;; 3PS; Skywalk Enforcer;
+        Set3 #277;; 4PPSS; Rindra, the Duskblade;
+        Set3 #278;; 6FFTTPP; Curiox, Insatiable Seeker;
+        Set3 #279; 1X;; Common Cause;
+        Set3 #280;; 1,6; Family Charter;
+        Set3 #301;; 3PS; Bloodscent Avisaur;
+        Set3 #302;; 6SS; Dizo, Cabal Chairman;
+        Set3 #303;; 2FT; Brenn, Chronicler of Ages;
+        Set3 #304;; 4JP,8; Svetya, Orene of Kosul;
+        Set3 #305;; 8JJ; Lieutenant Relia;
 
-        Set1001 #1;; 3F
-        Set1001 #2;; 5FF
-        Set1001 #3;; 6TT
-        Set1001 #4;; 7TT
-        Set1001 #5;; 3JJ
-        Set1001 #6;; 5J
-        Set1001 #7;; 1P
-        Set1001 #8;; 4PP
-        Set1001 #9;; 5SS
-        Set1001 #10;; 7SS
-        Set1001 #11;; 6FJ
-        Set1001 #12;; 3TJ
-        Set1001 #13;; 4TTPP
-        Set1001 #14;; 4PS
-        Set1001 #15;; 2FS
-        Set1001 #16;; 7FTJPS
+        Set1001 #1;; 3F; Praxis Outlaw;
+        Set1001 #2;; 5FF; Bait;
+        Set1001 #3;; 6TT; Passage of Eons;
+        Set1001 #4;; 7TT; Hibernating Behemoth;
+        Set1001 #5;; 3JJ; Copperhall Bailiff;
+        Set1001 #6;; 5J; Hone;
+        Set1001 #7;; 1P; Cliffside Porter;
+        Set1001 #8;; 4PP; Tyrannize;
+        Set1001 #9;; 5SS; Stray into Shadow;
+        Set1001 #10;; 7SS; Shadowlands Feaster;
+        Set1001 #11;; 6FJ; Jekk, the Bounty Hunter;
+        Set1001 #12;; 3TJ; Combrei Emissary;
+        Set1001 #13;; 4TTPP; Avisaur Patriarch;
+        Set1001 #14;; 4PS; Cabal Spymaster;
+        Set1001 #15;; 2FS; Quarry;
+        Set1001 #16;; 7FTJPS; Nictotraxian;
 
-        Set1002 #1;; 3F
-        Set1002 #2;; 3F
-        Set1002 #3;; 4FF
-        Set1002 #4; 1; 2T
-        Set1002 #5;; 3T
-        Set1002 #6;; 4TT,6
-        Set1002 #7;; 4JJ
-        Set1002 #8;; 5JJ
-        Set1002 #9;; 6JJ
-        Set1002 #10;; 3PP
-        Set1002 #11;; 4PPP,7
-        Set1002 #12;; 7PP
-        Set1002 #13;; 3SS
-        Set1002 #14;; 3S
-        Set1002 #15;; 4SS
-        Set1002 #16;; 2FT
-        Set1002 #17;; 2JP
-        Set1002 #18;; 5JJSS
-        Set1002 #19;; 4FP
-        Set1002 #20;; 4TTSS
-        Set1002 #21;; 5FTJPS
-        Set1002 #22;;
-        Set1002 #23; X; 1
+        Set1002 #1;; 3F; Cinder Yeti;
+        Set1002 #2;; 3F; Kindle;
+        Set1002 #3;; 4FF; Crimson Firemaw;
+        Set1002 #4; 1; 2T; Power Stone;
+        Set1002 #5;; 3T; Dilphex Stalker;
+        Set1002 #6;; 4TT,6; Devoted Theurge;
+        Set1002 #7;; 4JJ; Copperhall Paladin;
+        Set1002 #8;; 5JJ; Twinstrike Master;
+        Set1002 #9;; 6JJ; Watchwing Conscript;
+        Set1002 #10;; 3PP; South-Wind Herald;
+        Set1002 #11;; 4PPP,7; Yetipult;
+        Set1002 #12;; 7PP; Hooru Teachings;
+        Set1002 #13;; 3SS; Auric Interrogator;
+        Set1002 #14;; 3S; Sadistic Valkyrie;
+        Set1002 #15;; 4SS; Dueling Pistols;
+        Set1002 #16;; 2FT; Waker of Ancients;
+        Set1002 #17;; 2JP; Vision of Austerity;
+        Set1002 #18;; 5JJSS; Tavrod, Auric Broker;
+        Set1002 #19;; 4FP; Unexpected Results;
+        Set1002 #20;; 4TTSS; Cruciation;
+        Set1002 #21;; 5FTJPS; Triumphant Stranger;
+        Set1002 #22;;; Stranger's Mark;
+        Set1002 #23; X; 1; Horus Traver;
 
-        Set1003 #1;; 1F
-        Set1003 #2;; 1F
-        Set1003 #3;; 2F
-        Set1003 #4; 1FTJPS; 4T
-        Set1003 #5;; 4TT,5
-        Set1003 #6;; 6TTT
-        Set1003 #7;; 2JJ,JJJJJJ
-        Set1003 #8;; 4JJ
-        Set1003 #9;; 4JJ
-        Set1003 #10;; 2P
-        Set1003 #11;; 3PP
-        Set1003 #12;; 6PPP
-        Set1003 #13;; 2S
-        Set1003 #14;; 4SSS
-        Set1003 #15;; 4SS
-        Set1003 #16;; 5FFTT
-        Set1003 #17;; 3FJ
-        Set1003 #18;; 3FP
-        Set1003 #19;; 3FS
-        Set1003 #20;; 2TJ,5
-        Set1003 #21;; 2TP
-        Set1003 #22;; 2TS
-        Set1003 #23;; 3JJP
-        Set1003 #24;; 2JS
-        Set1003 #25;; 4PS
+        Set1003 #1;; 1F; Bore;
+        Set1003 #2;; 1F; Oni Dragonsmith;
+        Set1003 #3;; 2F; Tripwire Grenadin;
+        Set1003 #4; 1FTJPS; 4T; Memento Mori;
+        Set1003 #5;; 4TT,5; Venom Rider;
+        Set1003 #6;; 6TTT; Bury the Past;
+        Set1003 #7;; 2JJ,JJJJJJ; Icaria, Valkyrie Captain;
+        Set1003 #8;; 4JJ; Honor the Fallen;
+        Set1003 #9;; 4JJ; Inquisitor's Blade;
+        Set1003 #10;; 2P; Wardwielder;
+        Set1003 #11;; 3PP; Hailstorm;
+        Set1003 #12;; 6PPP; Daraka, Queensguard;
+        Set1003 #13;; 2S; Ripknife Assassin;
+        Set1003 #14;; 4SSS; Argenport Sewers;
+        Set1003 #15;; 4SS; In Cold Blood;
+        Set1003 #16;; 5FFTT; Sandglass Juggernaut;
+        Set1003 #17;; 3FJ; Sower of Dissent;
+        Set1003 #18;; 3FP; Pokpok, Rockpacker;
+        Set1003 #19;; 3FS; Overwinder;
+        Set1003 #20;; 2TJ,5; Jaril, Amaran Ghostblade;
+        Set1003 #21;; 2TP; Equivocate;
+        Set1003 #22;; 2TS; Mitotic Wisp;
+        Set1003 #23;; 3JJP; Hooru Pacifier;
+        Set1003 #24;; 2JS; Anointer of the Faithful;
+        Set1003 #25;; 4PS; Lethrai Skystrider;
     </script>
 
     <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="semantic.min.js"></script>
+
+
     <script type="text/javascript" src="epc.min.js"></script>
 
-    <script type="text/javascript">
-        var calculator, decktext, graphStyle;
 
-        decktext = $("#deck-text");
-        decktext.select();
+    <script type="text/javascript">
+        var graphStyle;
 
         graphStyle = {
-            textColor: "#FFFFFF",
-            borderColor: "#DDDDDD",
-            backgroundColor: "#1F1C25",
-            interiorLineColor: "#37343D"
+            marginLeft: 64,
+            marginRight: 48,
+            marginBottom: 72,
+            fontSize: 18,
+            iconSize: 30,
+            font: "'Open Sans Condensed Bold', sans-serif",
+            textColor: "rgb(231, 228, 230)",
+            borderColor: "rgb(192, 192, 192)",
+            backgroundColor: "rgb(23, 20, 29)",
+            interiorLineColor: "rgb(67, 67, 67)",
+
+            fireColorSolid: "rgb(204, 0, 0)",
+            fireColorTranslucent: "rgba(204, 0, 0, 0.3)",
+            timeColorSolid: "rgb(241, 194, 50)",
+            timeColorTranslucent: "rgba(241, 194, 50, 0.3)",
+            justiceColorSolid: "rgb(106, 168, 79)",
+            justiceColorTranslucent: "rgba(106, 168, 79, 0.3)",
+            primalColorSolid: "rgb(60, 120, 216)",
+            primalColorTranslucent: "rgba(60, 120, 216, 0.3)",
+            shadowColorSolid: "rgb(166, 77, 121)",
+            shadowColorTranslucent: "rgba(166, 77, 121, 0.3)"
         };
 
-        calculator = makeEternalPowerCalculator({
-            tableMenuItem: $("#table-menu-item"),
-            tableContainer: $("#table-and-sources"),
-            tableDiv: $("#power-table-div"),
-            validationDiv: $("#deck-validation-result"),
-            powerSourcesDiv: $("#power-table-sources"),
-            graphMenuItem: $("#graph-menu-item"),
-            graphContainer: $("#power-graph-container"),
-            graphDiv: $("#power-graph-div"),
-            graphStyle: graphStyle,
-            cardlist: $("#card-list").html(),
-            iconSize: 20
-        });
-
-        /*  Generate the initial table  */
-        calculator.generateTable(decktext.val());
-
-        /*  When the deck text changes, regenerate the table  */
-        decktext.bind("input", function () {
-            calculator.generateTable(decktext.val());
-        });
+        buildEpcUI(graphStyle);
     </script>
 </body>
 
