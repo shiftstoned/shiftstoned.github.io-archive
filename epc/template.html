@@ -1,26 +1,5 @@
 <!DOCTYPE html>
 
-<!--
-
-    Eternal Power Calculator
-    Copyright (C) 2018  Matt Kimball
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License along
-    with this program; if not, write to the Free Software Foundation, Inc.,
-    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
--->
-
 <html>
 
 <head>
@@ -59,33 +38,6 @@
     <!--  A dialog displayed when the "About" button is clicked  -->
     <div id="about-modal" class="ui tiny modal">
         <div class="header">About Shiftstoned Power Calculator</div>
-
-        <div id="about-text" class="modal-body">
-            <p>
-            The Eternal Power Calculator is a tool for probability analysis of
-            decks for <a href="https://www.direwolfdigital.com/eternal/">
-            Eternal Card Game</a>.  It is designed to help understand
-            the odds of drawing resources to play specific cards by
-            a specific turn.
-
-            <p>
-            The probabilities represent only the odds of drawing power and
-            influence sources, without a mulligan.  Note that the requirements
-            for playing those sources isn't considered for the purposes of
-            computing odds.
-
-            <p>
-            For example, Vara's Favor is considered to be a source of both
-            one power and one shadow influence for the purposes of the
-            probability table, but the prerequisite of two power and one shadow
-            influence, in order to play Vara's Favor, isn't a factor in the
-            calculation.
-
-            <p>
-            The original source code for Eternal Power Calculator is
-            <a href="https://github.com/matt-kimball/epc">available
-            on GitHub</a>.
-        </div>
 
         <div class="actions">
             <button class="ui positive right button">
