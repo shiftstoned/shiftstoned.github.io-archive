@@ -1,5 +1,26 @@
 <!DOCTYPE html>
 
+<!--
+
+    Eternal Power Calculator
+    Copyright (C) 2018  Matt Kimball
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+-->
+
 <html>
 
 <head>
@@ -13,7 +34,7 @@
   gtag('config', 'UA-120926504-1');
 </script>
     
-    <title>Shiftstoned - Power Calculator - About More</title>
+    <title>Shiftstoned - Power Calculator</title>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,8 +44,19 @@
 </head>
 
 <body>
+    <!--
+        Pre-load all the influence icons symbols.
+        The graph drawing pulls the influence symbols from these elements.
+    -->
+    <div id="influence-icons">
+        <img id="icon-fire" src="icon-fire.png">
+        <img id="icon-time" src="icon-time.png">
+        <img id="icon-justice" src="icon-justice.png">
+        <img id="icon-primal" src="icon-primal.png">
+        <img id="icon-shadow" src="icon-shadow.png">
+    </div>
 
-    <!--  A dialog displayed when the "About" button is clicked 
+    <!--  A dialog displayed when the "About" button is clicked  -->
     <div id="about-modal" class="ui tiny modal">
         <div class="header">About Shiftstoned Power Calculator</div>
 
@@ -53,7 +85,7 @@
             The original source code for Eternal Power Calculator is
             <a href="https://github.com/matt-kimball/epc">available
             on GitHub</a>.
-        </div>  -->
+        </div>
 
         <div class="actions">
             <button class="ui positive right button">
@@ -258,13 +290,6 @@
                 <div id="power-graph-container">
                     <!-- The graph of power and influence is generated here  -->
                     <div id="power-graph-div">
-                        Shiftstoned’s Secret Page
-
-You will gain a competitive edge in Eternal by maximizing the chances of playing your cards on curve. The best way to do this is by optimizing your deck’s power base. Adjusting even just a few cards can mean the difference between winning and losing. 
-
-The Eternal Power Calculator is a deck-building tool that visualizes your odds of drawing enough Influence and Power based on the cards found in your deck.
-
-
                     </div>
                 </div>
 
