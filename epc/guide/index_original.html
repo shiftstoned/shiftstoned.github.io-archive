@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120926504-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-120926504-1');
+</script>
+
+    <title>Shiftstoned - Power Calculator</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="semantic.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div id="calculator-content">
+        <img id="background" src="EternalThroneBackground.jpeg">
+
+        <div id="shiftstoned-heading">
+            <div id="heading-top">
+                <a href="https://www.shiftstoned.com/">
+                    <img id="shiftstoned-img" src="shiftstoned.png">
+                </a>
+                <img id="power-calculator-img" src="power-calculator.png">
+            </div>
+
+         <div id="heading-page-top">
+</div>
+
+          <center>
+
+        </div>
+
+ <div id="calculator-body">
+
+
+<!-- About Shiftstoned Power Calculator
+
+   Eternal Power Calculator is a tool for probability analysis of decks for Eternal Card Game. It is designed to help understand the odds of drawing resources to play specific cards by a specific turn.
+
+The probabilities represent only the odds of drawing power and influence sources, without a mulligan. Note that the requirements for playing those sources isn't considered for the purposes of computing odds.
+
+For example, Vara's Favor is considered to be a source of both one power and one shadow influence for the purposes of the probability table, but the prerequisite of two power and one shadow influence, in order to play Vara's Favor, isn't a factor in the calculation.
+
+The original source code for Eternal Power Calculator is available on GitHub. -->
+
+ <center>
+
+ <table style="width:50%" border="0">
+
+   <tr><td>
+
+     <br>
+     <div id="tutorial" face="Merriweather">
+<h2>Shiftstoned’s Secret Page</h2>
+
+<p face="Verdana">
+  You will gain a competitive edge in Eternal by maximizing the chances of playing your cards on curve. The best way to do this is by optimizing your deck’s power base. <!-- Adjusting even just a few cards can mean the difference between winning and losing. -->
+</p>
+
+<p>
+   The Eternal Power Calculator is a deck-building tool that visualizes your odds of drawing enough Influence and Power based on the cards found in your deck.
+</p>
+
+       <p>
+Bulleted list</p>
+
+     <h2>How it works</h2>
+<p>
+Import a deck and the visualizer will display a graph showing the probability of meeting specific Influence requirements over a set number of turns. The first column represents your opening hand. </center>
+</p>
+
+      </div>
+   </td></tr>
+   </table>
+
+ <img src="example.jpeg" width="800">
+
+ <table style="width:50%" border="0">
+
+   <tr><td>
+
+     <br>
+     <div id="tutorial" face="Merriweather">
+
+     <h2>What are the Odds?</h2>
+
+<p>
+In this example  you can see that on Turn 2 you have a better than 90% chance of drawing the right Influence to play any card with a cost of J, namely Vanquish.
+       </P>
+
+<p>
+Follow the curve to see that your chances only increase with each additional draw.
+</P>
+
+<p>
+But what if you want to play Valkyrie Enforcer on Turn 3? JJ is a higher Influence cost, so your chances decrease.
+</P>
+
+<p>
+Fortunately this deck builder (2017 ETS World Champion camat0) has included enough Justice sources in his power base that the odds are still pretty good - nearly 80%.
+</P>
+
+<h2>
+Draws vs. Turns
+</h2>
+
+<p>
+Beyond the first turn, most decks include additional card draw. Even though we might speak of wanting to play Harsh Rule “on Turn 4 or 5”, what we really mean is after 4 or 5 draws beyond our opening hand.
+</p>
+
+<p>
+This becomes even more important as the game goes on. You draw at least one card per turn of course. But ideally you will also draw some extra cards along the way.
+</p>
+
+      </div>
+   </td></tr>
+   </table>
+
+ <img src="example.jpeg" width="800">
+
+<table style="width:50%" border="0">
+
+   <tr><td>
+
+     <br>
+     <div id="tutorial" face="Merriweather">
+
+<p>
+FLAG In this example, the FFF cost means that the odds of having enough Influence to play Icaria, the Liberator after 7 turns are at least 70%.
+</p>
+
+<p>
+However, assuming you will play at least one card such as Seek Power or Quarry before Turn 7 - your chances of meeting Icaria’s steep influence requirements are even better, as represented by columns 8 or 9.
+</p>
+
+<p>
+It helps to get in the habit of thinking of number of draws rather than number of turns. And to include an appropriate amount of card draw in your deck.
+</p>
+
+<h2>
+Power Odds Table
+</h2>
+
+<p>
+Influence is only one of two costs in Eternal that are associated with playing your cards. To see the whole picture, we must also consider Power.
+</p>
+
+<p>
+For simplicity, we generally assume that at least one Power card will be drawn for each turn, and our Maximum Power will increase at a consistent rate.
+</p>
+
+<p>
+Realistically, however - that only happens when luck is on our side. It is often just as likely that we will miss a Power drop and not be able to play Sandstorm Titan until Turn 5 or later.
+</p>
+
+<p>
+Deck-builders are constantly asking themselves questions such as, “Have I included enough power to reliably cast Channel the Tempest when I want to?”
+</p>
+
+
+<p>
+The Power Odds Table removes the guesswork by factoring in both Power and Influence costs for every card in your deck. It even accounts for Ultimates and other abilities that have a cost associated with them, as well as neutral cards such as Seek Power or the Strangers.
+</p>
+
+
+<h2>
+What is NOT accounted for?
+</h2>
+
+<p>
+The probabilities displayed by the Eternal Power Calculator are quite accurate and can help you gain a better understanding of your deck. But for the sake of simplification, a couple of factors are not accounted for mathematically: mulligans and prerequisites.
+</p>
+
+<p>
+These two factors influence the probabilities in different ways, and when combined they come close to balancing each other out - so the net result is minimized.
+</p>
+
+<h3>
+The Mulligan Phase
+</h3>
+
+<p>
+Deciding whether or not to keep your opening hand is a strategic decision in Eternal. If you choose to re-draw, your starting hand is guaranteed to include either 2, 3 or 4 power cards (with an equal chance of each).
+</p>
+
+<p>
+This raises your chances of having more Influence to start with - so (generally speaking) your odds may be ever-so-slightly higher than what is actually depicted on the charts in the Eternal Power Calculator.
+</p>
+
+<h3>
+Pre-requisites
+</h3>
+
+<p>
+On the other hand, some power sources have a Power cost associated with them. Seek Power and the five Favors are the most obvious examples.
+</p>
+
+<p>
+The Eternal Power Calculator considers any card that increases your Power to be a Power source when determining probabilities. But it does not consider the sequence in which cards are played. So even though you
+</p>
+
+
+      </div>
+   </td></tr>
+   </table>
+
+
+
+</center>
+           </div>
+    </div>
+
+ <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="semantic.min.js"></script>
+
+
+    <script type="text/javascript" src="epc.min.js"></script>
+
+
+    <script type="text/javascript">
+        var graphStyle;
+
+        graphStyle = {
+            marginLeft: 64,
+            marginRight: 48,
+            marginBottom: 72,
+            fontSize: 18,
+            iconSize: 30,
+            font: "'Open Sans Condensed Bold', sans-serif",
+            textColor: "rgb(231, 228, 230)",
+            borderColor: "rgb(192, 192, 192)",
+            backgroundColor: "rgb(23, 20, 29)",
+            interiorLineColor: "rgb(67, 67, 67)",
+
+            fireColorSolid: "rgb(204, 0, 0)",
+            fireColorTranslucent: "rgba(204, 0, 0, 0.3)",
+            timeColorSolid: "rgb(241, 194, 50)",
+            timeColorTranslucent: "rgba(241, 194, 50, 0.3)",
+            justiceColorSolid: "rgb(106, 168, 79)",
+            justiceColorTranslucent: "rgba(106, 168, 79, 0.3)",
+            primalColorSolid: "rgb(60, 120, 216)",
+            primalColorTranslucent: "rgba(60, 120, 216, 0.3)",
+            shadowColorSolid: "rgb(166, 77, 121)",
+            shadowColorTranslucent: "rgba(166, 77, 121, 0.3)"
+        };
+
+        buildEpcUI(graphStyle);
+    </script>
+</body>
+
+</html>
