@@ -47,6 +47,14 @@
             url(open-sans-regular.woff) format('woff');
 }
 
+@font-face {
+    font-family: 'Merriweather';
+    font-style: normal;
+    font-weight: 400;
+    src: url(merriweather-regular.woff2) format('woff2'),
+            url(merriweather-regular.woff) format('woff');
+}
+
 
 /*  Don't display the preloaded influence icons  */
 #influence-icons {
@@ -112,18 +120,29 @@ textarea {
     background-color: #322C4B;
     color: #FFFFFF;
     max-width: 400px;
-    font-style: 'Open Sans', sans-serif;
+    font-family: 'Merriweather', serif;
     font-size: 18px;
     text-align: center;
 }
 
-.ui.popup strong {
-    font-family: 'Open Sans ExtraBold', sans-serif;
+.ui.popup h1 {
+    font-family: 'Merriweather', serif;
     font-size: 26px;
 }
 
-.ui.top.popup:before, .ui.bottom.popup:before {
+.ui.popup strong {
+    font-family: 'Merriweather', serif;
+}
+
+.ui.top.popup:before,
+.ui.bottom.popup:before,
+.ui.left.center.popup:before,
+.ui.right.center.popup:before {
     background: #322C4B;
+}
+
+.ui.loader:after {
+    border-color: #FFFFFF transparent transparent;
 }
 
 a {
@@ -239,6 +258,70 @@ body {
     top: 16px;
 }
 
+#about-heading {
+    position: absolute;
+    top: 34px;
+    left: 1085px;
+
+    cursor: pointer;
+    font-family: 'Open Sans ExtraBold', sans-serif;
+    font-size: 20px;
+}
+
+
+/*
+    The nagivation menu in the upper right
+*/
+
+#navigation-separator {
+    position: absolute;
+    top: 10px;
+    left: 1176px;
+
+    width: 2px;
+    height: 44px;
+    background-color: #FFFFFF;
+}
+
+#navigation-menu {
+    position: absolute;
+    left: 1200px;
+    top: 10px;
+
+    font-family: 'Open Sans ExtraBold', sans-serif;
+}
+
+#navigation-menu .menu {
+    left: auto;
+    right: 0px;
+
+    background-color: #2E2C3D;
+    border: 1px solid #FFFFFF;
+}
+
+#navigation-menu .menu > .item {
+    padding: 0px !important;
+}
+
+#navigation-menu a:hover {
+    border-radius: 5px;
+    background-color: #443D66;
+}
+
+#navigation-menu a {
+    padding: 14px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #FFFFFF;
+}
+
+.navigation-menu-indent {
+    float: left;
+    width: 30px;
+    min-height: 1px;
+}
+
 
 /*
     Influence panel
@@ -309,37 +392,31 @@ body {
     background-color: #331745;
 }
 
+
 /*
     Decklist editing panel
 */
 
-#deck-edit-buttons {
+#deck-edit-header,
+#deck-edit-footer {
     width: 245px;
-    height: 108px;
     margin: 30px;
 }
 
-#deck-edit-buttons .button {
+#deck-edit-header .button,
+#deck-edit-footer .button {
+    clear: both;
     margin: 0px 0px 6px 0px;
     width: 118px;
+    height: 38px;
 }
 
-#deck-edit-buttons #import-button {
+#deck-edit-panel .button.pad-right {
     margin-right: 4px;
-}
-
-#deck-edit-buttons #about-button {
-    width: 243px;
 }
 
 #deck-edit {
     width: 305px;
-}
-
-#deck-edit-footer {
-    margin-top: 30px;
-    width: 305px;
-    height: 100px;
 }
 
 .card-count-edit {
@@ -357,13 +434,58 @@ body {
     text-overflow: ellipsis;
 }
 
+.card-name.fire {
+    font-style: italic;
+    color: #CC0000;
+}
+
+.card-name.time {
+    font-style: italic;
+    color: #F1C232;
+}
+
+.card-name.justice {
+    font-style: italic;
+    color: #6AA84F;
+}
+
+.card-name.primal {
+    font-style: italic;
+    color: #3C78D8;
+}
+
+.card-name.shadow {
+    font-style: italic;
+    color: #A64D79;
+}
+
+.card-name.multi {
+    font-style: italic;
+    color: #000000;
+}
+
 .card-count {
     margin-left: 4px;
     float: left;
     width: 18px;
 }
 
-#deck-edit-rows button {
+.deck-edit-section {
+    display: none;
+    width: 245px;
+    margin: 25px;
+
+    font-family: 'Open Sans', serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+.deck-edit-section-description {
+    font-size: 14px;
+    font-style: italic;
+}
+
+#deck-edit button {
     float: left;
     width: 30px;
     height: 22px;
@@ -372,18 +494,12 @@ body {
     font-size: 16px;
 }
 
-#add-card-button {
-    clear: both;
-    margin-left: 30px;
-    width: 243px;
-}
-
 
 /*
     Charts panel menu
 */
 
-#charts-menu div {
+.menu-item {
     float: left;
     width: 50%;
     height: 100%;
@@ -391,23 +507,47 @@ body {
     background-color: #2E2E2E;
 }
 
-#charts-menu div.active {
+.menu-item.active {
     background-color: #17141D;
 }
 
 #charts-menu img {
     display: block;
-    margin: 20px auto 16px auto;
 }
+
+#influence-graph-menu-title {
+    float: left;
+    margin: 40px 0px 0px 60px;
+}
+
+#power-odds-table-menu-title {
+    float: left;
+    margin: 40px 0px 0px 40px;
+}
+
+.menu-help-icon {
+    float: right;
+    margin: 40px 40px 0px 0px;
+}
+
 
 /*
     Influence Graph style
 */
 
+#power-graph-container {
+    position: relative;
+}
+
+#power-graph-div {
+    width: 942px;
+    height: 450px;
+}
+
 .power-graph-canvas {
     display: block;
     width: 942px;
-    height: 468px;
+    height: 450px;
 }
 
 #power-table-sources {
@@ -419,21 +559,65 @@ body {
     text-align: center;
 }
 
+#graph-y-label {
+    font-family: 'Merriweather', serif;
+    font-size: 18px;
+    letter-spacing: 15px;
+
+    position: relative;
+    left: 906px;
+    padding-left: 114px;
+    width: 450px;
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+}
+
+#graph-x-label {
+    font-family: 'Merriweather', serif;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 5px;
+    margin-top: 6px;
+}
+
 
 /*
     Power Odds Table style
 */
 
 #power-table-container {
+    position: relative;
     font-family: 'Open Sans ExtraBold', sans-serif;
-    width: 900px;
+    width: 812px;
+    margin-top: 8px;
+    margin-left: 64px;
     float: left;
+}
+
+#power-table-cost-div {
+    width: 162px;
+    float: left;
+}
+
+#power-table-odds-div {
+    width: 650px;
+    float: left;
+    overflow-x: scroll;
+}
+
+#power-table-odds-div::-webkit-scrollbar-thumb {
+    background-color: #513D4E;
 }
 
 .power-table {
     background-color: #000000;
-    margin-top: 8px;
-    margin-left: 63px;
+    border-collapse: collapse;
+}
+
+.power-table th,
+.power-table td {
+    border: 2px solid #000000;
+    height: 34px;
 }
 
 .power-table tr {
@@ -454,17 +638,22 @@ body {
 }
 
 .power-table-head-draws {
-    width: 10em;
+    min-width: 160px;
 }
 
 .power-table-head-draw-count {
-    width: 3em;
+    min-width: 50px;
 }
 
 .power-table-odds {
     font-family: 'Open Sans', sans-serif;
     text-align: right;
     padding: 0px 8px 0px 8px;
+}
+
+.power-table-head-draw-count:first-child,
+.power-table-odds:first-child {
+    border-left: 0px;
 }
 
 /*  Darken cells with fewer draws than the number of power required  */
@@ -474,6 +663,12 @@ tr:nth-child(even) .power-table-odds-shaded {
 
 tr:nth-child(odd) .power-table-odds-shaded {
     background-color: #332530;
+}
+
+.odds-popup-content {
+    width: 150px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
 }
 
 
