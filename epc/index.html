@@ -389,7 +389,78 @@
                         PROBABILITY
                     </div>
                     <div id="graph-x-label">
-                        NUMBER OF DRAWS (ONE PER TURN + ANY EXTRA DRAWS)
+                        TURNS (ONE DRAW PER TURN)
+                    </div>
+
+                    <div id="power-type-panel">
+                        <div class="power-type-item">
+                            <img src="undepleted.svg">
+                            <span class="power-type-label">
+                                UNDEPLETED:
+                            </span>
+                            <span class="power-type-count" tag="undepleted">
+                            </span>
+                        </div>
+
+                        <div class="power-type-item">
+                            <img src="conditional.svg">
+                            <span class="power-type-label">
+                                CONDITIONAL:
+                            </span>
+                            <span class="power-type-count" tag="conditional">
+                            </span>
+                        </div>
+
+                        <div class="power-type-item">
+                            <img src="depleted.svg">
+                            <span class="power-type-label">
+                                DEPLETED:
+                            </span>
+                            <span class="power-type-count" tag="depleted">
+                            </span>
+                        </div>
+
+                        <div class="power-type-item">
+                            <img src="monument.svg">
+                            <span class="power-type-label">
+                                MONUMENTS:
+                            </span>
+                            <span class="power-type-count" tag="monument">
+                            </span>
+                        </div>
+
+                        <div class="power-type-item">
+                            <img src="crest.svg">
+                            <span class="power-type-label">
+                                CRESTS:
+                            </span>
+                            <span class="power-type-count" tag="crest">
+                            </span>
+                        </div>
+
+                        <div class="power-type-item">
+                            <img src="waystone.svg">
+                            <span class="power-type-label">
+                                WAYSTONES:
+                            </span>
+                            <span class="power-type-count" tag="waystone">
+                            </span>
+                        </div>
+
+                        <div class="power-type-item">
+                        </div>
+
+                        <div class="power-type-item">
+                            <img src="standard.svg">
+                            <span class="power-type-label">
+                                STANDARDS:
+                            </span>
+                            <span class="power-type-count" tag="standard">
+                            </span>
+                        </div>
+
+                        <div id="power-type-panel-footer">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -422,18 +493,18 @@
         Set0 #33;; 2S; Vampire Bat;
         Set0 #35; 1S; 2S; Vara's Favor;
         Set0 #36;; 3S; Devouring Shadow;
-        Set0 #51; 1JP;; Seat of Order; power
-        Set0 #53; 1FP;; Seat of Fury; power
-        Set0 #54; 1FT;; Seat of Impulse; power
-        Set0 #55; 1JS;; Seat of Vengeance; power
-        Set0 #56; 1FJ;; Seat of Glory; power
-        Set0 #58; 1TJ;; Seat of Progress; power
-        Set0 #60; 1FS;; Seat of Chaos; power
-        Set0 #61; 1TS;; Seat of Mystery; power
-        Set0 #62; 1PS;; Seat of Cunning; power
-        Set0 #63; 1TP;; Seat of Wisdom; power
+        Set0 #51; 1JP;; Seat of Order; power, conditional
+        Set0 #53; 1FP;; Seat of Fury; power, conditional
+        Set0 #54; 1FT;; Seat of Impulse; power, conditional
+        Set0 #55; 1JS;; Seat of Vengeance; power, conditional
+        Set0 #56; 1FJ;; Seat of Glory; power, conditional
+        Set0 #58; 1TJ;; Seat of Progress; power, conditional
+        Set0 #60; 1FS;; Seat of Chaos; power, conditional
+        Set0 #61; 1TS;; Seat of Mystery; power, conditional
+        Set0 #62; 1PS;; Seat of Cunning; power, conditional
+        Set0 #63; 1TP;; Seat of Wisdom; power, conditional
 
-        Set1 #1; 1F;; Fire Sigil; power
+        Set1 #1; 1F;; Fire Sigil; power, undepleted
         Set1 #2;; 2FFF; Flame Blast;
         Set1 #3;; 2FF; Charchain Flail;
         Set1 #4;; 1F; Heavy Axe;
@@ -492,7 +563,7 @@
         Set1 #60;; 7FF; Steelbound Dragon;
         Set1 #61;; 8FFF; Kaleb, Uncrowned Prince;
         Set1 #62;; 9FF; Lavablood Goliath;
-        Set1 #63; 1T;; Time Sigil; power
+        Set1 #63; 1T;; Time Sigil; power, undepleted
         Set1 #64;; TTT; Sand Warrior;
         Set1 #66;; 2T; Copper Conduit;
         Set1 #67;; 1T; Infinite Hourglass;
@@ -552,7 +623,7 @@
         Set1 #123;; 8TT; Marisen, the Eldest;
         Set1 #124;; 8TTT; Talir, Who Sees Beyond;
         Set1 #125;; 3JJ; Gilded Glaive;
-        Set1 #126; 1J;; Justice Sigil; power
+        Set1 #126; 1J;; Justice Sigil; power, undepleted
         Set1 #127;; 1J; Valkyrie Aspirant;
         Set1 #128;; 1J; Elder's Feather;
         Set1 #129;; 2J; Inspire;
@@ -610,7 +681,7 @@
         Set1 #184;; 7J; Flight Lieutenant;
         Set1 #185;; 8JJJ; Rolant, the Iron Fist;
         Set1 #186;; 8JJ; Sword of the Sky King;
-        Set1 #187; 1P;; Primal Sigil; power
+        Set1 #187; 1P;; Primal Sigil; power, undepleted
         Set1 #188;; F; Trail Stories;
         Set1 #189;; 1P; Unstable Form;
         Set1 #190;; 1P; Levitate;
@@ -671,7 +742,7 @@
         Set1 #246;; 7PP; Rimescale Draconus;
         Set1 #247;; 5PP; Skycrag Wyvarch;
         Set1 #248;; 10PPP; Scourge of Frosthome;
-        Set1 #249; 1S;; Shadow Sigil; power
+        Set1 #249; 1S;; Shadow Sigil; power, undepleted
         Set1 #250;; 1S; Dark Return;
         Set1 #251;; 1S; Suffocate;
         Set1 #252;; 1S; Sabotage;
@@ -826,17 +897,17 @@
         Set1 #414;; 2; Daze;
         Set1 #415;; 2; Alchemical Blast;
         Set1 #416;; 3; Forsworn Stranger;
-        Set1 #417; 1PS;; Feln Banner; power
-        Set1 #418; 1P;; Cobalt Monument; power
-        Set1 #419; 1FS;; Stonescar Banner; power
-        Set1 #420; 1T;; Amber Monument; power
-        Set1 #421; 1TP;; Elysian Banner; power
-        Set1 #422; 1J;; Emerald Monument; power
-        Set1 #423; 1F;; Granite Monument; power
-        Set1 #424; 1TJ;; Combrei Banner; power
-        Set1 #425; 1X;; Diplomatic Seal; power
-        Set1 #426; 1S;; Amethyst Monument; power
-        Set1 #427; 1FJ;; Rakano Banner; power
+        Set1 #417; 1PS;; Feln Banner; power, conditional
+        Set1 #418; 1P;; Cobalt Monument; power, depleted, monument
+        Set1 #419; 1FS;; Stonescar Banner; power, conditional
+        Set1 #420; 1T;; Amber Monument; power, depleted, monument
+        Set1 #421; 1TP;; Elysian Banner; power, conditional
+        Set1 #422; 1J;; Emerald Monument; power, depleted, monument
+        Set1 #423; 1F;; Granite Monument; power, depleted, monument
+        Set1 #424; 1TJ;; Combrei Banner; power, conditional
+        Set1 #425; 1X;; Diplomatic Seal; power, undepleted
+        Set1 #426; 1S;; Amethyst Monument; power, depleted, monument
+        Set1 #427; 1FJ;; Rakano Banner; power, conditional
         Set1 #480;; 4TT; Vault of the Praxis;
         Set1 #488;; 6P; Scouting Party;
         Set1 #501;; 2T; Refresh;
@@ -1028,7 +1099,7 @@
         Set2 #168;; 7S; Cabal Rogue;
         Set2 #169;; 7SS; Inspire Obedience;
         Set2 #170;; 8SS; Sleepless Night;
-        Set2 #171; 1FT;; Praxis Banner; power
+        Set2 #171; 1FT;; Praxis Banner; power, conditional
         Set2 #172;; 1FFTT; Alluring Ember;
         Set2 #173;; 3FT,FFF,TTT; Champion of Impulse;
         Set2 #174;; 2FT; Noble Firemane;
@@ -1043,7 +1114,7 @@
         Set2 #183;; 6FFFTTT; Heart of the Vault;
         Set2 #184;; 7FT; Sandglass Sentinel;
         Set2 #185;; 7FFTT; Moment of Creation;
-        Set2 #186; 1FP;; Skycrag Banner; power
+        Set2 #186; 1FP;; Skycrag Banner; power, conditional
         Set2 #187;; 2FP,FF,PP; Champion of Fury;
         Set2 #188;; 2FP; Kaleb's Choice;
         Set2 #189;; 2FP; Rockslide;
@@ -1058,7 +1129,7 @@
         Set2 #198;; 7FP; Topaz Drake;
         Set2 #199;; 8FFFPPP; Molot & Nakova;
         Set2 #200;; 10FFPP; Decimate;
-        Set2 #201; 1TS;; Xenan Banner; power
+        Set2 #201; 1TS;; Xenan Banner; power, conditional
         Set2 #202;; 2TS; Blistersting Wasp;
         Set2 #203;; 1TS; Bloodcall Invocation;
         Set2 #204;; 3TSS,8; Ayan, the Abductor;
@@ -1073,7 +1144,7 @@
         Set2 #213;; 6TS,TTTTTT,SSSSSS; Champion of Mystery;
         Set2 #214;; 7TS; Prophetic Stranger;
         Set2 #215;; 9TTTSSS; Worldjoiner;
-        Set2 #216; 1JP;; Hooru Banner; power
+        Set2 #216; 1JP;; Hooru Banner; power, conditional
         Set2 #217;; 2JP; Bring Down;
         Set2 #218;; 2JP,6; Kothon, the Far-Watcher;
         Set2 #219;; 3JPP; Aerialist Trainer;
@@ -1088,7 +1159,7 @@
         Set2 #228;; 6JP; Meditative Stranger;
         Set2 #229;; 6JJJPPP; Nostrix, Lord of Visions;
         Set2 #230;; 12JJPP; Aid of the Hooru;
-        Set2 #231; 1JS;; Argenport Banner; power
+        Set2 #231; 1JS;; Argenport Banner; power, conditional
         Set2 #232;; 2JS; Auric Bully;
         Set2 #233;; 2JS; Auric Vigilante;
         Set2 #234;; 4JJS,7; Bartholo, the Seducer;
@@ -1115,7 +1186,7 @@
         Set2 #255;; 5S; Colony Matron;
         Set2 #256;; 7TT; Tesya, Omen Shaper;
 
-        Set3 #1; 1F;; Granite Waystone; power
+        Set3 #1; 1F;; Granite Waystone; power, undepleted, waystone
         Set3 #2;; F; Helpful Doorbot;
         Set3 #3;; 1F; Iceberg Frontrunner;
         Set3 #4;; 1F; Kaleb, Reborn;
@@ -1165,7 +1236,7 @@
         Set3 #48;; 7FF; Rock Carapace;
         Set3 #49;; 8FF; Great-Kiln Titan;
         Set3 #50;; 8F; Heroic Bravo;
-        Set3 #51; 1T;; Amber Waystone; power
+        Set3 #51; 1T;; Amber Waystone; power, undepleted, waystone
         Set3 #52;; T; Azurite Prixis;
         Set3 #53;; 1T; Amaran Shoveler;
         Set3 #54;; 1T; Ancient Bauble;
@@ -1215,7 +1286,7 @@
         Set3 #98;; 9TT; Scourstone Sentinel;
         Set3 #99;; 10T; Foraging Sauropod;
         Set3 #100;; 16TTTT; Novaquake Titan;
-        Set3 #101; 1J;; Emerald Waystone; power
+        Set3 #101; 1J;; Emerald Waystone; power, undepleted, waystone
         Set3 #102;; 2J; Soaring Guard;
         Set3 #103;; 1J,2; Humble Instructor;
         Set3 #104;; 1J; Rolant's Intervention;
@@ -1265,7 +1336,7 @@
         Set3 #148;; 7JJJ; Last Stand at the Gate;
         Set3 #149;; 8JJ; Minsod, the Peerless;
         Set3 #150;; 9JJ; Silverwing Rallier;
-        Set3 #151; 1P;; Cobalt Waystone; power
+        Set3 #151; 1P;; Cobalt Waystone; power, undepleted, waystone
         Set3 #152;; 1P; Eilyn's Intervention;
         Set3 #153;; 1P; Farplace Finder;
         Set3 #154;; 1P; Jump Kick;
@@ -1315,7 +1386,7 @@
         Set3 #198;; 7PP; Bellowing Thunderfoot;
         Set3 #199;; 8P; Surveying Mantasaur;
         Set3 #200;; 14PPP; Clutchkeeper;
-        Set3 #201; 1S;; Amethyst Waystone; power
+        Set3 #201; 1S;; Amethyst Waystone; power, undepleted, waystone
         Set3 #202;; 1S; Affliction;
         Set3 #203;; 1S; Arachnophobia;
         Set3 #204;; 1S; Grenamender;
@@ -1365,7 +1436,7 @@
         Set3 #248;; 8SSS; Nametaker;
         Set3 #249;; 8SS; Valkyrie Harvester;
         Set3 #250;; 9SS; Callous Survivalist;
-        Set3 #251; 1FT;; Crest of Impulse; power
+        Set3 #251; 1FT;; Crest of Impulse; power, depleted, crest
         Set3 #252;; 3FT; Mysterium Orb;
         Set3 #253;; 4FT; Monolith Guardian;
         Set3 #254;; 3FJ; Whirling Duo;
@@ -1375,14 +1446,14 @@
         Set3 #258;; 3TJ; Auric Record Keeper;
         Set3 #259;; 3TJ; Shush;
         Set3 #260;; 4TP; Scaletender;
-        Set3 #261; 1TP;; Crest of Wisdom; power
+        Set3 #261; 1TP;; Crest of Wisdom; power, depleted, crest
         Set3 #262;; 5JP; Deepwood Ranger;
         Set3 #263;; 7JJPP; Eilyn, Clan Mother;
-        Set3 #264; 1JS;; Crest of Vengeance; power
+        Set3 #264; 1JS;; Crest of Vengeance; power, depleted, crest
         Set3 #265;; 4JJSS; Crownwatch Traitor;
-        Set3 #266; 1FP;; Crest of Fury; power
-        Set3 #267; 1PS;; Crest of Cunning; power
-        Set3 #268; 1FS;; Crest of Chaos; power
+        Set3 #266; 1FP;; Crest of Fury; power, depleted, crest
+        Set3 #267; 1PS;; Crest of Cunning; power, depleted, crest
+        Set3 #268; 1FS;; Crest of Chaos; power, depleted, crest
         Set3 #269;; 3FS; Recycler;
         Set3 #270;; 6FFSS; Failed Reflection;
         Set3 #271;; 4TS; Duskwalker;
@@ -1393,7 +1464,7 @@
         Set3 #276;; 3PS; Skywalk Enforcer;
         Set3 #277;; 4PPSS; Rindra, the Duskblade;
         Set3 #278;; 6FFTTPP; Curiox, Insatiable Seeker;
-        Set3 #279; 1X;; Common Cause; power
+        Set3 #279; 1X;; Common Cause; power, undepleted
         Set3 #280;; 1,6; Family Charter;
         Set3 #301;; 3PS; Bloodscent Avisaur;
         Set3 #302;; 6SS; Dizo, Cabal Chairman;
@@ -1485,6 +1556,7 @@
             marginBottom: 54,
             fontSize: 18,
             iconSize: 30,
+            dotSize: 9,
             font: "'Open Sans Condensed Bold', sans-serif",
             textColor: "rgb(231, 228, 230)",
             borderColor: "rgb(192, 192, 192)",

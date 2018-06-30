@@ -198,7 +198,7 @@ body {
     background-color: #533D4F;
     border-right: 1px solid;
     width: 306px;
-    min-height: 822px
+    min-height: 1050px
 }
 
 #charts-panel {
@@ -540,6 +540,7 @@ body {
 }
 
 #power-graph-div {
+    position: relative;
     width: 942px;
     height: 450px;
 }
@@ -578,6 +579,76 @@ body {
     text-align: center;
     letter-spacing: 5px;
     margin-top: 6px;
+}
+
+.power-graph-popup-anchor {
+    height: 1px;
+    width: 1px;
+}
+
+.power-graph-popup.ui.popup {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+}
+
+.power-graph-popup-odds {
+    margin-bottom: 15px;
+}
+
+.power-graph-popup-cards {
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/*
+    Power type panel
+*/
+
+#power-type-panel {
+    margin-left: 72px;
+    margin-top: 94px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    width: 833px;
+    border-radius: 10px;
+    background-color: #27252D;
+    border: solid 1px #FFFFFF;
+}
+
+.power-type-item {
+    float: left;
+    margin-left: 42px;
+    margin-right: 42px;
+    width: 193px;
+    height: 66px;
+
+    text-align: center;
+    font-size: 18px;
+}
+
+.power-type-item img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.power-type-label {
+    margin: 22px 8px 22px 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.power-type-count {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 24px;
+}
+
+#power-type-panel-footer {
+    clear: both;
 }
 
 
@@ -669,6 +740,16 @@ tr:nth-child(odd) .power-table-odds-shaded {
     width: 150px;
     font-family: 'Open Sans', sans-serif;
     font-size: 15px;
+}
+
+.table-cost-popup-content {
+    width: 150px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
