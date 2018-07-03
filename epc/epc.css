@@ -273,7 +273,7 @@ body {
     top: 34px;
     left: 1000px;
 
-    cursor: pointer;
+    <!-- cursor: pointer; -->
     font-family: 'Open Sans ExtraBold', sans-serif;
     font-size: 14px;
     color: #ffffff;
