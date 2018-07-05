@@ -9,16 +9,74 @@
 
   gtag('config', 'UA-120926504-1');
 </script>
-    <title>Shiftstoned - Player Resources for Eternal Card Game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-</head>
-<body bgcolor="#17141D">
-    <center><br><br><br><a href="../calendar"><img src="../shiftstonedsigils.png"></a>
-    <br><br> <font color="white" size="2">E T E R N A L  &ensp;  C O M M U N I T Y  &ensp;  C A L E N D A R</font><br><br>
-    <div data-tockify-component="calendar" data-tockify-calendar="eternal"></div>
-<script data-cfasync="false" data-tockify-script="embed" src="https://public.tockify.com/browser/embed.js"></script>
 
-    
+    <title>Shiftstoned - Player Resources for Eternal Card Game</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../epc/semantic.min.css">
+    <link rel="stylesheet" href="../epc/epc.css">
+
+</head>
+
+<body bgcolor="#17141D">
+        <img id="background" src="SecretPages.png">
+
+    <!-- <center><br><br><br><a href="../calendar"><img src="../images/shiftstonedsigils.png"></a> -->
+
+      <div id="shiftstoned-heading">
+          <div id="heading-top">
+              <a href="https://www.shiftstoned.com/">
+                  <img id="shiftstoned-img" src="../epc/shiftstoned.png">
+              </a>
+                <img id="power-calculator-img" src="community_calendar.png">
+
+            <div id="calc-heading">
+                <a href="../epc">&#9658; POWER CALCULATOR</a>
+              </div>
+              <div id="navigation-separator">
+              </div>
+              <div id="navigation-menu" class="ui dropdown">
+                  <img src="../epc/navigation-menu.png">
+                  <div class="menu">
+                      <div class="item">
+                          <a href="https://www.shiftstoned.com/epc/">
+                              Power Calculator
+                          </a>
+                      </div>
+                      <div class="item">
+                          <a href="https://www.shiftstoned.com/epc/guide/">
+                              <div class="navigation-menu-indent">
+                                  &mdash;
+                              </div>
+                              Guide
+                          </a>
+                      </div>
+                      <div class="item">
+                          <a href="https://www.shiftstoned.com/calendar/">
+                              Community Calendar
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div id="heading-page-top"></div>
+      </div>
+
+      <center>
+
+          <!--<font color="white" size="2">E T E R N A L  &ensp;  C O M M U N I T Y  &ensp;  C A L E N D A R</font>--><br><br></center>
+
+    <div data-tockify-component="calendar" data-tockify-calendar="eternal"></div>
+    <script data-cfasync="false" data-tockify-script="embed" src="https://public.tockify.com/browser/embed.js"></script>
+
+    <script type="text/javascript" src="../epc/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../epc/semantic.min.js"></script>
+
+    <script type="text/javascript" src="../epc/epc.min.js"></script>
+    <script type="text/javascript">$(".ui.dropdown").dropdown();</script>
+
+
     </center>
 </body>
 </html>
