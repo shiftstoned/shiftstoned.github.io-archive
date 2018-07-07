@@ -1,93 +1,188 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120926504-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120926504-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+  gtag('config', 'UA-120926504-1');
+</script> -->
 
-      gtag('config', 'UA-120926504-1');
-    </script>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Shiftstoned - Power Calculator - Guide</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <link rel="stylesheet" href="../semantic.min.css">
     <link rel="stylesheet" href="../epc.css">
-    <link href="guide.css" rel="stylesheet" type="text/css">
-  </head>
-  <body>
-    <div id="calculator-content"> <img id="background" src="../EternalThroneBackground.jpeg">
-      <div id="shiftstoned-guide-heading">
-        <div id="heading-top"> <a href="https://www.shiftstoned.com/"> <img id="shiftstoned-img" src="../shiftstoned.png"> </a> <a href="../"><img id="power-calculator-img" src="../power-calculator.png"></a> </div>
-        <div id="navigation-menu" class="ui dropdown">
-            <img src="../navigation-menu.png">
-            <div class="menu">
-                <div class="item">
-                    <a href="../epc/">
-                        POWER CALCULATOR
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="../epc/guide/">
-                        <div class="navigation-menu-indent">
-                            &bull;
-                        </div>
-                        Guide
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="../calendar/">
-                        COMMUNITY CALENDAR
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="../contact">
-                        CONTACT
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="..">
-                        HOME
-                    </a>
-                </div>
-            </div>
-        </div>
 
-        <div id="heading-page-top"></div>
+    <link href="../guide/guide.css" rel="stylesheet" type="text/css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+
+    input[type=text], select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        resize: vertical;
+    }
+
+    input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+    </style>
+
+
+</head>
+
+<body bgcolor="#17141D">
+        <img id="background" src="../EternalThroneBackground.jpeg">
+
+    <!-- <center><br><br><br><a href="../calendar"><img src="../images/shiftstonedsigils.png"></a> -->
+
+      <div id="shiftstoned-heading">
+          <div id="heading-top">
+              <a href="../../">
+                  <img id="shiftstoned-img" src="../shiftstoned.png">
+              </a>
+                <img id="power-calculator-img" src="../power-calculator.png">
+
+            <div id="calc-heading">
+                  <!-- <a href="../epc">&#9658; POWER CALCULATOR</a> -->
+                </div>
+                <!-- <div id="navigation-separator">
+                </div> -->
+
+              <div id="navigation-menu" class="ui dropdown">
+                  <img src="../navigation-menu.png">
+                  <div class="menu">
+                      <div class="item">
+                          <a href="../">
+                              POWER CALCULATOR
+                          </a>
+                      </div>
+                      <div class="item">
+                          <a href="../guide/">
+                              <div class="navigation-menu-indent">
+                                  &bull;
+                              </div>
+                              Guide
+                          </a>
+                      </div>
+                      <div class="item">
+                          <a href="../../calendar/">
+                              COMMUNITY CALENDAR
+                          </a>
+                      </div>
+                      <div class="item">
+                          <a href="../../contact">
+                              CONTACT
+                          </a>
+                      </div>
+                      <div class="item">
+                          <a href="../../">
+                              HOME
+                          </a>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          <div id="heading-page-top"></div>
       </div>
+
       <div id="guide_body">
 
-        <pg>
+        <!-- <pg> -->
+
+          <!-- <br><br>
+
           <a href="../">< Return to the Eternal Power Calculator</a>
-          <h1g>About the Eternal Power Calculator</h1g> You will gain a competitive edge
-          in <b>Eternal</b> by maximizing the chances of playing your cards on
-          curve. <br>
+
+          <h1g>About the Eternal Power Calculator</h1g>
+          You will gain a competitive edge in <b>Eternal</b> by maximizing the chances of playing your cards on curve. <br>
           <br>Getting under the hood and optimizing your deck's power base is
           the best way to ensure that you can play the cards you want, when you
           want to play them. <br>
           <br>
           The <b>Eternal Power Calculator</b> is a deck-building tool that
           visualizes your odds of drawing enough<b> Influence</b> and <b>Power</b>
-          based specifically on the cards found in your deck. <h1g>How it works</h1g>
+          based specifically on the cards found in your deck.
+
+          <h1g>How it works</h1g>
           Import a deck and the visualizer will display a graph showing the
           probability of meeting specific <strong>Influence</strong>
           requirements over a set number of turns. The first column represents
-          your opening hand when going first. <h1g><a name="chart" id="chart"></a>Charting
-            Influence</h1g> </pg>
-        <center><img src="images/ExampleJ.png" margin-bottom="0" margin-left="50o" width="800"></center>
-        <pg>In this example you can see that on Turn 2 you have a better than
-          90% chance of drawing the right <b>Influence</b> to play any card
-          with a cost of <img src="../icon-justice.png" alt="Justice" title="Justice"
+          your opening hand when going first.
 
-            style="width: 19px; height: 19px;">, namely <em><b>Vanquish</b></em>.
+          <h1g><a name="chart" id="chart"></a>Charting Influence</h1g> -->
+
+
+
+        <!-- </pg> -->
+
+        <center>
+          <img src="../guide/images/download.png" margin-bottom="0" margin-left="50o" height="0" width="800">
+        </center>
+
+        <pg>
+          <a href="../">< Return to the Eternal Power Calculator</a>
+
+          <h1g>About the Eternal Power Calculator</h1g>
+
+          You will gain a competitive edge in <b>Eternal</b> by maximizing the chances of playing your cards on curve. <br>
+          <br>Getting under the hood and optimizing your deck's power base is
+          the best way to ensure that you can play the cards you want, when you
+          want to play them. <br>
+          <br>
+          The <b>Eternal Power Calculator</b> is a deck-building tool that
+          visualizes your odds of drawing enough<b> Influence</b> and <b>Power</b>
+          based specifically on the cards found in your deck.
+
+          <h1g>How it works</h1g>
+
+          Import a deck and the visualizer will display a graph showing the
+          probability of meeting specific <strong>Influence</strong>
+          requirements over a set number of turns. The first column represents
+          your opening hand when going first.
+
+          <h1g><a name="chart" id="chart"></a>Charting
+            Influence</h1g>
+        </pg>
+
+
+          <center><img src="../guide/images/ExampleJ.png" margin-bottom="0" margin-left="50o" width="800"></center>
+
+          <pg>
+          In this example you can see that on Turn 2 you have a better than
+          90% chance of drawing the right <b>Influence</b> to play any card
+          with a cost of <img  src="../icon-justice.png" alt="Justice" title="Justice" style="width: 19px; height: 19px;">, namely <em><b>Vanquish</b></em>.
           Follow the curve to see that your chances only increase with each
           additional draw. <h2g>But what if you want to play <strong><em>Valkyrie
                 Enforcer</em></strong> on <strong>Turn 3</strong>?</h2g> </pg>
-        <center><img src="images/ExampleJJ.png" margin-bottom="0" width="800"></center>
+        <center><img src="../guide/images/ExampleJJ.png" margin-bottom="0" width="800"></center>
         <pg><br>
           <img src="../icon-justice.png" alt="Justice" title="Justice" style="width: 19px; height: 19px;"><img src="../icon-justice.png" alt="Justice" title="Justice" style="width: 19px; height: 19px;">
           is a higher Influence cost, so your chances decrease. <br>
@@ -98,7 +193,7 @@
           <h1g><a name="draws" id="draws"></a>Draws vs. Turns</h1g>
           Here the chart tells us that after 7 turns our odds of hitting <img src="../icon-fire.png" alt="Fire" title="Fire" style="width: 19px; height: 19px;"><img src="../icon-fire.png" alt="Fire" title="Fire" style="width: 19px; height: 19px;"><img src="../icon-fire.png" alt="Fire" title="Fire" style="width: 19px; height: 19px;"> to
           play <em>Icaria, the Liberator</em> are potentially as low as 70%.</pg>
-        <center><img src="images/ExampleJJJFFF.png" width="800"></center>
+        <center><img src="../guide/images/ExampleJJJFFF.png" width="800"></center>
         <pg> However - assuming you will play at least one aditional draw card such as <strong>Quarry</strong> before Turn 7 - your
           chances of meeting Icaria’s steep <img src="../icon-fire.png" alt="Fire"
 
@@ -150,7 +245,7 @@
           as <em><strong>Seek Power </strong></em>or the <em><strong>Strangers</strong></em>.
           It even accounts for <strong>Ultimates</strong>, Champion thresholds and other abilities
           that have a cost associated with them.&nbsp; </pg>
-        <center><img src="images/OddsTable.jpeg" width="800"></center>
+        <center><img src="../guide/images/OddsTable.jpeg" width="800"></center>
         <pg> <h1g><a name="not" id="not"></a>What is <em>not</em> accounted
             for?</h1g> The probabilities displayed by the <strong>Eternal Power
             Calculator</strong> are quite accurate and will help you gain a
@@ -160,8 +255,11 @@
           <br>
           These two factors influence the probabilities in different ways, and
           when combined they come close to balancing each other out - so the net
-          result is minimal. If you are interested to learn more, check out the <a href="expanded.html" target="_blank">expanded topic</a>.
-<!--
+          result is minimal.
+
+          <!-- If you are interested to learn more, check out the <a href="expanded.html" target="_blank">expanded topic</a>. -->
+
+
           <h2g>The Mulligan Phase</h2g> Deciding whether or
           not to keep your opening hand is a strategic decision in <strong>Eternal</strong>.
           If you choose to re-draw, your starting hand is guaranteed to include
@@ -189,7 +287,7 @@
 
             alt="Shadow" title="Shadow" style="width: 19px; height: 19px;"> on <strong>Turn
             1</strong> will be ever-so-slightly lower than what is represented
-          on the charts.  -->
+          on the charts.
 
           <h1g>What's next?</h1g><a href="../../contact/" target="_blank">Send feedback</a><span
 
@@ -214,16 +312,72 @@
           <br>
           <br>
         </pg></div>
-    </div>
+      </div>
 
-    <script type="text/javascript" src="../epc/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="../epc/semantic.min.js"></script>
 
-    <script type="text/javascript" src="../epc/epc.min.js"></script>
+      <center>
+
+
+        <!-- <form action="http://formspree.io/shiftstoned@gmail.com"><input type="email" name="_replyto"><textarea   name="body"></textarea><input type="submit" value="Send"></form> -->
+
+        <!-- <form action="https://formspree.io/shiftstoned@gmail.com"
+              method="POST">
+            <input type="text" name="name">
+            <input type="email" name="_replyto">
+            <input type="submit" value="Send">
+        </form> -->
+
+        <!-- <div class="container" bg="#000000"> -->
+
+          <!-- <form action="https://formspree.io/shiftstoned@gmail.com"
+                method="POST">
+              <input type="text" name="name">
+              <input type="email" name="_replyto">
+              <input type="submit" value="Send">
+          </form> -->
+
+          <!-- <form action="https://formspree.io/shiftstoned@gmail.com" method="POST">
+
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name.."> -->
+
+            <!-- <p>
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Your last name.."> -->
+
+            <!-- <p>
+            <label for="reply">email</label>
+            <input type="text" id="reply" name="_replyto" placeholder="Your email.."> -->
+
+            <!-- <label for="country">Country</label>
+            <select id="country" name="country">
+              <option value="australia">Australia</option>
+              <option value="canada">Canada</option>
+              <option value="usa">USA</option>
+            </select> -->
+
+            <!-- <p>
+            <label for="subject">Subject</label>
+            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+            <input type="submit" value="Submit">
+
+          </form> -->
+
+        <!-- </div> -->
+
+        <!-- <br><br>
+        <a href="http://www.papacapricorn.com" target="_blank"><img width="54" src="../images/capricorn.png"></a>
+
+         <br><br> -->
+
+    <script type="text/javascript" src="../jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../semantic.min.js"></script>
+
+    <script type="text/javascript" src="../epc.min.js"></script>
     <script type="text/javascript">$(".ui.dropdown").dropdown();</script>
 
 
-
-
-  </body>
+    </center>
+</body>
 </html>
