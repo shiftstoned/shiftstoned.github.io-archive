@@ -10,6 +10,17 @@ body {
     color: #E7E4E6;
 }
 
+h1c {
+  display: block;
+  color: #00000;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  width: 600px;
+  font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+
 h1g {
   display: block;
   color: #ffffff;
