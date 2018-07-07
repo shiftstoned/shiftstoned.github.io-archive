@@ -47,8 +47,8 @@
 
     .container {
         border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
+        /* background-color: #f2f2f2; */
+        padding: 0px;
     }
     </style>
 
@@ -56,7 +56,7 @@
 </head>
 
 <body bgcolor="#17141D">
-        <img id="background" src="contact_bg.png">
+        <img id="background" src="SecretPages.png">
 
     <!-- <center><br><br><br><a href="../calendar"><img src="../images/shiftstonedsigils.png"></a> -->
 
@@ -65,7 +65,7 @@
               <a href="../">
                   <img id="shiftstoned-img" src="../epc/shiftstoned.png">
               </a>
-                <img id="power-calculator-img" src="contact_header.png">
+                <img id="power-calculator-img" src="community_calendar.png">
 
             <div id="calc-heading">
                   <!-- <a href="../epc">&#9658; POWER CALCULATOR</a> -->
@@ -132,19 +132,19 @@
               <input type="submit" value="Send">
           </form> -->
 
-          <form action="https://formspree.io/shiftstoned@gmail.com" method="POST">
+          <!-- <form action="https://formspree.io/shiftstoned@gmail.com" method="POST">
 
             <label for="fname">First Name</label>
-            <input type="text" id="fname" name="firstname" placeholder="Your name..">
+            <input type="text" id="fname" name="firstname" placeholder="Your name.."> -->
 
             <!-- <p>
             <label for="lname">Last Name</label>
             <input type="text" id="lname" name="lastname" placeholder="Your last name.."> -->
 
-            <p>
+            <!-- <p>
             <label for="reply">email</label>
             <input type="text" id="reply" name="_replyto" placeholder="Your email..">
-
+ -->
             <!-- <label for="country">Country</label>
             <select id="country" name="country">
               <option value="australia">Australia</option>
@@ -152,13 +152,17 @@
               <option value="usa">USA</option>
             </select> -->
 
-            <p>
+            <!-- <p>
             <label for="subject">Subject</label>
             <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
 
             <input type="submit" value="Submit">
 
-          </form>
+          </form> -->
+
+            <div data-tockify-component="calendar" data-tockify-calendar="eternal"></div>
+            <script data-cfasync="false" data-tockify-script="embed" src="https://public.tockify.com/browser/embed.js"></script>
+
 
         </div>
 
