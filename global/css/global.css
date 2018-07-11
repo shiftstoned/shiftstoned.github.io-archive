@@ -846,3 +846,12 @@ pg {
     width: 1250px;
     min-height: 1350px;
 }
+
+#transparent_body {
+    margin-left: 40px;
+    background-color: #17141D;
+    border: 0px solid;
+    border-bottom: none;
+    width: 1250px;
+    min-height: 1350px;
+}
