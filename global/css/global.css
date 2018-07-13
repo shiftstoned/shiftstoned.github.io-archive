@@ -838,6 +838,16 @@ pg {
     width: 1250px;
 }
 
+margin_text_left {
+    margin-left: 30px;
+}
+
+margin_text_right {
+    margin-right: 30px;
+    float: right;
+}
+
+
 #guide_body {
     margin-left: 40px;
     background-color: #17141D;
