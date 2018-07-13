@@ -223,6 +223,196 @@
                       1</strong> will be ever-so-slightly lower than what is represented
                     on the charts. -->
 
+                    <pg>
+                        <h1g>Power Calculator Math</h1g>
+
+                        <p>
+                        You may be wondering how the power calculator computes
+                        probabilities.  In order to understand the math,
+                        we need to discuss
+                        <a href="https://en.wikipedia.org/wiki/Binomial_coefficient">
+                        binomial coefficients</a> and
+                        <a href="https://en.wikipedia.org/wiki/Hypergeometric_distribution">
+                        hypergeometric distributions</a>.
+
+                        <p>
+                        A binomial coeffient (sometimes referred to as
+                        "`n` choose `k`") is a way of computing the number of
+                        ways to select a subset of items from a larger
+                        collection.  In the context of a card game, we can
+                        use it to compute the number of different `n` card
+                        hands drawn from a `N` card deck.
+
+                        <p>
+                        `
+                        ((N),(n)) = (N!)/(n!(N-n)!)
+                        `
+
+                        <p>
+                        `N =` Cards in deck
+                        <br>
+                        `n =` Number of cards drawn
+
+                        <p>
+                        While `((N),(n))` will give us the number of different
+                        hands possible to draw, it doesn't directly give us any
+                        probabilities.  However, we can get the
+                        probability of drawing exactly `k` power cards from a
+                        deck containing `K` power cards (of `N` cards total)
+                        by dividing the number of possible hands containing
+                        `k` power cards by the number of total possible hands.
+                        This is referred to as a hypergeometric
+                        distribution.
+
+                        <p>
+                        `
+                        P(k) =
+                          (((K),(k))((N-K),(n-k))) /
+                          (((N),(n)))
+                        `
+
+                        <p>
+                        `K =` Power cards in deck
+                        <br>
+                        `k =` Power cards drawn
+                        <br>
+                        `N =` Total cards in deck
+                        <br>
+                        `n =` Total cards drawn
+
+                        <p>
+                        So, that's useful.  `P(k)` will give us the probability
+                        of drawing a hand of exactly `k` power cards.  However, 
+                        we usually care about the probability of drawing
+                        <em>at least</em> `k` power cards, rather than the
+                        probability of drawing exactly `k` power cards.  We
+                        can find the probability of drawing at least
+                        `k` power by adding up the probability values for
+                        every value of `k`, up to the maximum number of power
+                        cards.
+
+                        <p>
+                        `P(k >= T) = sum_(i=T)^(K) P(i)`
+
+                        <p>
+                        `K = ` Power cards in deck
+                        <br>
+                        `k = ` Power cards drawn
+                        <br>
+                        `T = ` Target power cards
+                        <br>
+                        `n = ` Total cards drawn
+
+                        <p>
+                        Okay, so now we know how to compute the probability
+                        of drawing enough power.  But what if we care about
+                        multiple kinds of influence?  As it turns out, we can
+                        generalize the hypergeometric distribution to compute
+                        probabilities when we care about multiple different
+                        card types drawn.  For example, fire influence drawn
+                        and time influence drawn.
+
+                        <p>
+                        `
+                        P(k_F,k_T) =
+                          (((K_F),(k_F))
+                          ((K_T),(k_T))
+                          ((N-K_F-K_T),
+                            (n-k_F-k_T)))
+                          /
+                          (((N),(n)))
+                        `
+
+                        <p>
+                        `K_F =` Fire influence cards in deck
+                        <br>
+                        `K_T =` Time influence cards in deck
+                        <br>
+                        `k_F =` Fire influence cards drawn
+                        <br>
+                        `k_T =` Time influence cards drawn
+                        <br>
+                        `N =` Total cards in deck
+                        <br>
+                        `n =` Total cards drawn
+
+                        <p>
+                        Again, this will give us the probability
+                        `P(k_F, k_T)` of an exact number of
+                        fire and time, but we usually care about drawing
+                        <em>at least</em> that much, so we'll need to 
+                        add together all the possible combinations of at
+                        least those target numbers.
+
+                        <p>
+                        `
+                        P(k_F>=T_F, k_T>=T_T) =
+                            sum_(i=T_F)^(K_F)
+                            sum_(j=T_T)^(K_T)
+                            P(i, j)
+                        `
+
+                        <p>
+                        Now we're getting somewhere!  However, the above math
+                        is still a simplified version of what the power
+                        calculator <em>actually</em> does.  All the above
+                        math assumes that individual cards provide one kind
+                        of influence, but not more than one kind of influence,
+                        or both power and influence.
+                        As we know, in reality, cards can provide multiple
+                        kinds of things:
+                        perhaps power <em>and</em> time influence,
+                        or power <em>and</em>
+                        time influence <em>and</em> fire influence.
+
+                        <p>
+                        In order to account for this, the Power Calculator
+                        first groups cards according to the sorts of
+                        resources they produce.
+                        After generating these groupings, it will enumerate
+                        all possible combinations of those grouping which
+                        &mdash; when combined &mdash; will generate enough
+                        power and influence to satisfy
+                        the target power and influence cost.  For each of
+                        those enumerated combinations, it will compute the
+                        probability of drawing that specific number of
+                        sources from each group.  Finally, it will sum
+                        those probability to find an overall probability
+                        of satisfying the target cost.
+
+                        <p>
+                        As an example, consider the case
+                        where we have a deck with three groups of
+                        power/influence sources:  time sigils (<tt>1T</tt>),
+                        fire sigils (<tt>1F</tt>), and additional power sources
+                        which provide both fire and time (<tt>1FT</tt>).
+
+                        Now, say we want to find the probability of being able
+                        to play a card costing <tt>2FT</tt>.  We can sum up the
+                        possible combination of grouped cards which will provide
+                        enough power and influence to satisfy the overall cost:
+                        
+                        <p>
+                        `
+                        P_(2FT) = {:
+                            (P(k_(1FT) >= 2, k_(1T) >= 0, k_(1F) >= 0)),
+                            (+),
+                            (P(k_(1FT) = 1, k_(1T) >= 1, k_(1F) >= 0)),
+                            (+),
+                            (P(k_(1FT) = 1, k_(1T) = 0, k_(1F) >= 1)),
+                            (+),
+                            (P(k_(1FT) = 0, k_(1T) >= 1, k_(1F) >= 1))
+                        :}
+                        `
+
+                        <p>
+                        Thus, the calculator will compute
+                        the probability for each specific combination
+                        of grouped cards which happens to satisfy the
+                        target cost, and then sum those probabilities
+                        into an the overall probability value.
+                    </pg>
+
                     <a name="next" id="next"><h1g>What's next?</h1g><a href="../../contact/" target="_blank">Send feedback</a><span
 
                       style="color: #81c3f4;"><span style="font-family: &quot;Open Sans ExtraBold&quot;,sans-serif;">:
@@ -251,9 +441,10 @@
                     <br>
                     <br>
                   </pg>
-
-
         </div>
+
+    <!--  MathJax is used to display formulas is "Power Calculator Math"  -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
     <script type="text/javascript" src="../../epc/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="../../epc/semantic.min.js"></script>
