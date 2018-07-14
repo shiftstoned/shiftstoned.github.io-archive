@@ -35,7 +35,10 @@
                 <a href="../../">
                     <img id="shiftstoned-img" src="../../global/images/shiftstoned.png">
                 </a>
-                <img id="power-calculator-img" src="../../global/images/power-calculator.png">
+
+                <a href="../">
+                    <img id="power-calculator-img" src="../../global/images/power-calculator.png">
+                </a>
 
                 <div id="navigation-menu" class="ui dropdown">
                     <img src="../../global/images/navigation-menu.png">
@@ -81,9 +84,9 @@
             <img src="../guide/images/download.png" margin-bottom="0" margin-left="50o" height="0" width="800">
           </center> -->
 
-          <margin_text_left><a href="../">&#9668;Return to the Eternal Power Calculator</a></margin_text_left>
+          <margin_text_left><a href="../">&#9668; Return to the Eternal Power Calculator</a></margin_text_left>
 
-          <margin_text_right><a href="../">Return to the Eternal Power Calculator &#9658;</a></margin_text_right>
+          <margin_text_right><a href="expanded.html">In-depth: Eternal Power Calculator Math &#9658;</a></margin_text_right>
 
             <pg>
                     <h1g>About the Eternal Power Calculator</h1g>
@@ -192,8 +195,12 @@
                     These two factors influence the probabilities in different ways, and
                     when combined they come close to balancing each other out - so the net
                     result is minimal.
+                    <br><br>
 
-                    If you are interested to learn more, check out the <a href="expanded.html">expanded topic</a>.
+                    For more on the math behind the <strong>Eternal Power Calculator</<a href="../"
+    >
+      strong>, check out the <a href="expanded.html">in-depth guide to calculations</a>.
+  </a>
 
 
                     <!-- <h2g>The Mulligan Phase</h2g> Deciding whether or
@@ -224,7 +231,7 @@
                       alt="Shadow" title="Shadow" style="width: 19px; height: 19px;"> on <strong>Turn
                       1</strong> will be ever-so-slightly lower than what is represented
                     on the charts. -->
-<!-- 
+<!--
                     <pg>
                         <h1g>Power Calculator Math</h1g>
 
@@ -284,7 +291,7 @@
 
                         <p>
                         So, that's useful.  `P(k)` will give us the probability
-                        of drawing a hand of exactly `k` power cards.  However, 
+                        of drawing a hand of exactly `k` power cards.  However,
                         we usually care about the probability of drawing
                         <em>at least</em> `k` power cards, rather than the
                         probability of drawing exactly `k` power cards.  We
@@ -342,7 +349,7 @@
                         Again, this will give us the probability
                         `P(k_F, k_T)` of an exact number of
                         fire and time, but we usually care about drawing
-                        <em>at least</em> that much, so we'll need to 
+                        <em>at least</em> that much, so we'll need to
                         add together all the possible combinations of at
                         least those target numbers.
 
@@ -393,7 +400,7 @@
                         to play a card costing <tt>2FT</tt>.  We can sum up the
                         possible combination of grouped cards which will provide
                         enough power and influence to satisfy the overall cost:
-                        
+
                         <p>
                         `
                         P_(2FT) = {:
