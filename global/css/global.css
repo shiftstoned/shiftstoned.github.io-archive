@@ -783,6 +783,15 @@ h1c {
   font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 
+h1g {
+  display: block;
+  color: #ffffff;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  width: 960px;
+  font: 48px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
 
 h1g {
   display: block;
