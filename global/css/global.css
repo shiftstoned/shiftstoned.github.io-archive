@@ -783,6 +783,16 @@ h1c {
   font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 
+subhead {
+  display: block;
+  color: #ffffff;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  width: 960px;
+  font: 20px Merriweather Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
 h0g {
   display: block;
   color: #ffffff;
@@ -790,8 +800,9 @@ h0g {
   margin-bottom: 7px;
   margin-top: 25px;
   width: 960px;
-  font: 48px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  font: 40px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
+
 
 h1g {
   display: block;
@@ -855,7 +866,6 @@ margin_text_right {
     margin-right: 30px;
     float: right;
 }
-
 
 #guide_body {
     margin-left: 40px;
