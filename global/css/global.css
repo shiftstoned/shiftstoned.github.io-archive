@@ -785,12 +785,12 @@ h1c {
 
 subhead {
   display: block;
-  color: #ffffff;
+  color: #81C3F4;
   margin: 50px auto;
   margin-bottom: 7px;
   margin-top: 25px;
   width: 960px;
-  font: 20px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  font: 20px Montserrat,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 
 h0g {
