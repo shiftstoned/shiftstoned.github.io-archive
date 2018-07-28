@@ -833,6 +833,37 @@ pg {
   line-height: 1.6;
 }
 
+list {
+  display: block;
+  width: 600px;
+  margin: 50px;
+  font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.6;
+}
+
+plainh {
+  display: block;
+  color: #ffffff;
+  border: 1px solid;
+  margin-left: 150px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-right: 350px;
+  font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+plain {
+  display: block;
+  border: 1px solid;
+  margin-left: 150px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-right: 350px;
+  color: #ffffff;
+  font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+
 /* #calculator-content {
     margin-left: auto;
     margin-right: auto;
