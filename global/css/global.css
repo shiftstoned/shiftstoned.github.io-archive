@@ -828,9 +828,44 @@ pg {
   display: block;
   color: #ffffff;
   width: 600px;
+  border: 0px solid;
   margin: 50px auto;
   font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
   line-height: 1.6;
+}
+
+
+global_header {
+  display: block;
+  color: #ffffff;
+  border: 0px solid;
+  margin-left: 325px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-right: 350px;
+  font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.2;
+}
+
+global_body {
+  display: block;
+  border: 10x solid;
+  margin-left: 325px;
+  width: 600px;
+  margin-bottom: 0px;
+  margin-top: 5px;
+  color: #ffffff;
+  font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.6;
+}
+
+try {
+    border: 10px solid white;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 80px;
+    background-color: lightblue;
 }
 
 /* #calculator-content {
