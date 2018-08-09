@@ -821,7 +821,8 @@ h2g {
   margin-bottom: 7px;
   margin-top: 25px;
   width: 600px;
-  font: 18px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  font: 18px Open Sans,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.4;
 }
 
 pg {
@@ -832,6 +833,11 @@ pg {
   margin: 50px auto;
   font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
   line-height: 1.6;
+}
+
+iq {
+  color: #81C3F4;
+
 }
 
 
