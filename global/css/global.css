@@ -151,9 +151,10 @@ body {
 }
 
 #global-content {
-    margin-left: auto;
+    margin-left: autox;
     margin-right: auto;
     width: 1290px;
+	border: 2x, solid;
 }
 
 #shiftstoned-heading {
@@ -803,6 +804,33 @@ h0g {
   font: 40px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 
+att {
+  display: block;
+  color: #ffffff;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 0px;
+  font: 40px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+ats {
+  display: block;
+  color: #81C3F4;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  font: 20px Montserrat,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+ath {
+  display: block;
+  color: #ffffff;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  width: 600px;
+  font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
 
 h1g {
   display: block;
@@ -825,19 +853,19 @@ h2g {
   line-height: 1.4;
 }
 
-pg {
+atsub {
   display: block;
   color: #ffffff;
-  width: 600px;
-  border: 0px solid;
   margin: 50px auto;
-  font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
-  line-height: 1.6;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  font: 18px Open Sans,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.4;
 }
+
 
 iq {
   color: #81C3F4;
-
 }
 
 
@@ -873,6 +901,25 @@ try {
     margin-left: 80px;
     background-color: lightblue;
 }
+
+pg {
+  display: block;
+  color: #666666;
+  width: 600px;
+  margin: 50px auto;
+  font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.6;
+}
+
+textcol {
+  display: block;
+  color: #ffffff;
+  width: 600px;
+  margin: 50px auto;
+  font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.6;
+}
+
 
 /* #calculator-content {
     margin-left: auto;
