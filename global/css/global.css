@@ -816,19 +816,18 @@ att {
 ats {
   display: block;
   color: #81C3F4;
-  margin: 50px auto;
-  margin-bottom: 7px;
-  margin-top: 25px;
+  margin: 0px auto;
+  margin-bottom: 0px;
+  margin-top: 0px;
   font: 20px Montserrat,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 
 ath {
   display: block;
   color: #ffffff;
-  margin: 50px auto;
-  margin-bottom: 7px;
-  margin-top: 25px;
-  width: 600px;
+  margin: 0px auto;
+  margin-bottom: 0px;
+  margin-top: 0px;
   font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 
@@ -850,15 +849,15 @@ h2g {
   margin-top: 25px;
   width: 600px;
   font: 18px Open Sans,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 atsub {
   display: block;
   color: #ffffff;
   margin: 50px auto;
-  margin-bottom: 7px;
-  margin-top: 25px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   font: 18px Open Sans,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
   line-height: 1.4;
 }
@@ -868,6 +867,17 @@ iq {
   color: #81C3F4;
 }
 
+global_header_home {
+  display: block;
+  color: #ffffff;
+  border: 0px solid;
+  margin-left: 325px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-right: 250px;
+  font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.2;
+}
 
 global_header {
   display: block;
@@ -904,7 +914,7 @@ try {
 
 pg {
   display: block;
-  color: #666666;
+  color: #ffffff;
   width: 600px;
   margin: 50px auto;
   font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
