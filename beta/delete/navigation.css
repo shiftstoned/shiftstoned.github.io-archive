@@ -1,0 +1,32 @@
+<div id="navigation-menu" class="ui dropdown">
+    <img src="../epc/navigation-menu.png">
+    <div class="menu">
+        <div class="item">
+            <a href="../epc/">
+                POWER CALCULATOR
+            </a>
+        </div>
+        <div class="item">
+            <a href="../epc/guide/">
+                <div class="navigation-menu-indent">
+                    &bull;
+                </div>
+                Guide
+            </a>
+        </div>
+        <div class="item">
+            <a href="../calendar/">
+                COMMUNITY CALENDAR
+            </a>
+        </div>
+        <div class="item">
+            <a href="../contact">
+                CONTACT
+            </a>
+        </div>
+        <div class="item">
+            <a href="..">
+                HOME
+            </a>
+        </div>
+    </div>
