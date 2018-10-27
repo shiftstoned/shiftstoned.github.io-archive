@@ -1,0 +1,74 @@
+* {
+  margin:0px;
+  padding:0px;
+}
+
+body {
+    background-color: #17141D;
+    font-family: 'Open Sans Condensed Bold', sans-serif;
+    font-size: 16px;
+    color: #E7E4E6;
+}
+
+h1g {
+  display: block;
+  color: #ffffff;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  width: 600px;
+  font: 30px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+h2g {
+  display: block;
+  color: #ffffff;
+  margin: 50px auto;
+  margin-bottom: 7px;
+  margin-top: 25px;
+  width: 600px;
+  font: 18px Open Sans Condensed Bold,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+pg {
+  display: block;
+  color: #ffffff;
+  width: 600px;
+  margin: 50px auto;
+  font: 15px Merriweather,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  line-height: 1.6;
+}
+
+/* #calculator-content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1290px;
+} */
+
+/* #shiftstoned-heading-guide {
+    margin-left: 40px;
+    height: 104px;
+    width: 1250px;
+} */
+
+#return-panel {
+    background-color: #533D4F;
+    border-bottom: 1px solid;
+    width: 15%;
+    height: 10px;
+}
+
+#shiftstoned-guide-heading {
+    margin-left: 40px;
+    height: 50px;
+    width: 1250px;
+}
+
+#guide_body {
+    margin-left: 40px;
+    background-color: #17141D;
+    border: 0px solid;
+    border-bottom: none;
+    width: 1250px;
+    min-height: 1350px;
+}

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120926504-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-120926504-1');
+</script>
+    
+    <title>Shiftstoned - Power Calculator</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="semantic.min.css">
+    <link rel="stylesheet" href="epc.css">
+</head>
+
+<body>
+    <!--
+        Pre-load all the influence icons symbols.
+        The graph drawing pulls the influence symbols from these elements.
+    -->
+    <div id="influence-icons">
+        <img id="icon-fire" src="icon-fire.png">
+        <img id="icon-time" src="icon-time.png">
+        <img id="icon-justice" src="icon-justice.png">
+        <img id="icon-primal" src="icon-primal.png">
+        <img id="icon-shadow" src="icon-shadow.png">
+    </div>
+
+    <!--  A dialog displayed when the "About" button is clicked  -->
+    <div id="about-modal" class="ui tiny modal">
+        <div class="header">About Shiftstoned Power Calculator</div>
+
+        <div class="actions">
+            <button class="ui positive right button">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!--  Dialog for importing a deck list  -->
+    <div id="import-modal" class="ui tiny modal">
+        <div class="header">
+            Paste a deck from Eternal
+        </div>
+
+        <div id="import-form" class="ui form modal-body">
+            <div class="field">
+                <label>Deck list</label>
+                <textarea id="import-modal-deck" rows="20"></textarea>
+            </div>
+
+            <!--  Syntax errors in the decklist are reported here  -->
+            <div class="ui label" id="import-validation-result">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button
+                    id="import-modal-import-button"
+                    class="ui positive right button">
+                IMPORT
+            </button>
+        </div>
+    </div>
+
+    <!--  Dialog for adding a new card  -->
+    <div id="add-card-modal" class="ui mini modal">
+        <div class="header">
+            Select a card
+        </div>
+
+        <div id="card-select" class="modal-body">
+            <!--  All card names are added by gatherCards in epc-ui.js  -->
+            <select
+                    id="add-card-dropdown"
+                    class="ui fluid search selection dropdown">
+                <option value="">Card</option>
+            </select>
+        </div>
+
+        <div class="actions">
+            <button
+                    id="add-card-modal-add-button"
+                    class="ui positive right button">
+                ADD
+            </button>
+        </div>
+    </div>
+
+    <!--  A dialog used to report syntax errors in the card list  -->
+    <div id="card-list-error-modal" class="ui small modal">
+        <div class="header">Card list error</div>
+
+        <div id="card-list-error-text" class="modal-body">
+        </div>
+
+        <div class="actions">
+            <button class="ui positive right button">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <div id="calculator-content">
+        <img id="background" src="EternalThroneBackground.jpeg">
+
+        <div id="shiftstoned-heading">
+            <div id="heading-top">
+                <a href="https://www.shiftstoned.com/">
+                    <img id="shiftstoned-img" src="shiftstoned.png">
+                </a>
+                <img id="power-calculator-img" src="power-calculator.png">
+            </div>
+            <div id="heading-page-top"></div>
+        </div>
+
+        <!--
+            The main body of the app, with an editable deck and the
+            graph or table.
+        -->
+        <div id="calculator-body">
+            <div id="influence-panel">
+                <div id="card-count-panel">
+                    <div id="card-count-number">
+                    </div>
+                    <div id="card-count-label">
+                        CARDS
+                    </div>
+                </div>
+
+                <div id="power-sources-panel">
+                    <div id="power-sources-number">
+                    </div>
+                    <div id="power-sources-label">
+                        POWER SOURCES
+                    </div>
+                </div>
+
+                <div id="fire-sources-panel">
+                    <img src="icon-fire.png">
+                    <div id="fire-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="time-sources-panel">
+                    <img src="icon-time.png">
+                    <div id="time-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="justice-sources-panel">
+                    <img src="icon-justice.png">
+                    <div id="justice-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="primal-sources-panel">
+                    <img src="icon-primal.png">
+                    <div id="primal-sources-number" class="influence-number">
+                    </div>
+                </div>
+
+                <div id="shadow-sources-panel">
+                    <img src="icon-shadow.png">
+                    <div id="shadow-sources-number" class="influence-number">
+                    </div>
+                </div>
+            </div>
+
+            <div id="deck-edit-panel">
+                <div id="deck-edit-buttons" class="actions">
+                    <button
+                            id="import-button" class="ui button">
+                        IMPORT
+                    </button>
+                    <div
+                            class="ui custom popup transition hidden">
+                        <strong>Greetings Huckleberry!</strong>
+                        <br>
+                        Import a deck to get started
+                    </div>
+
+                    <button
+                            id="export-button" class="ui button"
+                            data-position="top center"
+                            data-content="Deck copied to clipboard">
+                        EXPORT
+                    </button>
+
+                    <button id="about-button" class="ui right button">
+                        ABOUT
+                    </button>
+                </div>
+
+                <div id="deck-edit">
+                    <div id="deck-edit-rows">
+                    </div>
+                </div>
+
+                <div id="deck-edit-footer">
+                    <button id="add-card-button" class="ui button">
+                        ADD CARD
+                    </button>
+                </div>
+            </div>
+
+            <div id="charts-panel">
+                <!--  Buttons to switch between the table and the graph  -->
+                <div id="charts-menu">
+                    <div id="graph-menu-item" class="active">
+                        <img src="influence-graph-menu.png">
+                    </div>
+                    <div id="table-menu-item" class="">
+                        <img src="power-odds-table-menu.png">
+                    </div>
+                </div>
+
+                 <!-- <div id="charts-heading">
+                </div> -->
+
+                HELLO!!!!!                HELLO!!!!!                HELLO!!!!!                HELLO!!!!!                HELLO!!!!!
+
+           </div>
+    </div>
+
+    <!--
+
+        A list of all possible Eternal cards
+
+        See epc-deck.js for a description of the card list format.
+
+    -->
+
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="semantic.min.js"></script>
+
+
+    <script type="text/javascript" src="epc.min.js"></script>
+
+
+    <script type="text/javascript">
+        var graphStyle;
+
+        graphStyle = {
+            marginLeft: 64,
+            marginRight: 48,
+            marginBottom: 72,
+            fontSize: 18,
+            iconSize: 30,
+            font: "'Open Sans Condensed Bold', sans-serif",
+            textColor: "rgb(231, 228, 230)",
+            borderColor: "rgb(192, 192, 192)",
+            backgroundColor: "rgb(23, 20, 29)",
+            interiorLineColor: "rgb(67, 67, 67)",
+
+            fireColorSolid: "rgb(204, 0, 0)",
+            fireColorTranslucent: "rgba(204, 0, 0, 0.3)",
+            timeColorSolid: "rgb(241, 194, 50)",
+            timeColorTranslucent: "rgba(241, 194, 50, 0.3)",
+            justiceColorSolid: "rgb(106, 168, 79)",
+            justiceColorTranslucent: "rgba(106, 168, 79, 0.3)",
+            primalColorSolid: "rgb(60, 120, 216)",
+            primalColorTranslucent: "rgba(60, 120, 216, 0.3)",
+            shadowColorSolid: "rgb(166, 77, 121)",
+            shadowColorTranslucent: "rgba(166, 77, 121, 0.3)"
+        };
+
+        buildEpcUI(graphStyle);
+    </script>
+</body>
+
+</html>
