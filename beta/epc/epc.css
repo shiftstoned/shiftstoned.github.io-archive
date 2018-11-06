@@ -409,10 +409,15 @@ body {
 
 .deck-edit-header,
 .deck-edit-footer {
-    width: 245px;
-    margin: 30px;
+    margin: 30px 15px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.help-icon {
+    height: 18px;
+    width: 18px;
 }
 
 .deck-edit-header .button,
@@ -554,7 +559,7 @@ body {
     margin: 40px 0px 0px 40px;
 }
 
-.menu-help-icon {
+.output-tab-help-icon {
     float: right;
     margin: 40px 40px 0px 0px;
 }
