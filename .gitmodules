@@ -1,3 +1,4 @@
 [submodule "_epc"]
 	path = _epc
 	url = https://github.com/matt-kimball/epc
+  ignore = dirty
