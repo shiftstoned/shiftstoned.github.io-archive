@@ -216,6 +216,16 @@ body {
     height: 74px;
 }
 
+#deck-title {
+  font-size: 45px;
+  line-height: 74px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Open Sans Condensed Bold', sans-serif;
+  max-height: 74px;
+}
+
 #calculator-body-footer {
     clear: both;
 }
