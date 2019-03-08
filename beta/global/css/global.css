@@ -1006,6 +1006,7 @@ hr {
     ". resources ."
     ". articles ."
     ". footer .";
+  max-width: 100vw;
 }
 
 #header {
@@ -1040,6 +1041,7 @@ hr {
 
 .article_title {
   grid-area: article_title;
+  text-align: center;
 }
 
 .article_excerpt {
