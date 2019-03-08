@@ -1026,4 +1026,32 @@ hr {
 
 .article {
   display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "article_image"
+    "article_title"
+    "article_excerpt";
+  grid-gap: 5rem;
+}
+
+.article_image {
+  grid-area: article_image;
+}
+
+.article_title {
+  grid-area: article_title;
+}
+
+.article_excerpt {
+  grid-area: article_excerpt;
+}
+
+/*Redo grid when on Desktop*/
+@media only screen and (min-width: 900px) {
+  .article {
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+      "article_image article_title"
+      "article_image article_excerpt";
+  }
 }
