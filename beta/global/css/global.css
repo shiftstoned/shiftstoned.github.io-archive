@@ -978,7 +978,7 @@ margin_text_right {
   border: 0px solid;
   border-bottom: none;
   /*width: 1250px;*/
-  min-height: 1350px;
+  /*min-height: 1350px;*/
 }
 
 #transparent_body {
@@ -991,15 +991,15 @@ margin_text_right {
 
 /* Pichuplayer */
 hr {
-  margin-top: 0px;
-  margin-left: 125px;
-  width: 1000px;
+  margin-top: 3px;
+  margin-bottom: 7px;
+  width: 100%;
   border: 1px solid #333333;
 }
 
 #wrapper {
   display: grid;
-  grid-template-columns: 2em 1fr 2em;
+  grid-template-columns: 5rem 1fr 5rem;
   grid-template-areas:
     ". . ."
     ". header ."
@@ -1011,6 +1011,7 @@ hr {
 
 #header {
   grid-area: header;
+  padding: 20px;
 }
 
 #resources {
@@ -1023,6 +1024,7 @@ hr {
 
 #footer {
   grid-area: footer;
+  padding: 20px;
 }
 
 .article {
@@ -1032,11 +1034,14 @@ hr {
     "article_image"
     "article_title"
     "article_excerpt";
-  grid-gap: 5rem;
+  grid-gap: 1rem;
+  border-bottom: 2px solid #333333;
+  padding: 20px;
 }
 
 .article_image {
   grid-area: article_image;
+  place-self: center;
 }
 
 .article_title {
@@ -1046,6 +1051,7 @@ hr {
 
 .article_excerpt {
   grid-area: article_excerpt;
+  text-align: center;
 }
 
 /*Redo grid when on Desktop*/
@@ -1055,5 +1061,17 @@ hr {
     grid-template-areas:
       "article_image article_title"
       "article_image article_excerpt";
+  }
+
+  .article_title {
+    text-align: left;
+  }
+
+  .article_excerpt {
+    text-align: left;
+  }
+
+  #epc {
+    padding-right: 20px;
   }
 }
