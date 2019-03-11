@@ -7,7 +7,7 @@
   <title>Shiftstoned - Eternal Timeline</title>
   <meta name="description" content="Shiftstoned - Eternal Timeline">
   <meta name="author" content="Shiftstoned">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="css/styles.css?v=1.0">
 
 </head>
@@ -16,7 +16,28 @@
 
 <center>
   
-<iframe onmousewheel="" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" style="border-width:0;" id="tl-timeline-iframe" width="900" height="480" src="https://www.tiki-toki.com/timeline/embed/1128699/7269654127/"></iframe>
+<iframe onmousewheel="" frameborder="0" style="border-width:0;" id="tl-timeline-iframe" width="100%" height="100%" src="https://www.tiki-toki.com/timeline/embed/1128699/7269654127/"></iframe>
+
+  <script>
+  $('#tl-timeline-iframe').attr('height', $(window).height());
+
+$(window).resize( function() {
+	$('#tl-timeline-iframe').attr('height', $(window).height());
+});
+
+
+var resizeIframe = function() {
+	$('#tl-timeline-iframe').attr('height', $(window).height());
+	$('#tl-timeline-iframe').attr('width', $(window).width());
+}
+
+resizeIframe();
+
+$(window).resize( function() {
+	resizeIframe();
+});
+</script>
+  
 <script type="text/javascript">
 if (window.postMessage) {
 var tlMouseupFunc = function() {
@@ -33,6 +54,7 @@ window.attachEvent("onmouseup", tlMouseupFunc);
 }
 }
 </script>
+
 
 </center>
    
