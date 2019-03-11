@@ -1079,3 +1079,8 @@ hr {
     padding-right: 20px;
   }
 }
+
+.article_image > a > img,
+.article_image > a > video {
+  width: 250px;
+}
