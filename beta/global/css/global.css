@@ -1047,14 +1047,12 @@ hr {
 
 .article_title {
   grid-area: article_title;
-  text-align: center;
   font: 30px Open Sans Condensed Bold, "Courier New", "DejaVu Sans Mono",
     "Bitstream Vera Sans Mono", monospace;
 }
 
 .article_excerpt {
   grid-area: article_excerpt;
-  text-align: center;
   font: 15px Merriweather, "Courier New", "DejaVu Sans Mono",
     "Bitstream Vera Sans Mono", monospace;
 }
