@@ -1037,7 +1037,7 @@ hr {
     ". article_excerpt .";
   grid-gap: 1rem;
   border-bottom: 2px solid #333333;
-  padding: 20px;
+  padding: 30px;
 }
 
 .article_image {
@@ -1055,6 +1055,9 @@ hr {
   grid-area: article_excerpt;
   font: 15px Merriweather, "Courier New", "DejaVu Sans Mono",
     "Bitstream Vera Sans Mono", monospace;
+  line-height: 1.6;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 /*Redo grid when on Desktop*/
