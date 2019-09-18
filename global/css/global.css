@@ -126,6 +126,7 @@ textarea {
 
 a {
     color: #81C3F4;
+    text-decoration: none;
     font-family: 'Open Sans ExtraBold', sans-serif;
 }
 
