@@ -237,7 +237,7 @@ body {
 
 #background {
     position: fixed;
-    width: 150%;
+    width: 140%;
     z-index: -1;
     /* top: -100px; */
     left: 0px;
