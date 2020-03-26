@@ -101,6 +101,18 @@ textarea {
     margin: 16px;
 }
 
+.ui.buttons .button:first-child {
+    border-left: 1px solid;
+}
+
+.ui.buttons .button {
+    border-right: none;
+}
+
+.ui.buttons .button:last-child {
+    border-right: 1px solid;
+}
+
 .ui.button, .ui.button.positive {
     background-color: #2E2C3D;
     color: #FFFFFF;
@@ -124,6 +136,19 @@ textarea {
     font-size: 18px;
     text-align: center;
 }
+
+.ui.popup.transparent {
+    background-color: transparent;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin: 0 !important;
+    padding: 0;
+}
+.ui.popup.transparent:before {
+    display: none;
+}
+
 
 .ui.popup h1 {
     font-family: 'Merriweather', serif;
@@ -230,6 +255,11 @@ body {
     clear: both;
 }
 
+.help {
+    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 10px;
+}
 
 /*
     Heading elements
@@ -419,15 +449,10 @@ body {
 
 .deck-edit-header,
 .deck-edit-footer {
-    margin: 30px 15px;
+    margin: 30px 15px !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.help-icon {
-    height: 18px;
-    width: 18px;
 }
 
 .deck-edit-header .button,
@@ -446,12 +471,21 @@ body {
     width: 38px;
 }
 
+.deck-edit-header #ewc-button {
+    width: 44px;
+}
+
 .deck-edit-footer .button {
     width: 118px;
 }
 
 #link-button img {
     width: 18px;
+    height: 18px;
+}
+
+#ewc-button img {
+    width: 24px;
     height: 18px;
 }
 
