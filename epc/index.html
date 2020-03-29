@@ -26,7 +26,7 @@
 -->
 
 <html lang="en">
-  <head>
+<head>
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,10 +46,10 @@
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120926504-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-120926504-1');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-120926504-1');
     </script>
 
 
@@ -63,497 +63,507 @@
 </head>
 
 <body>
-    <!--
-        Pre-load all the influence icons symbols.
-        The graph drawing pulls the influence symbols from these elements.
-    -->
-    <div id="influence-icons">
-        <img id="icon-fire" src="icon-fire.png">
-        <img id="icon-time" src="icon-time.png">
-        <img id="icon-justice" src="icon-justice.png">
-        <img id="icon-primal" src="icon-primal.png">
-        <img id="icon-shadow" src="icon-shadow.png">
-    </div>
+<!--
+    Pre-load all the influence icons symbols.
+    The graph drawing pulls the influence symbols from these elements.
+-->
+<div id="influence-icons">
+    <img id="icon-fire" src="icon-fire.png">
+    <img id="icon-time" src="icon-time.png">
+    <img id="icon-justice" src="icon-justice.png">
+    <img id="icon-primal" src="icon-primal.png">
+    <img id="icon-shadow" src="icon-shadow.png">
+</div>
 
-    <!--  A dialog displayed when the "About" button is clicked  -->
-    <div id="about-modal" class="ui tiny modal">
-        <div class="header">About Shiftstoned Power Calculator</div>
+<!--  A dialog displayed when the "About" button is clicked  -->
+<div id="about-modal" class="ui tiny modal">
+    <div class="header">About Shiftstoned Power Calculator</div>
 
-        <div id="about-text" class="modal-body">
+    <div id="about-text" class="modal-body">
 
-            <p>
+        <p>
             You will gain a competitive edge in <b>Eternal</b> by maximizing the chances of playing your cards on curve.
 
-            <p>
+        <p>
             Getting under the hood and optimizing your deck's power base is the best way to ensure that you can play the cards you want, when you want to play them.
 
-            <p>
+        <p>
             The <b>Eternal Power Calculator</b> is a deck-building tool that visualizes your odds of drawing enough <b>Influence</b> and <b>Power</b> based specifically on the cards found in your deck.
 
-            <p>
+        <p>
             Select the <b>Import</b> button and paste a deck from <b>Eternal</b> to get started. Or start from scratch by adding a card.
 
-            <p>
+        <p>
             Want to learn more?
-            <ul>
-              <li><a href="guide/index.html" target="_blank">How it works</a>
-              <li><a href="guide/index.html#chart" target="_blank">Charting Influence</a>
-              <li><a href="guide/index.html#draws" target="_blank">Draws vs. Turns</a>
-              <li><a href="guide/index.html#table" target="_blank">Power Odds Table</a>
-              <li><a href="guide/index.html#not" target="_blank">What is NOT accounted for?</a>
-              <li><a href="guide/index.html#next" target="_blank">What's next?</a>
+        <ul>
+            <li><a href="guide/index.html" target="_blank">How it works</a>
+            <li><a href="guide/index.html#chart" target="_blank">Charting Influence</a>
+            <li><a href="guide/index.html#draws" target="_blank">Draws vs. Turns</a>
+            <li><a href="guide/index.html#table" target="_blank">Power Odds Table</a>
+            <li><a href="guide/index.html#not" target="_blank">What is NOT accounted for?</a>
+            <li><a href="guide/index.html#next" target="_blank">What's next?</a>
 
-            </ul>
+        </ul>
 
-            <p>
+        <p>
             For more on the math behind the <strong>Eternal Power Calculator</strong>, check out the <a href="guide/expanded.html" target="_blank">in-depth guide to calculations</a>.
 
-            <p>
+        <p>
             The original source code for Eternal Power Calculator is
             <a href="https://github.com/matt-kimball/epc" target="_blank">available
-            on GitHub</a>.
+                on GitHub</a>.
+    </div>
+
+    <div class="actions">
+        <button class="ui positive right button">
+            OK
+        </button>
+    </div>
+</div>
+
+<!--  Dialog for importing a deck list  -->
+<div id="import-modal" class="ui tiny modal">
+    <div class="header">
+        Paste a deck from Eternal
+    </div>
+
+    <div id="import-form" class="ui form modal-body">
+        <div class="field">
+            <label>Deck list</label>
+            <textarea id="import-modal-deck" rows="20"></textarea>
         </div>
 
-        <div class="actions">
-            <button class="ui positive right button">
-                OK
-            </button>
+        <!--  Syntax errors in the decklist are reported here  -->
+        <div class="ui label" id="import-validation-result">
         </div>
     </div>
 
-    <!--  Dialog for importing a deck list  -->
-    <div id="import-modal" class="ui tiny modal">
-        <div class="header">
-            Paste a deck from Eternal
-        </div>
+    <div class="actions">
+        <button
+            id="import-modal-import-button"
+            class="ui positive right button">
+            IMPORT
+        </button>
+    </div>
+</div>
 
-        <div id="import-form" class="ui form modal-body">
-            <div class="field">
-                <label>Deck list</label>
-                <textarea id="import-modal-deck" rows="20"></textarea>
-            </div>
-
-            <!--  Syntax errors in the decklist are reported here  -->
-            <div class="ui label" id="import-validation-result">
-            </div>
-        </div>
-
-        <div class="actions">
-            <button
-                    id="import-modal-import-button"
-                    class="ui positive right button">
-                IMPORT
-            </button>
-        </div>
+<!--  Dialog for adding a new card  -->
+<div id="add-card-modal" class="ui mini modal">
+    <div class="header">
+        Select a card
     </div>
 
-    <!--  Dialog for adding a new card  -->
-    <div id="add-card-modal" class="ui mini modal">
-        <div class="header">
-            Select a card
-        </div>
-
-        <div id="card-select" class="modal-body">
-            <!--  All card names are added by gatherCards in epc-ui.js  -->
-            <select
-                    id="add-card-dropdown"
-                    class="ui fluid search selection dropdown">
-                <option value="">Card</option>
-            </select>
-        </div>
-
-        <div class="actions">
-            <button
-                    id="add-card-modal-add-button"
-                    class="ui positive right button">
-                ADD
-            </button>
-        </div>
+    <div id="card-select" class="modal-body">
+        <!--  All card names are added by gatherCards in epc-ui.js  -->
+        <select
+            id="add-card-dropdown"
+            class="ui fluid search selection dropdown">
+            <option value="">Card</option>
+        </select>
     </div>
 
-    <!--  Dialog for adding a market card  -->
-    <div id="add-market-card-modal" class="ui mini modal">
-        <div class="header">
-            Select a card
-        </div>
+    <div class="actions">
+        <button
+            id="add-card-modal-add-button"
+            class="ui positive right button">
+            ADD
+        </button>
+    </div>
+</div>
 
-        <div id="market-card-select" class="modal-body">
-            <!--  All card names are added by gatherCards in epc-ui.js  -->
-            <select
-                    id="add-market-card-dropdown"
-                    class="ui fluid search selection dropdown">
-                <option value="">Card</option>
-            </select>
-        </div>
-
-        <div class="actions">
-            <button
-                    id="add-market-card-modal-add-button"
-                    class="ui positive right button">
-                ADD
-            </button>
-        </div>
+<!--  Dialog for adding a market card  -->
+<div id="add-market-card-modal" class="ui mini modal">
+    <div class="header">
+        Select a card
     </div>
 
-
-    <!--  A dialog used to report syntax errors in the card list  -->
-    <div id="error-modal" class="ui small modal">
-        <div id="error-title" class="header">Error</div>
-
-        <div id="error-text" class="modal-body">
-        </div>
-
-        <div class="actions">
-            <button class="ui positive right button">
-                OK
-            </button>
-        </div>
+    <div id="market-card-select" class="modal-body">
+        <!--  All card names are added by gatherCards in epc-ui.js  -->
+        <select
+            id="add-market-card-dropdown"
+            class="ui fluid search selection dropdown">
+            <option value="">Card</option>
+        </select>
     </div>
 
-    <div id="calculator-content">
-        <img id="background" style="margin-top: 0px; margin-left: -80px;" src="EremotBG.jpeg">
-        <div id="shiftstoned-heading">
-            <div id="heading-top">
-                <a href="../">
-                    <img id="shiftstoned-img" src="shiftstoned.png">
-                </a>
-                <a href="../epc/"><img id="power-calculator-img" src="power-calculator.png"></a>
+    <div class="actions">
+        <button
+            id="add-market-card-modal-add-button"
+            class="ui positive right button">
+            ADD
+        </button>
+    </div>
+</div>
 
-                <div id="about-heading">
-                    ABOUT
-                </div>
-                <div id="navigation-separator">
-                </div>
 
-                <div id="navigation-menu" class="ui dropdown">
-                    <img src="navigation-menu.png">
-                    <div class="menu">
-                        <div class="item">
-                            <a href="../epc/">
-                                POWER CALCULATOR
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../epc/guide/">
-                                <div class="navigation-menu-indent">
-                                    &bull;
-                                </div>
-                                Guide
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../calendar/">
-                                COMMUNITY CALENDAR
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../articles/">
-                                ARTICLES
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../contact">
-                                CONTACT
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="..">
-                                HOME
-                            </a>
-                        </div>
+<!--  A dialog used to report syntax errors in the card list  -->
+<div id="error-modal" class="ui small modal">
+    <div id="error-title" class="header">Error</div>
+
+    <div id="error-text" class="modal-body">
+    </div>
+
+    <div class="actions">
+        <button class="ui positive right button">
+            OK
+        </button>
+    </div>
+</div>
+
+<div id="calculator-content">
+    <img id="background" style="margin-top: 0px; margin-left: -80px;" src="EremotBG.jpeg">
+    <div id="shiftstoned-heading">
+        <div id="heading-top">
+            <a href="../">
+                <img id="shiftstoned-img" src="shiftstoned.png">
+            </a>
+            <a href="../epc/"><img id="power-calculator-img" src="power-calculator.png"></a>
+
+            <div id="about-heading">
+                ABOUT
+            </div>
+            <div id="navigation-separator">
+            </div>
+
+            <div id="navigation-menu" class="ui dropdown">
+                <img src="navigation-menu.png">
+                <div class="menu">
+                    <div class="item">
+                        <a href="../epc/">
+                            POWER CALCULATOR
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../epc/guide/">
+                            <div class="navigation-menu-indent">
+                                &bull;
+                            </div>
+                            Guide
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../calendar/">
+                            COMMUNITY CALENDAR
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../articles/">
+                            ARTICLES
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../contact">
+                            CONTACT
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="..">
+                            HOME
+                        </a>
                     </div>
                 </div>
-
             </div>
-            <div id="heading-page-top"></div>
+
         </div>
-
-        <!--
-            The main body of the app, with an editable deck and the
-            graph or table.
-        -->
-        <div id="calculator-body">
-            <div id="influence-panel">
-                <div id="card-count-panel">
-                    <div id="card-count-number">
-                    </div>
-                    <div id="card-count-label">
-                        CARDS
-                    </div>
-                </div>
-
-                <div id="power-sources-panel">
-                    <div id="power-sources-number">
-                    </div>
-                    <div id="power-sources-label">
-                        POWER SOURCES
-                    </div>
-                </div>
-
-                <div id="fire-sources-panel">
-                    <img src="icon-fire.png">
-                    <div id="fire-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="time-sources-panel">
-                    <img src="icon-time.png">
-                    <div id="time-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="justice-sources-panel">
-                    <img src="icon-justice.png">
-                    <div id="justice-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="primal-sources-panel">
-                    <img src="icon-primal.png">
-                    <div id="primal-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="shadow-sources-panel">
-                    <img src="icon-shadow.png">
-                    <div id="shadow-sources-number" class="influence-number">
-                    </div>
-                </div>
-            </div>
-
-            <div id="deck-edit-panel">
-                <div id="deck-edit-header" class="deck-edit-header" class="actions">
-                    <button
-                            id="import-button" class="ui button pad-right">
-                        IMPORT
-                    </button>
-                    <div
-                            class="ui custom popup transition hidden">
-                        <h1>Greetings Huckleberry!</h1>
-                        Import or add a deck to get started
-                    </div>
-
-                    <button
-                            id="export-button" class="ui button pad-right"
-                            data-position="top center"
-                            data-content="Deck copied to clipboard">
-                        EXPORT
-                    </button>
-
-                    <button
-                            id="link-button" class="ui button"
-                            data-position="top center"
-                            data-content="Link copied to clipboard">
-                        <img src="link.svg">
-                    </button>
-
-                    <img class="help-icon"
-                        src="menu-help-icon.png" float="left">
-                    <div class="ui popup menu-help">
-                        IMPORT or EXPORT your deck here. Use  <img src="link.svg" width="19" border="1"style="border-radius: 4px; background-color: #27252D; border: solid .75px #FFFFFF; padding: 4px;"> to SHARE your deck with a unique URL.
-                    </div>
-                </div>
-
-                <div id="deck-edit" class="deck-edit">
-                    <div id="deck-edit-power-title"
-                         class="deck-edit-section">
-                        POWER BASE
-                    </div>
-                    <div id="deck-edit-power-rows">
-                    </div>
-
-                    <div id="deck-edit-nonpower-title"
-                         class="deck-edit-section">
-                        MAIN DECK
-                        <div class="deck-edit-section-description">
-                            Additional power sources highlighted
-                        </div>
-                    </div>
-                    <div id="deck-edit-nonpower-rows">
-                    </div>
-                </div>
-
-                <div id="deck-edit-footer" class="deck-edit-footer">
-                    <button id="add-card-button" class="ui button pad-right">
-                        ADD CARD
-                    </button>
-
-                    <button id="clear-button" class="ui button"
-                            data-position="top center"
-                            data-content="Deck cleared">
-                        CLEAR
-                    </button>
-                </div>
-
-                <div id="market-edit" class="deck-edit">
-                    <div id="deck-edit-market-title"
-                         class="deck-edit-section">
-                        MARKET
-                    </div>
-                    <div id="deck-edit-market-rows">
-                    </div>
-                </div>
-
-                <div id="market-edit-footer" class="deck-edit-footer">
-                    <button id="add-market-card-button" class="ui button pad-right">
-                        ADD CARD
-                    </button>
-
-                    <button id="clear-market-button" class="ui button"
-                            data-position="top center"
-                            data-content="Market cleared">
-                        CLEAR
-                    </button>
-                </div>
-            </div>
-
-            <div id="charts-panel">
-                <!--  Buttons to switch between the table and the graph  -->
-                <div id="charts-menu">
-                    <div id="graph-menu-item" class="menu-item active">
-                        <img id="influence-graph-menu-title"
-                            class="menu-title"
-                            src="influence-graph-menu.png">
-                        <img class="output-tab-help-icon help-icon"
-                            src="menu-help-icon.png">
-                        <div class="ui popup menu-help">
-                            Charts the odds (0-100%) of meeting
-                            desired Influence costs based on number
-                            of draws.
-                        </div>
-                    </div>
-                    <div id="table-menu-item" class="menu-item">
-                        <img id="power-odds-table-menu-title"
-                            class="menu-title"
-                            src="power-odds-table-menu.png">
-                        <img class="output-tab-help-icon help-icon"
-                            src="menu-help-icon.png">
-                        <div class="ui popup menu-help">
-                            Tabulates the odds (0-100%) of meeting
-                            desired Influence <em>and</em>
-                            Power costs based on number of draws (0-20).
-                        </div>
-                    </div>
-                </div>
-
-                <div id="charts-heading">
-                  <h1 id="deck-title" contenteditable=true></h1>
-                </div>
-
-                <div id="power-table-container">
-                    <div id="power-table-loader" class="ui loader">
-                    </div>
-
-                    <!--
-                        The table of costs for the odds table
-                        is generated here.
-                    -->
-                    <div id="power-table-cost-div">
-                    </div>
-
-                    <!--  The table of draw odds is generated here  -->
-                    <div id="power-table-odds-div">
-                    </div>
-                </div>
-
-                <div id="power-graph-container">
-                    <!-- The graph of power and influence is generated here  -->
-                    <div id="power-graph-div">
-                    </div>
-
-                    <div id="graph-y-label">
-                        PROBABILITY
-                    </div>
-                    <div id="graph-x-label">
-                        TURNS (<a href="guide/index.html#draws" target="_blank">ONE DRAW PER TURN*</a>)
-                    </div>
-
-                    <div id="power-type-panel">
-                        <div class="power-type-item">
-                            <img src="undepleted.svg">
-                            <span class="power-type-label">
-                                UNDEPLETED:
-                            </span>
-                            <span class="power-type-count" tag="undepleted">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="conditional.svg">
-                            <span class="power-type-label">
-                                CONDITIONAL:
-                            </span>
-                            <span class="power-type-count" tag="conditional">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="depleted.svg">
-                            <span class="power-type-label">
-                                DEPLETED:
-                            </span>
-                            <span class="power-type-count" tag="depleted">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="monument.svg">
-                            <span class="power-type-label">
-                                MONUMENTS:
-                            </span>
-                            <span class="power-type-count" tag="monument">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="crest.svg">
-                            <span class="power-type-label">
-                                CRESTS:
-                            </span>
-                            <span class="power-type-count" tag="crest">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="waystone.svg">
-                            <span class="power-type-label">
-                                WAYSTONES:
-                            </span>
-                            <span class="power-type-count" tag="waystone">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="standard.svg">
-                            <span class="power-type-label">
-                                STANDARDS:
-                            </span>
-                            <span class="power-type-count" tag="standard">
-                            </span>
-                        </div>
-
-                        <div id="power-type-panel-footer">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="calculator-body-footer">
-            </div>
-        </div>
+        <div id="heading-page-top"></div>
     </div>
 
     <!--
-
-        A list of all possible Eternal cards
-
-        See epc-deck.js for a description of the card list format.
-
+        The main body of the app, with an editable deck and the
+        graph or table.
     -->
-    <script id="card-list" type="text/plain">
+    <div id="calculator-body">
+        <div id="influence-panel">
+            <div id="card-count-panel">
+                <div id="card-count-number">
+                </div>
+                <div id="card-count-label">
+                    CARDS
+                </div>
+            </div>
+
+            <div id="power-sources-panel">
+                <div id="power-sources-number">
+                </div>
+                <div id="power-sources-label">
+                    POWER SOURCES
+                </div>
+            </div>
+
+            <div id="fire-sources-panel">
+                <img src="icon-fire.png">
+                <div id="fire-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="time-sources-panel">
+                <img src="icon-time.png">
+                <div id="time-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="justice-sources-panel">
+                <img src="icon-justice.png">
+                <div id="justice-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="primal-sources-panel">
+                <img src="icon-primal.png">
+                <div id="primal-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="shadow-sources-panel">
+                <img src="icon-shadow.png">
+                <div id="shadow-sources-number" class="influence-number">
+                </div>
+            </div>
+        </div>
+
+        <div id="deck-edit-panel">
+            <div id="deck-edit-header" class="deck-edit-header ui buttons actions">
+                <button
+                    id="import-button" class="ui button">
+                    IMPORT
+                </button>
+                <div
+                    class="ui custom popup transition hidden">
+                    <h1>Greetings Huckleberry!</h1>
+                    Import or add a deck to get started
+                </div>
+
+                <button
+                    id="export-button" class="ui button"
+                    data-position="top center"
+                    data-content="Deck copied to clipboard">
+                    EXPORT
+                </button>
+
+                <button
+                    id="link-button" class="ui button"
+                    data-position="top center"
+                    data-content="Link copied to clipboard">
+                    <img src="link.svg">
+                </button>
+
+                <button
+                    id="ewc-button" class="ui button"
+                    data-position="top center"
+                    data-content="Save this deck on Eternal Warcry">
+                    <img src="ewc.png">
+                </button>
+            </div>
+
+            <div style="text-align: center">
+                    <span class="help">
+                        HELP <img src="menu-help-icon.png" height="12">
+                    </span>
+                <div class="ui popup help">
+                    IMPORT or EXPORT your deck here. Use  <img src="link.svg" width="19" border="1"style="border-radius: 4px; background-color: #27252D; border: solid .75px #FFFFFF; padding: 4px;"> to SHARE your deck with a unique URL.
+                </div>
+            </div>
+
+            <div id="deck-edit" class="deck-edit">
+                <div id="deck-edit-power-title"
+                     class="deck-edit-section">
+                    POWER BASE
+                </div>
+                <div id="deck-edit-power-rows">
+                </div>
+
+                <div id="deck-edit-nonpower-title"
+                     class="deck-edit-section">
+                    MAIN DECK
+                    <div class="deck-edit-section-description">
+                        Additional power sources highlighted
+                    </div>
+                </div>
+                <div id="deck-edit-nonpower-rows">
+                </div>
+            </div>
+
+            <div id="deck-edit-footer" class="deck-edit-footer">
+                <button id="add-card-button" class="ui button pad-right">
+                    ADD CARD
+                </button>
+
+                <button id="clear-button" class="ui button"
+                        data-position="top center"
+                        data-content="Deck cleared">
+                    CLEAR
+                </button>
+            </div>
+
+            <div id="market-edit" class="deck-edit">
+                <div id="deck-edit-market-title"
+                     class="deck-edit-section">
+                    MARKET
+                </div>
+                <div id="deck-edit-market-rows">
+                </div>
+            </div>
+
+            <div id="market-edit-footer" class="deck-edit-footer">
+                <button id="add-market-card-button" class="ui button pad-right">
+                    ADD CARD
+                </button>
+
+                <button id="clear-market-button" class="ui button"
+                        data-position="top center"
+                        data-content="Market cleared">
+                    CLEAR
+                </button>
+            </div>
+        </div>
+
+        <div id="charts-panel">
+            <!--  Buttons to switch between the table and the graph  -->
+            <div id="charts-menu">
+                <div id="graph-menu-item" class="menu-item active">
+                    <img id="influence-graph-menu-title"
+                         class="menu-title"
+                         src="influence-graph-menu.png">
+                    <img class="output-tab-help-icon help-icon"
+                         src="menu-help-icon.png">
+                    <div class="ui popup menu-help">
+                        Charts the odds (0-100%) of meeting
+                        desired Influence costs based on number
+                        of draws.
+                    </div>
+                </div>
+                <div id="table-menu-item" class="menu-item">
+                    <img id="power-odds-table-menu-title"
+                         class="menu-title"
+                         src="power-odds-table-menu.png">
+                    <img class="output-tab-help-icon help-icon"
+                         src="menu-help-icon.png">
+                    <div class="ui popup menu-help">
+                        Tabulates the odds (0-100%) of meeting
+                        desired Influence <em>and</em>
+                        Power costs based on number of draws (0-20).
+                    </div>
+                </div>
+            </div>
+
+            <div id="charts-heading">
+                <h1 id="deck-title" contenteditable=true></h1>
+            </div>
+
+            <div id="power-table-container">
+                <div id="power-table-loader" class="ui loader">
+                </div>
+
+                <!--
+                    The table of costs for the odds table
+                    is generated here.
+                -->
+                <div id="power-table-cost-div">
+                </div>
+
+                <!--  The table of draw odds is generated here  -->
+                <div id="power-table-odds-div">
+                </div>
+            </div>
+
+            <div id="power-graph-container">
+                <!-- The graph of power and influence is generated here  -->
+                <div id="power-graph-div">
+                </div>
+
+                <div id="graph-y-label">
+                    PROBABILITY
+                </div>
+                <div id="graph-x-label">
+                    TURNS (<a href="guide/index.html#draws" target="_blank">ONE DRAW PER TURN*</a>)
+                </div>
+
+                <div id="power-type-panel">
+                    <div class="power-type-item">
+                        <img src="undepleted.svg">
+                        <span class="power-type-label">
+                                UNDEPLETED:
+                            </span>
+                        <span class="power-type-count" tag="undepleted">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="conditional.svg">
+                        <span class="power-type-label">
+                                CONDITIONAL:
+                            </span>
+                        <span class="power-type-count" tag="conditional">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="depleted.svg">
+                        <span class="power-type-label">
+                                DEPLETED:
+                            </span>
+                        <span class="power-type-count" tag="depleted">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="monument.svg">
+                        <span class="power-type-label">
+                                MONUMENTS:
+                            </span>
+                        <span class="power-type-count" tag="monument">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="crest.svg">
+                        <span class="power-type-label">
+                                CRESTS:
+                            </span>
+                        <span class="power-type-count" tag="crest">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="waystone.svg">
+                        <span class="power-type-label">
+                                WAYSTONES:
+                            </span>
+                        <span class="power-type-count" tag="waystone">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="standard.svg">
+                        <span class="power-type-label">
+                                STANDARDS:
+                            </span>
+                        <span class="power-type-count" tag="standard">
+                            </span>
+                    </div>
+
+                    <div id="power-type-panel-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="calculator-body-footer">
+        </div>
+    </div>
+</div>
+
+<!--
+
+    A list of all possible Eternal cards
+
+    See epc-deck.js for a description of the card list format.
+
+-->
+<script id="card-list" type="text/plain">
         Set0 #3; 1F; 2F; Kaleb's Favor;
         Set0 #4;; 2F; Blazing Renegade;
         Set0 #6;; 5F; Flash Fire;
@@ -1512,7 +1522,7 @@
         Set3 #248;; 8SSS; Nametaker;
         Set3 #249;; 8SS; Valkyrie Harvester;
         Set3 #250;; 9SS; Callous Survivalist;
-          Set3 #251; 1FT;; Crest of Impulse; power, depleted, crest
+        Set3 #251; 1FT;; Crest of Impulse; power, depleted, crest
         Set3 #252;; 3FT; Mysterium Orb;
         Set3 #253;; 4FT; Monolith Guardian;
         Set3 #254;; 3FJ; Whirling Duo;
@@ -2958,12 +2968,23 @@
     Set8 #325;; 15FTJPS; Lastlight Judgement;
     Set8 #326;; 3TJ; Gerrit, Throne Guardian;
 
+    Set1085 #7;; 1J; Seneschal of Light;
+    Set1085 #17;; 2FTS; Vox, Nurturing Sadist;
+    Set1085 #6;; 5TTT; Braun, Regal Courier;
+    Set1085 #14;; 2SS; Blightmoth;
+    Set1085 #20;; 2JPS; Keelo, Bold Innovator;
+    Set1085 #2;; 3F; Praxis Trove;
+    Set1085 #19;; 2TJP; Kaspar, Oren of Kosul;
+    Set1085 #11;; 3PP; The Throne Room;
+    Set1085 #18;; 2FPS; Razca, Rewarded;
+    Set1085 #5;; 3TT; Pesky Seedling;
+    Set1085 #16;; 2FTJ; Elham, Keen-Eyed;
+
     Set9 #1;; 2TS; Echoes of Eternity Spoiler;
     Set9 #2;; 0; Eternal Card;
 
 
     </script>
-
 
     <!-- hack to allow us to create node modules for tests -->
     <script type="text/javascript">window.module = {};</script>
@@ -2975,36 +2996,36 @@
     <script type="text/javascript" src="epc.min.js"></script>
 
 
-    <script type="text/javascript">
-        var graphStyle;
+<script type="text/javascript">
+    var graphStyle;
 
-        graphStyle = {
-            marginLeft: 64,
-            marginRight: 48,
-            marginBottom: 54,
-            fontSize: 18,
-            iconSize: 30,
-            dotSize: 9,
-            font: "'Open Sans Condensed Bold', sans-serif",
-            textColor: "rgb(231, 228, 230)",
-            borderColor: "rgb(192, 192, 192)",
-            backgroundColor: "rgb(0, 0, 0)",
-            interiorLineColor: "rgb(67, 67, 67)",
+    graphStyle = {
+        marginLeft: 64,
+        marginRight: 48,
+        marginBottom: 54,
+        fontSize: 18,
+        iconSize: 30,
+        dotSize: 9,
+        font: "'Open Sans Condensed Bold', sans-serif",
+        textColor: "rgb(231, 228, 230)",
+        borderColor: "rgb(192, 192, 192)",
+        backgroundColor: "rgb(0, 0, 0)",
+        interiorLineColor: "rgb(67, 67, 67)",
 
-            fireColorSolid: "rgb(204, 0, 0)",
-            fireColorTranslucent: "rgba(204, 0, 0, 0.3)",
-            timeColorSolid: "rgb(241, 194, 50)",
-            timeColorTranslucent: "rgba(241, 194, 50, 0.3)",
-            justiceColorSolid: "rgb(106, 168, 79)",
-            justiceColorTranslucent: "rgba(106, 168, 79, 0.3)",
-            primalColorSolid: "rgb(60, 120, 216)",
-            primalColorTranslucent: "rgba(60, 120, 216, 0.3)",
-            shadowColorSolid: "rgb(166, 77, 121)",
-            shadowColorTranslucent: "rgba(166, 77, 121, 0.3)"
-        };
+        fireColorSolid: "rgb(204, 0, 0)",
+        fireColorTranslucent: "rgba(204, 0, 0, 0.3)",
+        timeColorSolid: "rgb(241, 194, 50)",
+        timeColorTranslucent: "rgba(241, 194, 50, 0.3)",
+        justiceColorSolid: "rgb(106, 168, 79)",
+        justiceColorTranslucent: "rgba(106, 168, 79, 0.3)",
+        primalColorSolid: "rgb(60, 120, 216)",
+        primalColorTranslucent: "rgba(60, 120, 216, 0.3)",
+        shadowColorSolid: "rgb(166, 77, 121)",
+        shadowColorTranslucent: "rgba(166, 77, 121, 0.3)"
+    };
 
-        buildEpcUI(graphStyle);
-    </script>
+    buildEpcUI(graphStyle);
+</script>
 </body>
 
 </html>
