@@ -26,7 +26,7 @@
 -->
 
 <html lang="en">
-  <head>
+<head>
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,10 +46,10 @@
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120926504-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-120926504-1');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-120926504-1');
     </script>
 
 
@@ -63,498 +63,507 @@
 </head>
 
 <body>
-    <!--
-        Pre-load all the influence icons symbols.
-        The graph drawing pulls the influence symbols from these elements.
-    -->
-    <div id="influence-icons">
-        <img id="icon-fire" src="icon-fire.png">
-        <img id="icon-time" src="icon-time.png">
-        <img id="icon-justice" src="icon-justice.png">
-        <img id="icon-primal" src="icon-primal.png">
-        <img id="icon-shadow" src="icon-shadow.png">
-    </div>
+<!--
+    Pre-load all the influence icons symbols.
+    The graph drawing pulls the influence symbols from these elements.
+-->
+<div id="influence-icons">
+    <img id="icon-fire" src="icon-fire.png">
+    <img id="icon-time" src="icon-time.png">
+    <img id="icon-justice" src="icon-justice.png">
+    <img id="icon-primal" src="icon-primal.png">
+    <img id="icon-shadow" src="icon-shadow.png">
+</div>
 
-    <!--  A dialog displayed when the "About" button is clicked  -->
-    <div id="about-modal" class="ui tiny modal">
-        <div class="header">About Shiftstoned Power Calculator</div>
+<!--  A dialog displayed when the "About" button is clicked  -->
+<div id="about-modal" class="ui tiny modal">
+    <div class="header">About Shiftstoned Power Calculator</div>
 
-        <div id="about-text" class="modal-body">
+    <div id="about-text" class="modal-body">
 
-            <p>
+        <p>
             You will gain a competitive edge in <b>Eternal</b> by maximizing the chances of playing your cards on curve.
 
-            <p>
+        <p>
             Getting under the hood and optimizing your deck's power base is the best way to ensure that you can play the cards you want, when you want to play them.
 
-            <p>
+        <p>
             The <b>Eternal Power Calculator</b> is a deck-building tool that visualizes your odds of drawing enough <b>Influence</b> and <b>Power</b> based specifically on the cards found in your deck.
 
-            <p>
+        <p>
             Select the <b>Import</b> button and paste a deck from <b>Eternal</b> to get started. Or start from scratch by adding a card.
 
-            <p>
+        <p>
             Want to learn more?
-            <ul>
-              <li><a href="guide/index.html" target="_blank">How it works</a>
-              <li><a href="guide/index.html#chart" target="_blank">Charting Influence</a>
-              <li><a href="guide/index.html#draws" target="_blank">Draws vs. Turns</a>
-              <li><a href="guide/index.html#table" target="_blank">Power Odds Table</a>
-              <li><a href="guide/index.html#not" target="_blank">What is NOT accounted for?</a>
-              <li><a href="guide/index.html#next" target="_blank">What's next?</a>
+        <ul>
+            <li><a href="guide/index.html" target="_blank">How it works</a>
+            <li><a href="guide/index.html#chart" target="_blank">Charting Influence</a>
+            <li><a href="guide/index.html#draws" target="_blank">Draws vs. Turns</a>
+            <li><a href="guide/index.html#table" target="_blank">Power Odds Table</a>
+            <li><a href="guide/index.html#not" target="_blank">What is NOT accounted for?</a>
+            <li><a href="guide/index.html#next" target="_blank">What's next?</a>
 
-            </ul>
+        </ul>
 
-            <p>
+        <p>
             For more on the math behind the <strong>Eternal Power Calculator</strong>, check out the <a href="guide/expanded.html" target="_blank">in-depth guide to calculations</a>.
 
-            <p>
+        <p>
             The original source code for Eternal Power Calculator is
             <a href="https://github.com/matt-kimball/epc" target="_blank">available
-            on GitHub</a>.
+                on GitHub</a>.
+    </div>
+
+    <div class="actions">
+        <button class="ui positive right button">
+            OK
+        </button>
+    </div>
+</div>
+
+<!--  Dialog for importing a deck list  -->
+<div id="import-modal" class="ui tiny modal">
+    <div class="header">
+        Paste a deck from Eternal
+    </div>
+
+    <div id="import-form" class="ui form modal-body">
+        <div class="field">
+            <label>Deck list</label>
+            <textarea id="import-modal-deck" rows="20"></textarea>
         </div>
 
-        <div class="actions">
-            <button class="ui positive right button">
-                OK
-            </button>
+        <!--  Syntax errors in the decklist are reported here  -->
+        <div class="ui label" id="import-validation-result">
         </div>
     </div>
 
-    <!--  Dialog for importing a deck list  -->
-    <div id="import-modal" class="ui tiny modal">
-        <div class="header">
-            Paste a deck from Eternal
-        </div>
+    <div class="actions">
+        <button
+            id="import-modal-import-button"
+            class="ui positive right button">
+            IMPORT
+        </button>
+    </div>
+</div>
 
-        <div id="import-form" class="ui form modal-body">
-            <div class="field">
-                <label>Deck list</label>
-                <textarea id="import-modal-deck" rows="20"></textarea>
-            </div>
-
-            <!--  Syntax errors in the decklist are reported here  -->
-            <div class="ui label" id="import-validation-result">
-            </div>
-        </div>
-
-        <div class="actions">
-            <button
-                    id="import-modal-import-button"
-                    class="ui positive right button">
-                IMPORT
-            </button>
-        </div>
+<!--  Dialog for adding a new card  -->
+<div id="add-card-modal" class="ui mini modal">
+    <div class="header">
+        Select a card
     </div>
 
-    <!--  Dialog for adding a new card  -->
-    <div id="add-card-modal" class="ui mini modal">
-        <div class="header">
-            Select a card
-        </div>
-
-        <div id="card-select" class="modal-body">
-            <!--  All card names are added by gatherCards in epc-ui.js  -->
-            <select
-                    id="add-card-dropdown"
-                    class="ui fluid search selection dropdown">
-                <option value="">Card</option>
-            </select>
-        </div>
-
-        <div class="actions">
-            <button
-                    id="add-card-modal-add-button"
-                    class="ui positive right button">
-                ADD
-            </button>
-        </div>
+    <div id="card-select" class="modal-body">
+        <!--  All card names are added by gatherCards in epc-ui.js  -->
+        <select
+            id="add-card-dropdown"
+            class="ui fluid search selection dropdown">
+            <option value="">Card</option>
+        </select>
     </div>
 
-    <!--  Dialog for adding a market card  -->
-    <div id="add-market-card-modal" class="ui mini modal">
-        <div class="header">
-            Select a card
-        </div>
+    <div class="actions">
+        <button
+            id="add-card-modal-add-button"
+            class="ui positive right button">
+            ADD
+        </button>
+    </div>
+</div>
 
-        <div id="market-card-select" class="modal-body">
-            <!--  All card names are added by gatherCards in epc-ui.js  -->
-            <select
-                    id="add-market-card-dropdown"
-                    class="ui fluid search selection dropdown">
-                <option value="">Card</option>
-            </select>
-        </div>
-
-        <div class="actions">
-            <button
-                    id="add-market-card-modal-add-button"
-                    class="ui positive right button">
-                ADD
-            </button>
-        </div>
+<!--  Dialog for adding a market card  -->
+<div id="add-market-card-modal" class="ui mini modal">
+    <div class="header">
+        Select a card
     </div>
 
-
-    <!--  A dialog used to report syntax errors in the card list  -->
-    <div id="error-modal" class="ui small modal">
-        <div id="error-title" class="header">Error</div>
-
-        <div id="error-text" class="modal-body">
-        </div>
-
-        <div class="actions">
-            <button class="ui positive right button">
-                OK
-            </button>
-        </div>
+    <div id="market-card-select" class="modal-body">
+        <!--  All card names are added by gatherCards in epc-ui.js  -->
+        <select
+            id="add-market-card-dropdown"
+            class="ui fluid search selection dropdown">
+            <option value="">Card</option>
+        </select>
     </div>
 
-    <div id="calculator-content">
-        <img id="background" src="EternalThroneBackground.jpeg">
+    <div class="actions">
+        <button
+            id="add-market-card-modal-add-button"
+            class="ui positive right button">
+            ADD
+        </button>
+    </div>
+</div>
 
-        <div id="shiftstoned-heading">
-            <div id="heading-top">
-                <a href="../">
-                    <img id="shiftstoned-img" src="shiftstoned.png">
-                </a>
-                <a href="../epc/"><img id="power-calculator-img" src="power-calculator.png"></a>
 
-                <div id="about-heading">
-                    ABOUT
-                </div>
-                <div id="navigation-separator">
-                </div>
+<!--  A dialog used to report syntax errors in the card list  -->
+<div id="error-modal" class="ui small modal">
+    <div id="error-title" class="header">Error</div>
 
-                <div id="navigation-menu" class="ui dropdown">
-                    <img src="navigation-menu.png">
-                    <div class="menu">
-                        <div class="item">
-                            <a href="../epc/">
-                                POWER CALCULATOR
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../epc/guide/">
-                                <div class="navigation-menu-indent">
-                                    &bull;
-                                </div>
-                                Guide
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../calendar/">
-                                COMMUNITY CALENDAR
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../articles/">
-                                ARTICLES
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="../contact">
-                                CONTACT
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="..">
-                                HOME
-                            </a>
-                        </div>
+    <div id="error-text" class="modal-body">
+    </div>
+
+    <div class="actions">
+        <button class="ui positive right button">
+            OK
+        </button>
+    </div>
+</div>
+
+<div id="calculator-content">
+    <img id="background" style="margin-top: 0px; margin-left: -350px;" src="Trove.jpg">
+    <div id="shiftstoned-heading">
+        <div id="heading-top">
+            <a href="../">
+                <img id="shiftstoned-img" src="shiftstoned.png">
+            </a>
+            <a href="../epc/"><img id="power-calculator-img" src="power-calculator.png"></a>
+
+            <div id="about-heading">
+                ABOUT
+            </div>
+            <div id="navigation-separator">
+            </div>
+
+            <div id="navigation-menu" class="ui dropdown">
+                <img src="navigation-menu.png">
+                <div class="menu">
+                    <div class="item">
+                        <a href="../epc/">
+                            POWER CALCULATOR
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../epc/guide/">
+                            <div class="navigation-menu-indent">
+                                &bull;
+                            </div>
+                            Guide
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../calendar/">
+                            COMMUNITY CALENDAR
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../articles/">
+                            ARTICLES
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="../contact">
+                            CONTACT
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="..">
+                            HOME
+                        </a>
                     </div>
                 </div>
-
             </div>
-            <div id="heading-page-top"></div>
+
         </div>
-
-        <!--
-            The main body of the app, with an editable deck and the
-            graph or table.
-        -->
-        <div id="calculator-body">
-            <div id="influence-panel">
-                <div id="card-count-panel">
-                    <div id="card-count-number">
-                    </div>
-                    <div id="card-count-label">
-                        CARDS
-                    </div>
-                </div>
-
-                <div id="power-sources-panel">
-                    <div id="power-sources-number">
-                    </div>
-                    <div id="power-sources-label">
-                        POWER SOURCES
-                    </div>
-                </div>
-
-                <div id="fire-sources-panel">
-                    <img src="icon-fire.png">
-                    <div id="fire-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="time-sources-panel">
-                    <img src="icon-time.png">
-                    <div id="time-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="justice-sources-panel">
-                    <img src="icon-justice.png">
-                    <div id="justice-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="primal-sources-panel">
-                    <img src="icon-primal.png">
-                    <div id="primal-sources-number" class="influence-number">
-                    </div>
-                </div>
-
-                <div id="shadow-sources-panel">
-                    <img src="icon-shadow.png">
-                    <div id="shadow-sources-number" class="influence-number">
-                    </div>
-                </div>
-            </div>
-
-            <div id="deck-edit-panel">
-                <div id="deck-edit-header" class="deck-edit-header" class="actions">
-                    <button
-                            id="import-button" class="ui button pad-right">
-                        IMPORT
-                    </button>
-                    <div
-                            class="ui custom popup transition hidden">
-                        <h1>Greetings Huckleberry!</h1>
-                        Import or add a deck to get started
-                    </div>
-
-                    <button
-                            id="export-button" class="ui button pad-right"
-                            data-position="top center"
-                            data-content="Deck copied to clipboard">
-                        EXPORT
-                    </button>
-
-                    <button
-                            id="link-button" class="ui button"
-                            data-position="top center"
-                            data-content="Link copied to clipboard">
-                        <img src="link.svg">
-                    </button>
-
-                    <img class="help-icon"
-                        src="menu-help-icon.png" float="left">
-                    <div class="ui popup menu-help">
-                        IMPORT or EXPORT your deck here. Use  <img src="link.svg" width="19" border="1"style="border-radius: 4px; background-color: #27252D; border: solid .75px #FFFFFF; padding: 4px;"> to SHARE your deck with a unique URL.
-                    </div>
-                </div>
-
-                <div id="deck-edit" class="deck-edit">
-                    <div id="deck-edit-power-title"
-                         class="deck-edit-section">
-                        POWER BASE
-                    </div>
-                    <div id="deck-edit-power-rows">
-                    </div>
-
-                    <div id="deck-edit-nonpower-title"
-                         class="deck-edit-section">
-                        MAIN DECK
-                        <div class="deck-edit-section-description">
-                            Additional power sources highlighted
-                        </div>
-                    </div>
-                    <div id="deck-edit-nonpower-rows">
-                    </div>
-                </div>
-
-                <div id="deck-edit-footer" class="deck-edit-footer">
-                    <button id="add-card-button" class="ui button pad-right">
-                        ADD CARD
-                    </button>
-
-                    <button id="clear-button" class="ui button"
-                            data-position="top center"
-                            data-content="Deck cleared">
-                        CLEAR
-                    </button>
-                </div>
-
-                <div id="market-edit" class="deck-edit">
-                    <div id="deck-edit-market-title"
-                         class="deck-edit-section">
-                        MARKET
-                    </div>
-                    <div id="deck-edit-market-rows">
-                    </div>
-                </div>
-
-                <div id="market-edit-footer" class="deck-edit-footer">
-                    <button id="add-market-card-button" class="ui button pad-right">
-                        ADD CARD
-                    </button>
-
-                    <button id="clear-market-button" class="ui button"
-                            data-position="top center"
-                            data-content="Market cleared">
-                        CLEAR
-                    </button>
-                </div>
-            </div>
-
-            <div id="charts-panel">
-                <!--  Buttons to switch between the table and the graph  -->
-                <div id="charts-menu">
-                    <div id="graph-menu-item" class="menu-item active">
-                        <img id="influence-graph-menu-title"
-                            class="menu-title"
-                            src="influence-graph-menu.png">
-                        <img class="output-tab-help-icon help-icon"
-                            src="menu-help-icon.png">
-                        <div class="ui popup menu-help">
-                            Charts the odds (0-100%) of meeting
-                            desired Influence costs based on number
-                            of draws.
-                        </div>
-                    </div>
-                    <div id="table-menu-item" class="menu-item">
-                        <img id="power-odds-table-menu-title"
-                            class="menu-title"
-                            src="power-odds-table-menu.png">
-                        <img class="output-tab-help-icon help-icon"
-                            src="menu-help-icon.png">
-                        <div class="ui popup menu-help">
-                            Tabulates the odds (0-100%) of meeting
-                            desired Influence <em>and</em>
-                            Power costs based on number of draws (0-20).
-                        </div>
-                    </div>
-                </div>
-
-                <div id="charts-heading">
-                  <h1 id="deck-title" contenteditable=true></h1>
-                </div>
-
-                <div id="power-table-container">
-                    <div id="power-table-loader" class="ui loader">
-                    </div>
-
-                    <!--
-                        The table of costs for the odds table
-                        is generated here.
-                    -->
-                    <div id="power-table-cost-div">
-                    </div>
-
-                    <!--  The table of draw odds is generated here  -->
-                    <div id="power-table-odds-div">
-                    </div>
-                </div>
-
-                <div id="power-graph-container">
-                    <!-- The graph of power and influence is generated here  -->
-                    <div id="power-graph-div">
-                    </div>
-
-                    <div id="graph-y-label">
-                        PROBABILITY
-                    </div>
-                    <div id="graph-x-label">
-                        TURNS (<a href="guide/index.html#draws" target="_blank">ONE DRAW PER TURN*</a>)
-                    </div>
-
-                    <div id="power-type-panel">
-                        <div class="power-type-item">
-                            <img src="undepleted.svg">
-                            <span class="power-type-label">
-                                UNDEPLETED:
-                            </span>
-                            <span class="power-type-count" tag="undepleted">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="conditional.svg">
-                            <span class="power-type-label">
-                                CONDITIONAL:
-                            </span>
-                            <span class="power-type-count" tag="conditional">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="depleted.svg">
-                            <span class="power-type-label">
-                                DEPLETED:
-                            </span>
-                            <span class="power-type-count" tag="depleted">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="monument.svg">
-                            <span class="power-type-label">
-                                MONUMENTS:
-                            </span>
-                            <span class="power-type-count" tag="monument">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="crest.svg">
-                            <span class="power-type-label">
-                                CRESTS:
-                            </span>
-                            <span class="power-type-count" tag="crest">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="waystone.svg">
-                            <span class="power-type-label">
-                                WAYSTONES:
-                            </span>
-                            <span class="power-type-count" tag="waystone">
-                            </span>
-                        </div>
-
-                        <div class="power-type-item">
-                        </div>
-
-                        <div class="power-type-item">
-                            <img src="standard.svg">
-                            <span class="power-type-label">
-                                STANDARDS:
-                            </span>
-                            <span class="power-type-count" tag="standard">
-                            </span>
-                        </div>
-
-                        <div id="power-type-panel-footer">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="calculator-body-footer">
-            </div>
-        </div>
+        <div id="heading-page-top"></div>
     </div>
 
     <!--
-
-        A list of all possible Eternal cards
-
-        See epc-deck.js for a description of the card list format.
-
+        The main body of the app, with an editable deck and the
+        graph or table.
     -->
-    <script id="card-list" type="text/plain">
+    <div id="calculator-body">
+        <div id="influence-panel">
+            <div id="card-count-panel">
+                <div id="card-count-number">
+                </div>
+                <div id="card-count-label">
+                    CARDS
+                </div>
+            </div>
+
+            <div id="power-sources-panel">
+                <div id="power-sources-number">
+                </div>
+                <div id="power-sources-label">
+                    POWER SOURCES
+                </div>
+            </div>
+
+            <div id="fire-sources-panel">
+                <img src="icon-fire.png">
+                <div id="fire-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="time-sources-panel">
+                <img src="icon-time.png">
+                <div id="time-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="justice-sources-panel">
+                <img src="icon-justice.png">
+                <div id="justice-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="primal-sources-panel">
+                <img src="icon-primal.png">
+                <div id="primal-sources-number" class="influence-number">
+                </div>
+            </div>
+
+            <div id="shadow-sources-panel">
+                <img src="icon-shadow.png">
+                <div id="shadow-sources-number" class="influence-number">
+                </div>
+            </div>
+        </div>
+
+        <div id="deck-edit-panel">
+            <div id="deck-edit-header" class="deck-edit-header ui buttons actions">
+                <button
+                    id="import-button" class="ui button">
+                    IMPORT
+                </button>
+                <div
+                    class="ui custom popup transition hidden">
+                    <h1>Greetings Huckleberry!</h1>
+                    Import or add a deck to get started
+                </div>
+
+                <button
+                    id="export-button" class="ui button"
+                    data-position="top center"
+                    data-content="Deck copied to clipboard">
+                    EXPORT
+                </button>
+
+                <button
+                    id="link-button" class="ui button"
+                    data-position="top center"
+                    data-content="Link copied to clipboard">
+                    <img src="link.svg">
+                </button>
+
+                <button
+                    id="ewc-button" class="ui button"
+                    data-position="top center"
+                    data-content="Save this deck on Eternal Warcry">
+                    <img src="ewc.png">
+                </button>
+            </div>
+
+            <div style="text-align: center">
+                    <span class="help">
+                        HELP <img src="menu-help-icon.png" height="12">
+                    </span>
+                <div class="ui popup help">
+                    IMPORT or EXPORT your deck here. Use  <img src="link.svg" width="19" border="1"style="border-radius: 4px; background-color: #27252D; border: solid .75px #FFFFFF; padding: 4px;"> to SHARE your deck with a unique URL.
+                </div>
+            </div>
+
+            <div id="deck-edit" class="deck-edit">
+                <div id="deck-edit-power-title"
+                     class="deck-edit-section">
+                    POWER BASE
+                </div>
+                <div id="deck-edit-power-rows">
+                </div>
+
+                <div id="deck-edit-nonpower-title"
+                     class="deck-edit-section">
+                    MAIN DECK
+                    <div class="deck-edit-section-description">
+                        Additional power sources highlighted
+                    </div>
+                </div>
+                <div id="deck-edit-nonpower-rows">
+                </div>
+            </div>
+
+            <div id="deck-edit-footer" class="deck-edit-footer">
+                <button id="add-card-button" class="ui button pad-right">
+                    ADD CARD
+                </button>
+
+                <button id="clear-button" class="ui button"
+                        data-position="top center"
+                        data-content="Deck cleared">
+                    CLEAR
+                </button>
+            </div>
+
+            <div id="market-edit" class="deck-edit">
+                <div id="deck-edit-market-title"
+                     class="deck-edit-section">
+                    MARKET
+                </div>
+                <div id="deck-edit-market-rows">
+                </div>
+            </div>
+
+            <div id="market-edit-footer" class="deck-edit-footer">
+                <button id="add-market-card-button" class="ui button pad-right">
+                    ADD CARD
+                </button>
+
+                <button id="clear-market-button" class="ui button"
+                        data-position="top center"
+                        data-content="Market cleared">
+                    CLEAR
+                </button>
+            </div>
+        </div>
+
+        <div id="charts-panel">
+            <!--  Buttons to switch between the table and the graph  -->
+            <div id="charts-menu">
+                <div id="graph-menu-item" class="menu-item active">
+                    <img id="influence-graph-menu-title"
+                         class="menu-title"
+                         src="influence-graph-menu.png">
+                    <img class="output-tab-help-icon help-icon"
+                         src="menu-help-icon.png">
+                    <div class="ui popup menu-help">
+                        Charts the odds (0-100%) of meeting
+                        desired Influence costs based on number
+                        of draws.
+                    </div>
+                </div>
+                <div id="table-menu-item" class="menu-item">
+                    <img id="power-odds-table-menu-title"
+                         class="menu-title"
+                         src="power-odds-table-menu.png">
+                    <img class="output-tab-help-icon help-icon"
+                         src="menu-help-icon.png">
+                    <div class="ui popup menu-help">
+                        Tabulates the odds (0-100%) of meeting
+                        desired Influence <em>and</em>
+                        Power costs based on number of draws (0-20).
+                    </div>
+                </div>
+            </div>
+
+            <div id="charts-heading">
+                <h1 id="deck-title" contenteditable=true></h1>
+            </div>
+
+            <div id="power-table-container">
+                <div id="power-table-loader" class="ui loader">
+                </div>
+
+                <!--
+                    The table of costs for the odds table
+                    is generated here.
+                -->
+                <div id="power-table-cost-div">
+                </div>
+
+                <!--  The table of draw odds is generated here  -->
+                <div id="power-table-odds-div">
+                </div>
+            </div>
+
+            <div id="power-graph-container">
+                <!-- The graph of power and influence is generated here  -->
+                <div id="power-graph-div">
+                </div>
+
+                <div id="graph-y-label">
+                    PROBABILITY
+                </div>
+                <div id="graph-x-label">
+                    TURNS (<a href="guide/index.html#draws" target="_blank">ONE DRAW PER TURN*</a>)
+                </div>
+
+                <div id="power-type-panel">
+                    <div class="power-type-item">
+                        <img src="undepleted.svg">
+                        <span class="power-type-label">
+                                UNDEPLETED:
+                            </span>
+                        <span class="power-type-count" tag="undepleted">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="conditional.svg">
+                        <span class="power-type-label">
+                                CONDITIONAL:
+                            </span>
+                        <span class="power-type-count" tag="conditional">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="depleted.svg">
+                        <span class="power-type-label">
+                                DEPLETED:
+                            </span>
+                        <span class="power-type-count" tag="depleted">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="monument.svg">
+                        <span class="power-type-label">
+                                MONUMENTS:
+                            </span>
+                        <span class="power-type-count" tag="monument">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="crest.svg">
+                        <span class="power-type-label">
+                                CRESTS:
+                            </span>
+                        <span class="power-type-count" tag="crest">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="waystone.svg">
+                        <span class="power-type-label">
+                                WAYSTONES:
+                            </span>
+                        <span class="power-type-count" tag="waystone">
+                            </span>
+                    </div>
+
+                    <div class="power-type-item">
+                    </div>
+
+                    <div class="power-type-item">
+                        <img src="standard.svg">
+                        <span class="power-type-label">
+                                STANDARDS:
+                            </span>
+                        <span class="power-type-count" tag="standard">
+                            </span>
+                    </div>
+
+                    <div id="power-type-panel-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="calculator-body-footer">
+        </div>
+    </div>
+</div>
+
+<!--
+
+    A list of all possible Eternal cards
+
+    See epc-deck.js for a description of the card list format.
+
+-->
+<script id="card-list" type="text/plain">
         Set0 #3; 1F; 2F; Kaleb's Favor;
         Set0 #4;; 2F; Blazing Renegade;
         Set0 #6;; 5F; Flash Fire;
@@ -583,7 +592,7 @@
 
         Set1 #1; 1F;; Fire Sigil; power, undepleted
         Set1 #2;; 1FFF; Flame Blast;
-        Set1 #3;; 2FF; Charchain Flail;
+        Set1 #3;; 1FF; Charchain Flail;
         Set1 #4;; 1F; Heavy Axe;
         Set1 #5;; 1F; Grenadin Drone;
         Set1 #6;; 1F; Light the Fuse;
@@ -692,7 +701,7 @@
         Set1 #115;; 5T; Lumen Defender;
         Set1 #116;; 6T; Mystic Ascendant;
         Set1 #117;; 6T; Lumen Shepherd;
-        Set1 #118;; 7TTT; Predatory Carnosaur;
+        Set1 #118;; 6TTT; Predatory Carnosaur;
         Set1 #119;; 7TTT; Ancient Terrazon;
         Set1 #120;; 7TT; Dormant Sentinel;
         Set1 #121;; 7TT; Hall of Lost Kings;
@@ -717,7 +726,7 @@
         Set1 #140;; 2J; Paladin Oathbook;
         Set1 #141;; 2J; Rebuke;
         Set1 #142;; 2J; Crownwatch Longsword;
-        Set1 #143;; 2J; Vanquish;
+        Set1 #143;; 3J; Vanquish;
         Set1 #144;; 2J; Eager Owlet;
         Set1 #145;; 3J; Valorous Stranger;
         Set1 #146;; 3J; Auric Sentry;
@@ -731,13 +740,13 @@
         Set1 #154;; 3J; Spire Chaplain;
         Set1 #155;; 3JJ; Hooru Envoy;
         Set1 #156;; 3J; Hero of the People;
-        Set1 #157; 2JJ; 3J; Privilege of Rank;
+        Set1 #157; J; 2J; Privilege of Rank;
         Set1 #158;; 4J; Copperhall Recruit;
         Set1 #159;; 5J; Hooru Fledgling;
         Set1 #160;; 5J; Combrei Magister;
         Set1 #162;; 4J; Stalwart Shield;
         Set1 #163;; 4J; Armorsmith;
-        Set1 #164;; 4J; Treasury Gate;
+        Set1 #164;; 3J; Treasury Gate;
         Set1 #165;; 3J; Mark of Shame;
         Set1 #166;; 4JJ; Auric Runehammer;
         Set1 #167;; 4JJ; Silverwing Avenger;
@@ -780,7 +789,7 @@
         Set1 #207;; 2P; Second Sight;
         Set1 #208;; 3P; Skysnapper;
         Set1 #209;; 3P; Flash Freeze;
-        Set1 #210;; 3P; Eye of Winter;
+        Set1 #210;; 2P; Eye of Winter;
         Set1 #211;; 3P; Polymorph;
         Set1 #212;; 3P; Cobalt Acolyte;
         Set1 #213;; 3S; Scheme;
@@ -895,13 +904,13 @@
         Set1 #326;; 3FFJ; Ijin, Imperial Armorer;
         Set1 #327;; 6FJ; Ferocious Stranger;
         Set1 #328;; 6FFJJ; Starsteel Daisho;
-        Set1 #329;; 8FFFJJJ; Icaria, the Liberator;
+        Set1 #329;; 7FFFJJJ; Icaria, the Liberator;
         Set1 #330;; 2TJ; Safe Return;
         Set1 #331;; 2TJ; Awakened Student;
         Set1 #332;; 2TJ; Desert Marshal;
         Set1 #333;; 3TJ; Combrei Healer;
         Set1 #334;; 3TJ; Stand Together;
-        Set1 #335;; 3TJ; Knight-Chancellor Siraf;
+        Set1 #335;; 3TJ,7; Knight-Chancellor Siraf;
         Set1 #336;; 3TJ; Vodakhan's Staff;
         Set1 #337;; 4TJ; Enlightened Stranger;
         Set1 #338;; 4TJ; The Great Parliament;
@@ -935,7 +944,7 @@
         Set1 #371;; 5PS,PPPPP,SSSSS; Champion of Cunning;
         Set1 #372;; 2PS; Grim Stranger;
         Set1 #373;; 5PS; Spell Swipe;
-        Set1 #374;; 2PS; Haunting Scream;
+        Set1 #374;; 3PS; Haunting Scream;
         Set1 #375;; 3PS; Gorgon Fanatic;
         Set1 #377;; 2PS; Gorgon Swiftblade;
         Set1 #378;; 3PPSS; Midnight Gale;
@@ -1125,7 +1134,7 @@
         Set2 #117;; 3P; Foothills Alpha;
         Set2 #118;; 3P; Icebow;
         Set2 #119;; 3PP; Mind Link;
-        Set2 #120;; 3P; Skyrider Vanguard;
+        Set2 #120;; 5P; Skyrider Vanguard;
         Set2 #121;; 3P,6; Stormcrasher;
         Set2 #122;; 4PP; Jotun Cyclops;
         Set2 #123;; 4P; Ridgeline Watcher;
@@ -1188,7 +1197,7 @@
         Set2 #180;; 5FT; Talir's Choice;
         Set2 #181;; 5FT; Shatterglass Mage;
         Set2 #182;; 5FT; Workshop Forge;
-        Set2 #183;; 6FFFTTT; Heart of the Vault;
+        Set2 #183;; 7FFFTTT; Heart of the Vault;
         Set2 #184;; 7FT; Sandglass Sentinel;
         Set2 #185;; 7FFTT; Moment of Creation;
         Set2 #186; 1FP;; Skycrag Banner; power, conditional
@@ -1202,7 +1211,7 @@
         Set2 #194;; 4FP; Mortar;
         Set2 #195;; 4FP,5; Storm Glider;
         Set2 #196;; 6FP; Towering Stranger;
-        Set2 #197;; 7FP; Knucklebones;
+        Set2 #197;; 6FP; Knucklebones;
         Set2 #198;; 7FP; Topaz Drake;
         Set2 #199;; 8FFFPPP; Molot & Nakova;
         Set2 #200;; 10FFPP; Decimate;
@@ -1239,7 +1248,7 @@
         Set2 #231; 1JS;; Argenport Banner; power, conditional
         Set2 #232;; 2JS; Auric Bully;
         Set2 #233;; 2JS; Auric Vigilante;
-        Set2 #234;; 4JJS,7; Bartholo, the Seducer;
+        Set2 #234;; 3JJS,7; Bartholo, the Seducer;
         Set2 #235;; 3JS; Bloodletter;
         Set2 #236;; 3JS; Slay;
         Set2 #237;; 4JS,JJJJ,SSSS; Champion of Vengeance;
@@ -1343,7 +1352,7 @@
         Set3 #78;; 4T; Insistent Automaton;
         Set3 #79;; 4T; Lost in the Mist;
         Set3 #80;; 4TT; Lumen Reclaimer;
-        Set3 #81;; 4T; Sandspitter;
+        Set3 #81;; 3TT; Sandspitter;
         Set3 #82;; 5T; First Watch;
         Set3 #83;; 5T; Fishing Dinoch;
         Set3 #84;; 5TT; Frenzied Omnivore;
@@ -1375,7 +1384,7 @@
         Set3 #110;; 2J; Curfew Enforcement;
         Set3 #111;; 2J; Rampart Protector;
         Set3 #112;; 2J; Reinvigorate;
-        Set3 #113;; 2JJ,7; Tax Collector;
+        Set3 #113;; 2JJ,5; Tax Collector;
         Set3 #114;; 3J; Copperhall Marshal;
         Set3 #115;; 3J; Crownwatch Legionnaire;
         Set3 #116;; 4J; Entrapment;
@@ -1387,7 +1396,7 @@
         Set3 #122;; 3JJ; Unseen Commando;
         Set3 #123;; 3J; Valkyrie Cadet;
         Set3 #124;; 3J; Valkyrie Justiciar;
-        Set3 #125;; 4JJ; Bisma, Revered Elder;
+        Set3 #125;; 3JJ; Bisma, Revered Elder;
         Set3 #126;; 4JJ; Caltrops;
         Set3 #127;; 4J; Curse of Taxation;
         Set3 #128;; 4J; Ground Crew;
@@ -1446,7 +1455,7 @@
         Set3 #181;; 4P; Freewing Glider;
         Set3 #182;; 4P; Meditation Trainer;
         Set3 #183;; 4P; Nocturnal Kyrex;
-        Set3 #184;; 4P; Regression;
+        Set3 #184;; 2P; Regression;
         Set3 #185;; 4P; Slushdumper;
         Set3 #186;; 4PP; Thudrock, Arctic Artisan;
         Set3 #187;; 5PPP; Jotun Feast-Caller;
@@ -1479,7 +1488,7 @@
         Set3 #214;; 2S; Grenadin Bellower;
         Set3 #215;; 2S; Hideout Pistol;
         Set3 #216;; 2S; Infused Strike;
-        Set3 #217;; 2S,5; Miris Nightshade;
+        Set3 #217;; 2S,4; Miris Nightshade;
         Set3 #218;; 2S; Sleeping Draught;
         Set3 #219;; 2S; Unseen Agent;
         Set3 #220;; 3SS; Ashara, Ruthless Assassin;
@@ -1513,7 +1522,7 @@
         Set3 #248;; 8SSS; Nametaker;
         Set3 #249;; 8SS; Valkyrie Harvester;
         Set3 #250;; 9SS; Callous Survivalist;
-          Set3 #251; 1FT;; Crest of Impulse; power, depleted, crest
+        Set3 #251; 1FT;; Crest of Impulse; power, depleted, crest
         Set3 #252;; 3FT; Mysterium Orb;
         Set3 #253;; 4FT; Monolith Guardian;
         Set3 #254;; 3FJ; Whirling Duo;
@@ -1521,7 +1530,7 @@
         Set3 #256;; 4FFJJ; Tinker Dronedropper;
         Set3 #257;; 5FP; Iceberg Warchief;
         Set3 #258;; 3TJ; Auric Record Keeper;
-        Set3 #259;; 3TJ; Shush;
+        Set3 #259;; 2TJ; Shush;
         Set3 #260;; 4TP; Scaletender;
         Set3 #261; 1TP;; Crest of Wisdom; power, depleted, crest
         Set3 #262;; 5JP; Deepwood Ranger;
@@ -1537,7 +1546,7 @@
         Set3 #272;; 5TTSS; Agile Deathjaw;
         Set3 #273;; 3JS; Inquisitor's Halberd;
         Set3 #274;; 3JS; Rooftop Vigilante;
-        Set3 #275;; 4FFSS; Vicious Highwayman;
+        Set3 #275;; 5FFSS; Vicious Highwayman;
         Set3 #276;; 3PS; Skywalk Enforcer;
         Set3 #277;; 4PPSS; Rindra, the Duskblade;
         Set3 #278;; 6FFTTPP; Curiox, Insatiable Seeker;
@@ -1561,7 +1570,7 @@
         Set1001 #10;; 7SS; Shadowlands Feaster;
         Set1001 #11;; 6FJ; Jekk, the Bounty Hunter;
         Set1001 #12;; 3TJ; Combrei Emissary;
-        Set1001 #13;; 4TTPP; Avisaur Patriarch;
+        Set1001 #13;; 3TTP; Avisaur Patriarch;
         Set1001 #14;; 4PS; Cabal Spymaster;
         Set1001 #15;; 2FS; Quarry;
         Set1001 #16;; 7FTJPS; Nictotraxian;
@@ -1684,7 +1693,7 @@
         Set4 #66; 1; 2T,3; Sandglass Parma;
         Set4 #67;; 2TT; Teacher of Humility;
         Set4 #68;; 3T; Amaran Stinger;
-        Set4 #69;; 3T; Arcanum Hourglass;
+        Set4 #69;; 2T; Arcanum Hourglass;
         Set4 #70; 1; 3T; Auralian Merchant;
         Set4 #71;; 3T; Deft Strike;
         Set4 #72;; 3T; Gravetender;
@@ -1798,7 +1807,7 @@
         Set4 #178;; 4P; Resurface;
         Set4 #179;; 4PP; Spiritward Shaman;
         Set4 #180;; 4PP; Aeva, Eilyn's Elite;
-        Set4 #181;; 5P; Big Brother;
+        Set4 #181;; 5PP; Big Brother;
         Set4 #182;; 5P; First-Frost Shaman;
         Set4 #183;; 5P; Gleaming Shield;
         Set4 #184;; 5PP; Sack the City;
@@ -1870,7 +1879,7 @@
         Set4 #247; 1TJ; ; Crest of Progress; power, depleted, crest
         Set4 #248;; 1TJ; Alessi, Combrei Archmage;
         Set4 #249;; 4TTJJ; Sword of Unity;
-        Set4 #250;; 8TJ; Siraf's Choice;
+        Set4 #250;; 7TJ; Siraf's Choice;
         Set4 #251;; 2TP,3; Derry Cathain, Ripclaw Rider;
         Set4 #252;; 4TP; Cirso's Choice;
         Set4 #253; 1JP; ; Crest of Order; power, depleted, crest
@@ -1894,7 +1903,7 @@
 
         Set4 #271; 1;; Chairman's Contract; power, undepleted
         Set4 #272;; 1; Alchemist's Concoction;
-        Set4 #273; 1X; 1,2; Veteran Strategist;
+        Set4 #273; X; 1,2; Veteran Strategist;
         Set4 #274; 1X; 2; Petition;
         Set4 #275; 1X; 2,3; Recon Tower;
         Set4 #276;; 3; Disrupt;
@@ -1950,11 +1959,11 @@
     Set5 #15;; 3F; Grandfather's Axe;
     Set5 #16;; 3F; Lazy Firemane;
     Set5 #17;; 3FFF; Nika, the Freescaler;
-    Set5 #18;; 3F; Phoenix Stone;
+    Set5 #18;; 2F; Phoenix Stone;
     Set5 #19;; 3F; Shiftstone Processor;
     Set5 #20;; 4FF; Flamebrewer;
     Set5 #21;; 4FFFF; Bladerang;
-    Set5 #22;; 4F; Gilded Flames;
+    Set5 #22;; 3F; Gilded Flames;
     Set5 #23;; 4FF; Hardsight Cyclops;
     Set5 #24;; 4F; Ruckus Rouser;
     Set5 #25;; 4FF; Shingane Firebrand;
@@ -1985,7 +1994,7 @@
     Set5 #49;; 2T; Sustaining Harp;
     Set5 #50;; 2T; Vapor Hut;
     Set5 #51;; 3T; Antique Polisher;
-    Set5 #52;; 3T; Awaken the Ages;
+    Set5 #52; 1; 3T; Awaken the Ages;
     Set5 #53;; 3T; Mesmerized Moth;
     Set5 #54;; 3T; Sandcrawler;
     Set5 #55;; 3T; Unraveling Fanatic;
@@ -2044,7 +2053,7 @@
     Set5 #107;; 6JJ; New Order Watchwing;
     Set5 #108;; 6J; Oathkeeper's Hammer;
     Set5 #109;; 6JJJ; Reyna, the Unwavering;
-    Set5 #110;; 8JJJJ; Martyr's Chains;
+    Set5 #110;; 9JJJJ; Martyr's Chains;
     Set5 #111;; 9JJ; Savior of the Meek;
 
     Set5 #112;; 0P; Steely Resolve;
@@ -2123,7 +2132,7 @@
     Set5 #184;; 8S; Improvised Club;
     Set5 #185;; 9SS; Acantha, the Huntress;
 
-    Set5 #186;; 4FFTT; Darya, Warrior Poet;
+    Set5 #186;; 5FFTT; Darya, Warrior Poet;
     Set5 #187;; 5FT; Stoneshell Walker;
     Set5 #188;; 4TJ; Penitent Bull;
     Set5 #189;; 5TTJJ; Serene Meditant;
@@ -2217,7 +2226,7 @@
     Set1005 #14;; 1P; Flexible Familiar;
     Set1005 #15;; 4P; Honor of Claws;
     Set1005 #16;; 4PP; The Winter Crown;
-    Set1005 #17;; 2SS; Desecrate;
+    Set1005 #17;; 3SS; Desecrate;
     Set1005 #18;; 2SS; Ponysnatcher;
     Set1005 #19;; 3S; Star-Reader's Blade;
     Set1005 #20;; 5SS; Profane Censer;
@@ -2243,7 +2252,7 @@
     Set6 #11;; 2F;  Guns Blazing;
     Set6 #12;; 2F;  Horde Duelist;
     Set6 #13;; 2F;  Impatient Pyromage;
-    Set6 #14;; 2FF;  Incendiary Slagmite;
+    Set6 #14;; 2F;  Incendiary Slagmite;
     Set6 #15;; 2F;  Ruins Guide;
     Set6 #16;; 2F;  Slag;
     Set6 #17;; 2F;  Stronghold Vandal;
@@ -2256,7 +2265,7 @@
     Set6 #24;; 3FF;  Quake Titan;
     Set6 #25;; 3F;  Sizzleback Salamander;
     Set6 #26;; 3F;  Streets Aflame;
-    Set6 #27;; 3F;  Tantrum;
+    Set6 #27;; 2F;  Tantrum;
     Set6 #28;; 4FF;  Furious Compulsion;
     Set6 #29;; 4FF;  Kaleb's Persuader;
     Set6 #30;; 4F;  Kaleb's Sanctum;
@@ -2285,7 +2294,7 @@
     Set6 #52;; 2T;  Adolescent Deathjaw;
     Set6 #53;; 2T;  Burdenbearer Wisp;
     Set6 #54;; 2T;  Cryptic Master;
-    Set6 #55;; 2T;  Devotee of the Sands;
+    Set6 #55; 1; 2T;  Devotee of the Sands;
     Set6 #56;; 2T;  Displaced Oryctodon;
     Set6 #57;; 2T;  Glimpse the Possibilities;
     Set6 #58;; 2T;  Sudden Stampede;
@@ -2293,7 +2302,7 @@
     Set6 #60;; 3T;  Blink;
     Set6 #61;; 3T;  Bulbous Humbug;
     Set6 #62;; 3TT;  Death Pit;
-    Set6 #63;; 3T;  Expedition Leader;
+    Set6 #63;; 2T;  Expedition Leader;
     Set6 #64;; 3T;  Kimi, Expedition Guide;
     Set6 #65;; 3T;  Novice Entomancer;
     Set6 #66;; 3TT;  Omnivorous Vorlunk;
@@ -2360,9 +2369,9 @@
     Set6 #125;; 5JJJJJ;  Sediti, the Killing Steel;
     Set6 #126;; 5J;  Shieldcrafter;
     Set6 #127;; 5J;  Steel Legion;
-    Set6 #128;; 5JJ;  Svetya's Sanctum;
+    Set6 #128;; 6JJ;  Svetya's Sanctum;
     Set6 #129;; 5JJ;  Twin Sai;
-    Set6 #130;; 5J;  Withstand;
+    Set6 #130;; 5JJ;  Withstand;
     Set6 #131;; 6JJ;  Nikos, the Unifier;
     Set6 #132;; 6J;  Unseen Ghostblade;
     Set6 #133;; 7JJ;  Valkyrie Accuser;
@@ -2475,14 +2484,518 @@
     Set6 #237;; ;  Evenhanded Golem;
     Set6 #238; 1X; 2;  Seek Answers;
 
+    Set6 #316;; 2F;  Jishu, the Burning Brush;
+    Set6 #317;; 4TTPP;  Albon Roa, of the Order;
+    Set6 #318;; 3PS;  Oizio, Adaptive Spy;
+    Set6 #319;; 5FFPP;  Garden of Omens;
+    Set6 #320;; 3SS;  Verro, Banished Inquisitor;
+
+    Set1006 #1;; 2F;  Yeti Pioneer;
+    Set1006 #2;; 4FF;  Aika, Whirling Death;
+    Set1006 #3;; 4FF;  Hunter's Shot;
+    Set1006 #4;; 5F;  Forge Fire;
+    Set1006 #5;; 1T;  Cloak of Moments;
+    Set1006 #6;; 2T;  Borderlands Trailcutter;
+    Set1006 #7;;4TT;  Saber-Tooth Prideleader;
+    Set1006 #8;; 6TT;  Gnash, Desert Prince;
+    Set1006 #9;; 3JJ;  Etched Armor;
+    Set1006 #10;; 3J;  Tribe Craftsman;
+    Set1006 #11;; 4JJ;  Yisha, the Equalizer;
+    Set1006 #12;; 5JJ;  Oni Combatant;
+    Set1006 #13;; 2P; Battlefield Instigator;
+    Set1006 #14;; 2P;  Blood Hunt;
+    Set1006 #15;; 3P;  Preyfinder;
+    Set1006 #16;; 5PP;  Sodi, Wingbreaker;
+    Set1006 #17;; 1S;  Distilled Venom;
+    Set1006 #18;; 5SS;  Frontier Surveyor;
+    Set1006 #19;; 5SS;  Debtor's Shackles;
+    Set1006 #20;; 6SS;  Uldra, Veilripper;
+    Set1006 #21; 1FJ;;  Rakano Insignia; power, conditional
+    Set1006 #22; 1FP;;  Skycrag Insignia; power, conditional
+    Set1006 #23; 1TP;;  Elysian Insignia;  power, conditional
+    Set1006 #24; 1TS;;  Xenan Insignia;  power, conditional
+    Set1006 #25; 1JS;;  Argenport Insignia; power, conditional
+
+    Set7 #1; 1F;; Emblem of Shavka; power, undepleted
+    Set7 #2;; 1F; Akko, Inspired Artist;
+    Set7 #3;; 2F; Edict of Shavka;
+    Set7 #4;; 2F; Breath of Voprex;
+    Set7 #5;; 2F; Desperate Gambit;
+    Set7 #6; F; 2FF; Shavka Evangel;
+    Set7 #7;; 2F; Sol's Fury;
+    Set7 #8;; 2F; Teething Whelp;
+    Set7 #9;; 2F; Warbrush Oni;
+    Set7 #10;; 3FF; Cozin Darkheart;
+    Set7 #11;; 3F; Draconic Ire;
+    Set7 #12;; 3F; Dragon Forge;
+    Set7 #13;; 3F; Funeral Pyre;
+    Set7 #14;; 3F; Gaudy Showman;
+    Set7 #15;; 3FF; Magebreaker;
+    Set7 #16;; 3F; Razorwire Totemite;
+    Set7 #17;; 4F; Cindermaw Tota;
+    Set7 #18;; 4FFF; Galai, Shavka's Listener;
+    Set7 #19;; 4FF; Harmony of Flame;
+    Set7 #20;; 4FF; Relentless Combatant;
+    Set7 #21;; 4FF; Tota Colony;
+    Set7 #22;; 4F; Warhorn;
+    Set7 #23;; 5FF; Burning Claw;
+    Set7 #24;; 5F; Dramatic Exit;
+    Set7 #25;; 5FF; Flamekeeper;
+    Set7 #26;; 5F; Living Mountain;
+    Set7 #27;; 5F; Slayer's Edge;
+    Set7 #28;; 7FF; Skyfire Hellkite;
+    Set7 #29;; 7FFF; Stonesmelt Dragon;
+    Set7 #30;; 9FF; Spear of the Dying Sun;
+    Set7 #31; 1T;; Emblem of Grodov; power, undepleted
+    Set7 #32; FTJPS; 0T; Reap;
+    Set7 #33;; 1T; Ardent Convert;
+    Set7 #34; 1X; 1T; Ark of Sol;
+    Set7 #35;; 1T; Aspirant's Robes;
+    Set7 #36;; 1T; Borderlands Lookout;
+    Set7 #37;; 1T; Mettle;
+    Set7 #38;; 1T; Xultan Brushfang;
+    Set7 #39;; 2T; Chant to Grodov;
+    Set7 #40; T; 2TT; Grodov Evangel;
+    Set7 #41; 1; 2T; High Prophet of Sol;
+    Set7 #42;; 2T; Snapping Hydrangea;
+    Set7 #43;; 2T; Spiketail Qirin;
+    Set7 #44;; 2T; Unmake;
+    Set7 #45;; 3T; Eager Offering;
+    Set7 #46;; 4T; Edict of Grodov;
+    Set7 #47;; 3TT; Gnash, Unrelenting;
+    Set7 #48;; 3T; Proselytize;
+    Set7 #49;; 3T; Swaying Sea Qirin;
+    Set7 #50; 1; 3T; Wilderness Refuge;
+    Set7 #51;; 4TT; Cult Recruiter;
+    Set7 #52;; 4TT; Waystone Fragment;
+    Set7 #53;; 4TTT; Woda, Grodov's Listener;
+    Set7 #54;; 5TTT; Anthem of Grodov;
+    Set7 #55;; 5T; Vinepetal Creeper;
+    Set7 #56;; 6T; Grodov's Favored;
+    Set7 #57;; 6TT; Majestic Mandrake;
+    Set7 #58;; 7TT; Merizo, Gladiator Hero;
+    Set7 #59;; 7TT; Mountain Goliath;
+    Set7 #60;; 8TTT; Sol's Rest;
+    Set7 #61; 1J;; Emblem of Kodosh; power, undepleted
+    Set7 #62;; 1J; Draw Strength;
+    Set7 #63;; 1J; Ghostblade Outcast;
+    Set7 #64;; 1J; Inflict Conscience;
+    Set7 #65;; 1J; Prancing Gryffyn;
+    Set7 #66;; 1J; Press the Advantage;
+    Set7 #67;; 1J; Shen-Ra, Unbreakable;
+    Set7 #68;; 2J; Edict of Kodosh;
+    Set7 #69;; 2J; Hanaka, Loremaster;
+    Set7 #70; J; 2JJ; Kodosh Evangel;
+    Set7 #71;; 2JJ; Lay Siege;
+    Set7 #72;; 2J; Stand Strong;
+    Set7 #73;; 2J; Xultan Paladin;
+    Set7 #74;; 3J; Crowd Queller;
+    Set7 #75;; 3J; Forgemark Scrivener;
+    Set7 #76;; 3J; Hexcaster;
+    Set7 #77;; 3J; Nivia's Inquisitor;
+    Set7 #78;; 3J; Oni Stalwart;
+    Set7 #79;; 3J; Seasoned Drillmaster;
+    Set7 #80;; 3JJ; Soothing Shortbeak;
+    Set7 #81;; 3JJ; Storm of Feathers;
+    Set7 #82;; 4JJ; Cleansing Rain;
+    Set7 #83;; 4JJJ; Ezuzi, Kodosh's Listener;
+    Set7 #84;; 4JJ; Mercy of Kodosh;
+    Set7 #85;; 4J; Mistrust;
+    Set7 #86;; 4JJ; Rent Seeker;
+    Set7 #87;; 5JJ; Longtail Cavalry;
+    Set7 #88;; 6JJJ; Ageworn Vestige;
+    Set7 #89;; 7JJ; Kodosh Sees All;
+    Set7 #90;; 9J; Soulflame Rider;
+    Set7 #91; 1P;; Emblem of Linrei; power, undepleted
+    Set7 #92;; 1P; Icy Gaze;
+    Set7 #93;; 1P; Snowstorm Druid;
+    Set7 #94;; 1P; Socrato, Furyheart;
+    Set7 #95;; 2P; Edict of Linrei;
+    Set7 #96; P; 2PP; Linrei Evangel;
+    Set7 #97;; 2P; Numbing Cold;
+    Set7 #98;; 2P; Pokpok's Slingshot;
+    Set7 #99;; 2P; Skywatch Zealot;
+    Set7 #100;; 2P; Yeti Gryffyn Rider;
+    Set7 #101;; 3P; Brutish Interloper;
+    Set7 #102;; 3P; Cruelty;
+    Set7 #103;; 3P; Greed's Reward;
+    Set7 #104;; 3P; Rainfall Accord;
+    Set7 #105;; 3P; Thunderclaw Raven;
+    Set7 #106;; 3P; Tidecaller;
+    Set7 #107;; 4PPP; Blitrok, Linrei's Listener;
+    Set7 #108;; 4PP; Daring Gryffyn;
+    Set7 #109;; 4P; Fearstoker Raven;
+    Set7 #110;; 4P; Inspired Prank;
+    Set7 #111;; 4P; Reverberating Strike;
+    Set7 #112;; 4PP; Tidal Forces;
+    Set7 #113;; 4PP; Yeti Traditionalist;
+    Set7 #114;; 5P; Greenstretch Empath;
+    Set7 #115;; 5PP; Prodigious Sorcery;
+    Set7 #116;; 6PP; Burr-Spore Fern;
+    Set7 #117;; 6PP; Flight of Makkar;
+    Set7 #118;; 7P; Skyhorror Draconus;
+    Set7 #119;; 8PPP; Realitybreaker;
+    Set7 #120;; 8P; Rosebloom Mandrake;
+    Set7 #121; 1S;; Emblem of Makkar; power, undepleted
+    Set7 #122;; 1S; Bloodseeker;
+    Set7 #123;; 1S; Edict of Makkar;
+    Set7 #124;; 1S; Faceless One;
+    Set7 #125;; 2S; Fervent Siphoner;
+    Set7 #126;; 2S; Immortalize;
+    Set7 #127; S; 2SS; Makkar Evangel;
+    Set7 #128;; 2S; Malaise;
+    Set7 #129;; 2S; Reconnaissance;
+    Set7 #130;; 2S; Smokedancer;
+    Set7 #131;; 2S; Unkindness;
+    Set7 #132;; 3S; Calamity Oracle;
+    Set7 #133;; 3S; Lethrai Dead Drop;
+    Set7 #134;; 3S; Makkar's Bloodwolf;
+    Set7 #135;; 3SS; Spectral Scythe;
+    Set7 #136;; 3S; Sunset Priest;
+    Set7 #137;; 3S; Torture;
+    Set7 #138;; 3S; Vile Collaborator;
+    Set7 #139;; 3S; Waylay;
+    Set7 #140;; 4S; Befoul;
+    Set7 #141;; 4S; Blood of Makkar;
+    Set7 #142;; 4SS; Dread Hellkite;
+    Set7 #143;; 4SS; Fell Ritual;
+    Set7 #144;; 4SSS; Incarnus, Makkar's Listener;
+    Set7 #145;; 5S; Marsh Dragon;
+    Set7 #146;; 6SS; Karvet, Solar Dragon;
+    Set7 #147;; 7S; Banewulf;
+    Set7 #148;; 7SS; Eremot, Death Incarnate;
+    Set7 #149;; 7SS; Noxious Wyvarch;
+    Set7 #150;; 8SSS; Vicious Rejuvenation;
+    Set7 #151;; 2FT; Kairos' Choice;
+    Set7 #152;; 3FFTT; Ramba, Arena Showman;
+    Set7 #153;; 4FT; Cheering Section;
+    Set7 #154;; 6FT; Champion Grappler;
+    Set7 #155; 6; 9FFFTTT; Kairos, Grand Champion;
+    Set7 #156; 1FJ;; Rakano Insignia; power, conditional
+    Set7 #157;; 2FJ; Acclaimed Artisan;
+    Set7 #158;; 2FJ; Rujin's Choice;
+    Set7 #159;; 4FJ; Conspicuous Traveler;
+    Set7 #160;; 4FFJJ; Gatekeeper's Halberd;
+    Set7 #161;; 6FFFJJJ; Rujin, Conflict Within;
+    Set7 #162; 1FP;; Skycrag Insignia; power, conditional
+    Set7 #163;; 2FP; Geminon's Choice;
+    Set7 #164;; 2FP; Wizened Crone;
+    Set7 #165;; 3FP; Blood-Sun Staff;
+    Set7 #166;; 5FFPP; Geminon's Berserker;
+    Set7 #167;; 5FFFPPP; Geminon, the Double Helix;
+    Set7 #168;; 2FS; Voprex's Choice;
+    Set7 #169;; 4FFSS; Cremate;
+    Set7 #170;; 6FS; Cinder Dragon;
+    Set7 #171;; 7FSS; Cruel Wyvarch;
+    Set7 #172;; 8FFFSSS; Voprex, Hope's End;
+    Set7 #173;; 2TJ; Aamri's Choice;
+    Set7 #174;; 2TJ; Intrepid Longhorn;
+    Set7 #175;; 3TJ; Qirin Ascendant;
+    Set7 #176;; 5TTJJ; Shen-Ra Speaks;
+    Set7 #177;; 6TTTJJJ; Aamri, Dragonbane;
+    Set7 #178; 1TP;; Elysian Insignia; power, conditional
+    Set7 #179;; 2TP; Sodi's Choice;
+    Set7 #180;; 3TP; Sodi's Spellshaper;
+    Set7 #181;; 2TP; Wanderlust Qirin;
+    Set7 #182;; 3TTTPPP; Sodi the Metamorph;
+    Set7 #183;; 5TTPP; Ila & Mizo;
+    Set7 #184; 1TS;; Xenan Insignia; power, conditional
+    Set7 #185;; 1TS; Nahid's Faithful;
+    Set7 #186;; 2TS; Worthy Cause;
+    Set7 #187;; 2TS; Nahid's Choice;
+    Set7 #188;; 2TS; Zhen-Zu, Hand of Nahid;
+    Set7 #189;; 6TTTSSS; Nahid, the Immortal;
+    Set7 #190;; 1JP; Electrostatic Distortion;
+    Set7 #191;; 2JP; Parul's Choice;
+    Set7 #192;; 3JP; Misery Walker;
+    Set7 #193;; 4JJP; Forbidden-Rider Outcast;
+    Set7 #194;; 6JJJPPP; Parul, Sealkeeper;
+    Set7 #195; 1JS;; Argenport Insignia; power, conditional
+    Set7 #196;; 2JS; Eloz's Choice;
+    Set7 #197;; 2JS; Eloz's Elite;
+    Set7 #198;; 3JSS; Cast into Shadow;
+    Set7 #199;; 4JJSS; Nivia, Most Devoted;
+    Set7 #200;; 6JJJSSS; Eloz, Martial Scholar;
+    Set7 #201;; 2PS; Conservatory Alchemist;
+    Set7 #202;; 2PS; Felrauk's Choice;
+    Set7 #203;; 3PS; Wretched Raven;
+    Set7 #204;; 4PSS; Kindo Shadowstep;
+    Set7 #205;; 6PPPSSS; Felrauk the Outcast;
+    Set7 #206;; 7FTJ; Xulta Arcanum;
+    Set7 #207;; 4FTS; Profane Nexus;
+    Set7 #208;; 6FPS; Den of Ordeals;
+    Set7 #209;; 5TJP; Bastion of the Dawn;
+    Set7 #210;; 3JPS; Outcast Fortress;
+    Set7 #211; 1;; Ancient Manual; power, depleted
+    Set7 #212; 1;; Sacred Seal; power, undepleted
+    Set7 #213;; 2; Varret, Hero-in-Training;
+    Set7 #214;; 4; Sword of Judgement;
+    Set7 #320;; 3SS; Verro, Banished Inquisitor;
+
+    Set7 #321;; 2FS; Dracowitch Razca;
+    Set7 #322;; 2P; Yorja, The Tale Keeper;
+
+    Set1007 #1;; 1F; Cinder Clutch;
+    Set1007 #2;; 3FFF; Endra, Champion of Shavka;
+    Set1007 #3;; 2T; Ixtol's Pendant;
+    Set1007 #4;; 6TTT; Ixtol, Champion of Grodov;
+    Set1007 #5;; 3J; Aali, Champion of Kodosh;
+    Set1007 #6;; 5JJ; Solburst Scimitar;
+    Set1007 #7;; 3P; Linrei's Protection;
+    Set1007 #8;; 6PPP; Lys, Champion of Linrei;
+    Set1007 #9;; 2S; Eremot's Designs;
+    Set1007 #10;; 3SS; Kuro, Champion of Makkar;
+    Set1007 #11;; 4FT; Solwatcher Tota;
+    Set1007 #12;; 5FFJJ; Zealous Artisan;
+    Set1007 #13;; 6FFPP; Spitflame Draconus;
+    Set1007 #14;; 4FS; Dakus, Ancient Flame;
+    Set1007 #15;; 3TJ; Harga, Armory Warden;
+    Set1007 #16;; 2TP; Stormtamer's Mount;
+    Set1007 #17;; 3TS; Sunset Stone;
+    Set1007 #18;; 5JJPP; Archgryffyn Patriarch;
+    Set1007 #19;; 1JS; Shattered Hopes;
+    Set1007 #20;; 2PS; Tome of Horrors;
+    Set1007 #21;; 1; Nightmare Prism;
+
+    Set7 #323;; 2TS; The Merriest Mandrake;
+    Set7 #324;; 4; Traver's Farm;
+
+    Set8 #77;; 3J; Xulta Exile;
+    Set8 #101;; 3P; Touch of Wild;
+    Set8 #23;; 5F; Inferno Zealot;
+    Set8 #82;; 5JJJ; Emerald Maw;
+    Set8 #38;; 2T; Lurking Raptors;
+    Set8 #49;; 3T; Waystone Gate;
+    Set8 #50;; 4TT; Ancestral Oasis;
+    Set8 #91;; 2P; Formbend;
+    Set8 #148;; 6FT; Unlock the Vault;
+    Set8 #67;; 2J; Timidity;
+    Set8 #149;; 3FJ; Keeper's Shield;
+    Set8 #114;; 7P; Linrei's Kiss;
+    Set8 #74;; 3J; Master's Blade;
+    Set8 #324;; 4; Traver's Farm;
+    Set8 #44;; 3TT; Earth Conjuring;
+    Set8 #98;; 3PP; Water Conjuring;
+    Set8 #131;; 3SS; Pack Conjuring;
+    Set8 #16;; 3FF; Fire Conjuring;
+    Set8 #73;; 3JJ; Wind Conjuring;
+    Set8 #18;; 3FF; Shavka's Lute;
+    Set8 #123;; 2SS; Makkar's Quiver;
+    Set8 #72;; 3JJ; Kodosh's Armor;
+    Set8 #104;; 4PPP; Linrei's Codex;
+    Set8 #53;; 5TTT; Grodov's Burden;
+    Set8 #109;; 5PP; Linrei's Stranger;
+    Set8 #54;; 6TT; Grodov's Stranger;
+    Set8 #17;; 7FF; Shavka's Stranger;
+    Set8 #140;; 5SS; Makkar's Stranger;
+    Set8 #71;; 3JJ; Kodosh's Stranger;
+    Set8 #62;; 2JJ; Eloz, Nightmare General;
+    Set8 #120;; 1S; Urgent Missive;
+    Set8 #139;; 5S; Karvet, Redeemed;
+    Set8 #42;; 2T; Touch of Battle;
+    Set8 #32;; 1T; Crack the Earth;
+    Set8 #56;; 6TT; Sunset Enforcer;
+    Set8 #58;; 7TT; Corpsebloom;
+    Set8 #115;; 7PPPP; Solar Blast;
+    Set8 #26;; 6FF; Stonepowder Bomber;
+    Set8 #151;; 5FFJJ; Hammer of Glory;
+    Set8 #196; 1TJP;; Token of Tradition; power, depleted
+    Set8 #176; 1FTJ;; Token of Creation; power, depleted
+    Set8 #191; 1JPS;; Token of Purpose; power, depleted
+    Set8 #181; 1FTS;; Token of Destruction; power, depleted
+    Set8 #186; 1FPS;; Token of Menace; power, depleted
+    Set8 #198;; 3TJP; Display of Tradition;
+    Set8 #178;; 3FTJ; Display of Creation;
+    Set8 #183;; 3FTS; Display of Destruction;
+    Set8 #193;; 3JPS; Display of Purpose;
+    Set8 #188;; 3FPS; Display of Menace;
+    Set8 #202; X; 2; Unfamiliar Interloper;
+    Set8 #170;; 2JS; Reborn Master;
+    Set8 #173;; 2PS; Essence Feast;
+    Set8 #92;; 2P; Provoke the Dragons;
+    Set8 #145;; 6SS; Spore-Spitter;
+    Set8 #103;; 4PP; Brutal Frostlord;
+    Set8 #8;; 2F; Sear;
+    Set8 #129;; 3S; Flamebathe Reformation;
+    Set8 #75;; 3J; Resounding Shockwave;
+    Set8 #135;; 4SS; Darkmask Stalker;
+    Set8 #128;; 3SS; Felrauk's Infiltrator;
+    Set8 #60;; 1J; Ensnare;
+    Set8 #161;; 2TP; Majestic Skies;
+    Set8 #152;; 2FP; Spellbound Vestige;
+    Set8 #99;; 2P; Overlook Spotter;
+    Set8 #78;; 4J; Divebomb;
+    Set8 #172;; 6JJSS; Unseen Execution;
+    Set8 #136;; 4S; Succumb;
+    Set8 #5;; 1F; Ruinous Burst;
+    Set8 #122;; 2S; Defile;
+    Set8 #31;; 1T; Calibrate;
+    Set8 #133;; 3S; Triumphant Return;
+    Set8 #160;; 3TJ; Strange Duelist;
+    Set8 #162;; 3TP; Strange Sorcerer;
+    Set8 #171;; 3JS; Strange Ally;
+    Set8 #167;; 3JP; Strange Rider;
+    Set8 #165;; 2TS; Strange Navigator;
+    Set8 #174;; 3PS; Strange Broker;
+    Set8 #156;; 4FS; Strange Burglar;
+    Set8 #146;; 3FT; Strange Gladiator;
+    Set8 #150;; 4FJ; Strange Blacksmith;
+    Set8 #154;; 4FP; Strange Tracker;
+    Set8 #119;; 1S; Entranced Cultist;
+    Set8 #143;; 6S; Dark Betrayal;
+    Set8 #24;; 5F; Thunder of Wings;
+    Set8 #11;; 2F; Volatility;
+    Set8 #85;; 6JJ; Camoni, Dusk Rider;
+    Set8 #13;; 3F; Assault Shield;
+    Set8 #185;; 6FTS; Awakened Gorger;
+    Set8 #41;; 2T; Shardbinder;
+    Set8 #37;; 2T; Inner-Peace Ascendant;
+    Set8 #89;; 1P; Transpose;
+    Set8 #61;; 1J; Fearless Crescendo;
+    Set8 #84;; 5JJ; Rageheart Paladin;
+    Set8 #163;; 5TTPP; Albon, Fallen;
+    Set8 #159;; 2TJ; Pillar of Progress;
+    Set8 #63;; 2J; Monument Curator;
+    Set8 #51;; 4T; Arcane Restraint;
+    Set8 #168;; 3JP; Yojimba, Ghostblade;
+    Set8 #94;; 3P; Biting Winds;
+    Set8 #132;; 3S; Skeletal Dragon;
+    Set8 #64;; 2J; Outcast Elite;
+    Set8 #107;; 4PP; Uelo, Sky Tactician;
+    Set8 #36;; 1T; Sky Worshipper;
+    Set8 #30;; 1T; Alluring Qirin;
+    Set8 #100;; 3P; Static Discharge;
+    Set8 #127;; 3S; Fanatical Stranger;
+    Set8 #9;; 2F; Soldrain Smithing;
+    Set8 #153;; 4FP; Acedonis, Untainted;
+    Set8 #169;; 6JP; Dying Sun Tapestry;
+    Set8 #48;; 3T; Turn Back Time;
+    Set8 #111;; 5P; Tainted Mark;
+    Set8 #45;; 3TT; Humbug Nest;
+    Set8 #40;; 2T; Platinum Qirin;
+    Set8 #35;; 1T; Shield of the Line;
+    Set8 #147;; 4FT; Victor's Feast;
+    Set8 #112;; 6PP; Abyssal Scrying;
+    Set8 #200;; 5TTJJPP; Wren, Traditionalist;
+    Set8 #124;; 2S; Switchblade Deadeye;
+    Set8 #138;; 5SSS; Induce Madness;
+    Set8 #110;; 5PPP; Savage Incursion;
+    Set8 #88;; 1P; Nesting Raven;
+    Set8 #86;; 6JJ; Mithril Paladin;
+    Set8 #79;; 4J; Promising Pupil;
+    Set8 #166;; 5TS; Eremot's Machinations;
+    Set8 #134;; 3SS; Unseen Longbow;
+    Set8 #117;; 1S; Condemn;
+    Set8 #43;; 3T; Gravewatch Ancestor;
+    Set8 #155;; 3FS; Shrine to Karvet;
+    Set8 #65;; 2J; Siege Provisions;
+    Set8 #1;; 1F; Blazing Salvo;
+    Set8 #158;; 2TJ; Hammer of Unity;
+    Set8 #175;; 4PPSS; Darktalon Wyvarch;
+    Set8 #29;; 9FFF; Shavka's Embrace;
+    Set8 #76;; 3J; Sky King Storyteller;
+    Set8 #157;; 6FS; Premature Burial;
+    Set8 #69;; 2J; Willbreaker;
+    Set8 #184;; 5FFTTSS; Dova, the Fearmonger;
+    Set8 #59;; 1J; Deafening Word;
+    Set8 #3;; 1F; Kazuo, Melee Virtuoso;
+    Set8 #34;; 1T; Precision Plunge;
+    Set8 #93;; 3P; Spellstorm Stranger;
+    Set8 #6;; 2F; Covetous Stranger;
+    Set8 #39;; 2T; Magnificent Stranger;
+    Set8 #66;; 2J; Steely Stranger;
+    Set8 #15;; 3F; Markmaker;
+    Set8 #195;; 6JPS; Agent of Purpose;
+    Set8 #55;; 6T; Nahid's Distillation;
+    Set8 #95;; 3P; Bottled Storm;
+    Set8 #46;; 3T; Rectifier;
+    Set8 #20;; 4FF; Bladecrafter;
+    Set8 #70;; 3JJ; Jadehorn;
+    Set8 #130;; 3SS; Bloodwolf;
+    Set8 #22;; 5F; Dancing Flame;
+    Set8 #137;; 5SS; Feartracker;
+    Set8 #28;; 8FFFF; Hammerhand;
+    Set8 #105;; 4PP; Plagued Gryffyn;
+    Set8 #10;; 2F; Tota Pioneer;
+    Set8 #83;; 5J; Enchanted Platemail;
+    Set8 #201;; 1; Rage;
+    Set8 #97;; 3PP; Highsky Lookout;
+    Set8 #106;; 4P; Runemarker;
+    Set8 #52;; 4TTT; Gentle Grazer;
+    Set8 #182; 1FTS; 1; Destruction Chant;
+    Set8 #187; 1FPS; 1; Menace Chant;
+    Set8 #197; 1TJP; 1; Tradition Chant;
+    Set8 #192; 1JPS; 1; Purpose Chant;
+    Set8 #177; 1FTJ; 1; Creation Chant;
+    Set8 #189;; 5FFPPSS; Skylord Tolek;
+    Set8 #194;; 5JJPPSS; Zadia, Revered Outcast;
+    Set8 #179;; 5FFTTJJ; Naoki, Valiant Warrior;
+    Set8 #203;; 2; Unity Within;
+    Set8 #108;; 5P; Double Helix Drake;
+    Set8 #102;; 4PP; Brood of Eremot;
+    Set8 #142;; 6SSS; Aurapiercer;
+    Set8 #25;; 6FF; Midias, Leyline Dragon;
+    Set8 #125;; 2S; Touch of Resilience;
+    Set8 #144;; 6SSSS; Pale Rider's Timepiece;
+    Set8 #141;; 5SS; Mysterious Waystone;
+    Set8 #121;; 2S; Damara, Deft Saboteur;
+    Set8 #80;; 4JJ; Purgedriver;
+    Set8 #199;; 5TJP; Sorcerer's Wand;
+    Set8 #180;; 7FTJ; Edge of Prophecy;
+    Set8 #57;; 7TT; Bhodi & Rox;
+    Set8 #164;; 2TS; Endless Nightmare;
+    Set8 #126;; 2S; Two-Face;
+    Set8 #12;; 2F; Yeti Cookmaster;
+    Set8 #87;; 6J; Restrained Action;
+    Set8 #118;; 1S; Contaminating Ritual;
+    Set8 #90;; 2P; Bookclub Yeti;
+    Set8 #116;; 7PPP; Vernal Mandrake;
+    Set8 #68;; 2J; Touch of Purity;
+    Set8 #19;; 3F; Touch of Force;
+    Set8 #33;; 1T; Pause for Reflection;
+    Set8 #81;; 4JJ; Xultan Arbalest;
+    Set8 #27;; 7FF; Shugo's Hooked Sword;
+    Set8 #113;; 6PP; Frostbite Chrysalis;
+    Set8 #96;; 3P; Forlorn Gryffyn;
+    Set8 #47;; 3T; Tota Circle;
+    Set8 #14;; 3FF; Burningcore Drake;
+    Set8 #190;; 6FPS; Razorpain Hellkite;
+    Set8 #21;; 4FF; Tattoo Dragon;
+    Set8 #4;; 1F; Kindling Carver;
+    Set8 #7;; 2F; Kato, Arena Herald;
+    Set8 #2;; 1F; Furyblade;
+
+    Set8 #325;; 15FTJPS; Lastlight Judgement;
+    Set8 #326;; 3TJ; Gerrit, Throne Guardian;
+
+    Set1085 #7;; 1J; Seneschal of Light;
+    Set1085 #17;; 2FTS; Vox, Nurturing Sadist;
+    Set1085 #6;; 5TTT; Braun, Regal Courier;
+    Set1085 #14;; 2SS; Blightmoth;
+    Set1085 #20;; 2JPS; Keelo, Bold Innovator;
+    Set1085 #2;; 3F; Praxis Trove;
+    Set1085 #19;; 2TJP; Kaspar, Oren of Kosul;
+    Set1085 #11;; 3PP; The Throne Room;
+    Set1085 #18;; 2FPS; Razca, Rewarded;
+    Set1085 #5;; 3TT; Pesky Seedling;
+    Set1085 #16;; 2FTJ; Elham, Keen-Eyed;
+    Set1085 #3; JJPP; 5FF; Yushkov, Brutal Tyrant;
+    Set1085 #21; 1;; Tempting Offer; power, undepleted
+    Set1085 #13;; 1S; Avoid Death;
+    Set1085 #15;; 4SS; Battle at the Gates;
+    Set1085 #9;; 10JJ; Rolant's Warblade;
+    Set1085 #1;; 3FF; Milos, Rebel Bomber;
+    Set1085 #4;; 3T; Archmagister's Portal;
+    Set1085 #10;; 0PPP; Declare Victory;
+    Set1085 #8;; 4JJ; Counsel of Heroes;
+    Set1085 #12;; 4PP; Guardian of Spring;
+    Set8 #327;; 4SSSS; Eremot, Mindsplinter;
+
+    Set9 #1;; 2TS; Echoes of Eternity Spoiler;
+    Set9 #2;; 0; Eternal Card;
+
 
     </script>
-
-    <!--
-
-
-    -->
-
 
     <!-- hack to allow us to create node modules for tests -->
     <script type="text/javascript">window.module = {};</script>
@@ -2494,36 +3007,36 @@
     <script type="text/javascript" src="epc.min.js"></script>
 
 
-    <script type="text/javascript">
-        var graphStyle;
+<script type="text/javascript">
+    var graphStyle;
 
-        graphStyle = {
-            marginLeft: 64,
-            marginRight: 48,
-            marginBottom: 54,
-            fontSize: 18,
-            iconSize: 30,
-            dotSize: 9,
-            font: "'Open Sans Condensed Bold', sans-serif",
-            textColor: "rgb(231, 228, 230)",
-            borderColor: "rgb(192, 192, 192)",
-            backgroundColor: "rgb(0, 0, 0)",
-            interiorLineColor: "rgb(67, 67, 67)",
+    graphStyle = {
+        marginLeft: 64,
+        marginRight: 48,
+        marginBottom: 54,
+        fontSize: 18,
+        iconSize: 30,
+        dotSize: 9,
+        font: "'Open Sans Condensed Bold', sans-serif",
+        textColor: "rgb(231, 228, 230)",
+        borderColor: "rgb(192, 192, 192)",
+        backgroundColor: "rgb(0, 0, 0)",
+        interiorLineColor: "rgb(67, 67, 67)",
 
-            fireColorSolid: "rgb(204, 0, 0)",
-            fireColorTranslucent: "rgba(204, 0, 0, 0.3)",
-            timeColorSolid: "rgb(241, 194, 50)",
-            timeColorTranslucent: "rgba(241, 194, 50, 0.3)",
-            justiceColorSolid: "rgb(106, 168, 79)",
-            justiceColorTranslucent: "rgba(106, 168, 79, 0.3)",
-            primalColorSolid: "rgb(60, 120, 216)",
-            primalColorTranslucent: "rgba(60, 120, 216, 0.3)",
-            shadowColorSolid: "rgb(166, 77, 121)",
-            shadowColorTranslucent: "rgba(166, 77, 121, 0.3)"
-        };
+        fireColorSolid: "rgb(204, 0, 0)",
+        fireColorTranslucent: "rgba(204, 0, 0, 0.3)",
+        timeColorSolid: "rgb(241, 194, 50)",
+        timeColorTranslucent: "rgba(241, 194, 50, 0.3)",
+        justiceColorSolid: "rgb(106, 168, 79)",
+        justiceColorTranslucent: "rgba(106, 168, 79, 0.3)",
+        primalColorSolid: "rgb(60, 120, 216)",
+        primalColorTranslucent: "rgba(60, 120, 216, 0.3)",
+        shadowColorSolid: "rgb(166, 77, 121)",
+        shadowColorTranslucent: "rgba(166, 77, 121, 0.3)"
+    };
 
-        buildEpcUI(graphStyle);
-    </script>
+    buildEpcUI(graphStyle);
+</script>
 </body>
 
 </html>

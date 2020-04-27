@@ -126,6 +126,7 @@ textarea {
 
 a {
     color: #81C3F4;
+    text-decoration: none;
     font-family: 'Open Sans ExtraBold', sans-serif;
 }
 
@@ -930,6 +931,12 @@ textcol {
   line-height: 1.6;
 }
 
+.galleryDeck {
+  position: absolute;
+  left: 220px;
+  float: left;
+  width: 125px;
+}
 
 /* #calculator-content {
     margin-left: auto;
