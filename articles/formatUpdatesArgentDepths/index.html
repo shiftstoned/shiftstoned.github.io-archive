@@ -445,6 +445,8 @@ h2#Xenan { --bannerColor1: var(--TimeYellow); --bannerColor2: var(--ShadowPurple
 
         <a href="/"><img class="shiftstoned-img" src="/images/LogoShiftstoned.svg" /></a>
 
+        <a href="/articles"><img alt="Articles" class="power-calculator-img" src="/articles/HeaderArticles.png" title="Articles" /></a>
+
 
       <div id="newNavigation-menu" data-state="closed">
 
@@ -461,8 +463,6 @@ h2#Xenan { --bannerColor1: var(--TimeYellow); --bannerColor2: var(--ShadowPurple
             <li class="nav-item"><a href="/epc/">POWER CALCULATOR </a></li>
             <li class="nav-item child"><a href="/epc/about/">Guide</a></li>
             <li class="nav-item"><a href="/calendar/">COMMUNITY CALENDAR</a></li>
-            <li class="nav-item"><a href="/drafter/">DRAFTER</a></li>
-            <li class="nav-item"><a href="/players/">PLAYERS</a></li>
             <li class="nav-item"><a href="/articles/">ARTICLES</a></li>
             <li class="nav-item"><a href="/contact">CONTACT</a></li>
           </ul>
@@ -35944,7 +35944,20 @@ function updateFilters(toggle, array, toggleValue, sectionValue) {
   toggleSections.forEach((section) => {
     section.dataset[sectionValue] = array.join(' ');
   });
-};</script>
+};
+
+// Header JS
+  // toggle menu
+  // initial "header.dataset.state == 'closed'"
+  const navMenu = document.getElementById('newNavigation-menu');
+  toggleMenu = () => {
+    if (navMenu.dataset.state === "closed") {
+        navMenu.dataset.state = "open";
+    }
+    else {
+        navMenu.dataset.state = "closed";
+    }
+  }</script>
 
 
   </body>
