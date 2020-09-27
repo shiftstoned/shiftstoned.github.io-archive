@@ -1,0 +1,58 @@
+---
+title: Drafter
+layout: layouts/html.njk
+section: Drafter
+bg_img: ../images/BackgroundDrafter.jpg
+offset: 'top: -100px;'
+about: about/
+override:tags: []
+---
+      <!-- Container for top controls -->
+      <div class="drafterControlPanel">
+        {%- include "partials/drafterControls.njk" %}
+      </div>
+
+      <!-- Column for Drafter Decklist -->
+      <div class="drafterDeckPanel">
+
+      </div>
+
+      <!-- Column for Drafter Cards -->
+      <div class="drafterCardCollection">
+
+        <div class="tooltip">
+          <span class="tutorialTip" style="width: 300px;
+            height: 80px;  margin-left: 20px; top: 0px;"><span style="font-size: 22px;">Greetings Huckleberry!</span><br>
+          Search for a Draft pick to get started</span>
+        </div>
+
+        <!-- Row 1 -->
+        <div>
+
+          <div class="cardBlock" style="margin-left: 340px; top: 30px;">
+
+            <img src="../images/PhantomCard.png">
+
+            <div class="gradeCircle" style="-webkit-filter: drop-shadow(5px 5px 5px #222); filter: drop-shadow(5px 5px 5px #222);">
+              <h4>B+</h4>
+
+               <div style="position: relative; top: -65px; left: 15px; -webkit-filter: drop-shadow(5px 5px 5px #222); filter: drop-shadow(5px 5px 5px #222);"><img src="../images/SpeechBubble.png" style="width: 25px;"></div>
+
+              <div class="tooltip">
+                <span class="tutorialTip" style="font-family: 'Merriweather',serif; visibility: visible; width: 250px; height: 60px; margin-left: 30px; top: -120px;">Card grades appear here in circles. <br>Hover over <img src="/images/SpeechBubble.png" style="width: 14px;"> to view comments.</span>
+              </div>
+            </div>
+
+            <div class="tooltip">
+              <span class="tutorialTip" style="font-family: 'Merriweather',serif; visibility: visible; width: 200px; height: 60px; margin-left: -190px; top: -120px; text-align: center; opacity: .9">Click a card to add to your Pool or Deck.</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div style="margin: auto; text-align: center;">
+          <a href="/drafter/about">Expanded User's Guide &#9658;</a>
+       </div>
+
+      </div>

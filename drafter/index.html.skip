@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+
+    <!-- Meta data for index.njk head goes here - temporarily hidden -->
+    <!-- Compatibility for older browsers goes here - temporarily hidden -->
+    <!-- Resources for icons go here - temporarily hidden -->
+    <!-- Resources for themes go here - temporarily hidden -->
+
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/app.css">
+
+</head>
+
+<!-- PAGE BODY -->
+<body>
+
+<img class="background" src="https://ssg.shiftstoned.com/images/BackgroundDrafter.jpg" />
+
+<div class="newShiftstoned-heading">
+
+    <div class="newHeading-top">
+
+        <a href="https://ssg.shiftstoned.com/"><img class="shiftstoned-img" src="https://ssg.shiftstoned.com/images/LogoShiftstoned.png" /></a>
+
+        <a href="https://ssg.shiftstoned.com/drafter"><img alt="Drafter" class="power-calculator-img" src="https://ssg.shiftstoned.com/images/HeaderDrafter.png" title="Drafter" /></a>
+
+        <div class="newAbout-heading">
+            <a class="white" href="https://ssg.shiftstoned.com/drafter/about/">ABOUT</a>
+        </div>
+
+        <div id="newNavigation-separator">
+        </div>
+
+
+        <div class="ui dropdown" id="newNavigation-menu" tabindex="0">
+
+            <img src="https://www.shiftstoned.com/global/images/navigation-menu.png" />
+
+            <div class="menu left transition hidden" tabindex="-1">
+
+                <div class="item">
+                    <a href="https://ssg.shiftstoned.com/">HOME </a>
+                </div>
+
+                <div class="item">
+                    <a href="https://ssg.shiftstoned.com/epc/">POWER CALCULATOR </a>
+                </div>
+
+                <div class="item">
+                    <div class="navigation-menu-indent">
+                        <a href="https://ssg.shiftstoned.com/epc/about/">&bull;</a>
+                    </div>
+                    <a href="https://ssg.shiftstoned.com/epc/about/">Guide</a>
+                </div>
+
+                <div class="item">
+                    <a href="https://ssg.shiftstoned.com/calendar/">COMMUNITY CALENDAR</a>
+                </div>
+
+                <div class="item">
+                    <a href="https://ssg.shiftstoned.com/drafter/">DRAFTER</a>
+                </div>
+
+                <div class="item">
+                    <a href="https://ssg.shiftstoned.com/articles/">ARTICLES</a>
+                </div>
+
+                <div class="item">
+                    <a href="https://ssg.shiftstoned.com/contact">CONTACT</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="newHeading-page-top">
+        &nbsp;
+    </div>
+
+</div>
+
+<!-- Main page content -->
+<div id="app"></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="https://ssg.shiftstoned.com/epc/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://ssg.shiftstoned.com/epc/semantic.min.js"></script>
+<script type="text/javascript">$(".ui.dropdown").dropdown();</script>
+<script src="js/index.js"></script>
+
+</body>
+
+</html>
