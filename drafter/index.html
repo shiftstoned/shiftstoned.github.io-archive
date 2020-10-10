@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-<!-- Google Analytics gtag to go here - temporarily hidden -->
-
-
-
-<!-- Meta data for index.njk head goes here - temporarily hidden -->
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  
+
+  <!-- Open Graph Properties -->
+  <meta content="Shiftstoned | Drafter" property="og:title" />
+  <meta content="Shiftstoned" property="og:site_name" />
+  <meta content="Fan-built deck-building tool for Eternal, A Strategy Card Game." property="og:description" />
+  <meta content="https://shiftstoned.com/drafter" property="og:url" />
+  <meta content="article" property="og:type" />
+  <meta property="og:image" content="https://www.shiftstoned.com/images/shiftstoned-og.png" />
+  <meta content="image/png" property="og:image:type" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120926504-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-120926504-1');
+  </script>
+
   <title>Drafter | ShiftStoned</title>
 
 <!-- Compatibility for older browsers goes here - temporarily hidden -->
@@ -24,8 +37,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
 
   <!-- CSS -->
-  <link href="/styles/site.css" rel="stylesheet" type="text/css">
-  
+  <link href="/global/css/site.css" rel="stylesheet" type="text/css">
   <link href="css/app.css" rel="stylesheet" type="text/css">
 
 
@@ -96,7 +108,19 @@
     <!-- JAVASCRIPT -->
     
     <!-- defer loading non-critical js -->
-    <script defer src="/scripts/site-defer.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      // Header JS
+        // toggle menu
+        // initial "header.dataset.state == 'closed'"
+        const navMenu = document.getElementById('newNavigation-menu');
+        toggleMenu = () => {
+          if (navMenu.dataset.state === "closed") {
+              navMenu.dataset.state = "open";
+          }
+          else {
+              navMenu.dataset.state = "closed";
+          }
+        }</script>
     <!-- page-specific js -->
     <script src="js/cards.js" type="text/javascript"></script>
     <script src="js/index.js" type="text/javascript"></script>
