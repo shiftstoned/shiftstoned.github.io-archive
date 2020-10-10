@@ -1,0 +1,53 @@
+<!-- sparksvg.me/bar.svg -->
+<svg viewBox="-1 -1 2 2" style="transform: rotate(-90deg)" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="100%" height="100%">
+    <script><![CDATA[
+    let colors = [
+        '#c27c18', // unit
+        '#4acd2f', // attachment
+        '#be4ffe', // spell
+        '#55cdd1'  // power
+        '#ddd'  // nothing
+    ];
+
+    let input = location.search.substr(1).split('&')[0].split(",").map(n => parseFloat(n, 10) || 0);
+    let total = input.reduce((a, b) => a + b, 0);
+    let slices = input.map(function (n, k) {
+      return { percent: n / total, color: colors[k] };
+    });
+
+    const svgEl = document.querySelector('svg');
+    let cumulativePercent = 0;
+
+    function getCoordinatesForPercent(percent) {
+      const x = Math.cos(2 * Math.PI * percent);
+      const y = Math.sin(2 * Math.PI * percent);
+      return [x, y];
+    }
+
+    slices.forEach(slice => {
+      // destructuring assignment sets the two variables at once
+      const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
+
+      // each slice starts where the last slice ended, so keep a cumulative percent
+      cumulativePercent += slice.percent;
+
+      const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
+
+      // if the slice is more than 50%, take the large arc (the long way around)
+      const largeArcFlag = slice.percent > .5 ? 1 : 0;
+
+        // create an array and join it just for code readability
+      const pathData = [
+        `M ${startX} ${startY}`, // Move
+        `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`, // Arc
+        `L 0 0`, // Line
+      ].join(' ');
+
+      // create a <path> and append it to the <svg> element
+      const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      pathEl.setAttribute('d', pathData);
+      pathEl.setAttribute('fill', slice.color);
+      svgEl.appendChild(pathEl);
+    });
+  ]]></script>
+</svg>
