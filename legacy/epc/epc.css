@@ -1,0 +1,843 @@
+/*
+
+    Eternal Power Calculator
+    Copyright (C) 2018  Matt Kimball
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+*/
+
+/*
+    Fonts
+*/
+
+@font-face {
+    font-family: 'Open Sans Condensed Bold';
+    font-style: normal;
+    font-weight: 700;
+    src: url(open-sans-condensed-bold.woff2) format('woff2'),
+            url(open-sans-condensed-bold.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans ExtraBold';
+    font-style: normal;
+    font-weight: 800;
+    src: url(open-sans-extra-bold.woff2) format('woff2'),
+            url(open-sans-extra-bold.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(open-sans-regular.woff2) format('woff2'),
+            url(open-sans-regular.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-style: normal;
+    font-weight: 400;
+    src: url(merriweather-regular.woff2) format('woff2'),
+            url(merriweather-regular.woff) format('woff');
+}
+
+
+/*  Don't display the preloaded influence icons  */
+#influence-icons {
+    display: none;
+}
+
+
+/*
+    General styling of Semantic-UI components
+*/
+
+body {
+    overflow-y: scroll;
+}
+
+body.animating.in.dimmable, body.dimmed.dimmable {
+    overflow-y: scroll;
+}
+
+textarea {
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 15px;
+    resize: none;
+}
+
+.ui.modal {
+    background-color: #533D4F;
+    color: #E7E4E6;
+}
+
+.ui.modal > .header, .ui.modal > .actions {
+    background-color: #664B61;
+    color: #E7E4E6;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.ui.form .field>label {
+    color: #E7E4E6;
+}
+
+.ui.modal .modal-body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 16px;
+}
+
+.ui.buttons .button:first-child {
+    border-left: 1px solid;
+}
+
+.ui.buttons .button {
+    border-right: none;
+}
+
+.ui.buttons .button:last-child {
+    border-right: 1px solid;
+}
+
+.ui.button, .ui.button.positive {
+    background-color: #2E2C3D;
+    color: #FFFFFF;
+    border: 1px solid;
+    font-family: 'Open Sans ExtraBold', sans-serif;
+}
+
+.ui.button:hover,
+.ui.button:focus,
+.ui.button.positive:hover,
+.ui.button.positive:focus {
+    background-color: #322C4B;
+    color: #FFFFFF;
+}
+
+.ui.popup {
+    background-color: #322C4B;
+    color: #FFFFFF;
+    max-width: 400px;
+    font-family: 'Merriweather', serif;
+    font-size: 18px;
+    text-align: center;
+}
+
+.ui.popup.transparent {
+    background-color: transparent;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin: 0 !important;
+    padding: 0;
+}
+.ui.popup.transparent:before {
+    display: none;
+}
+
+
+.ui.popup h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 26px;
+}
+
+.ui.popup strong {
+    font-family: 'Merriweather', serif;
+}
+
+.ui.top.popup:before,
+.ui.bottom.popup:before,
+.ui.left.center.popup:before,
+.ui.right.center.popup:before {
+    background: #322C4B;
+}
+
+.ui.loader:after {
+    border-color: #FFFFFF transparent transparent;
+}
+
+a {
+    color: #81C3F4;
+    font-family: 'Open Sans ExtraBold', sans-serif;
+}
+
+a:hover {
+    color: #4183c4;
+}
+
+/*
+    High level page layout
+*/
+
+body {
+    background-color: #17141D;
+    font-family: 'Open Sans Condensed Bold', sans-serif;
+    font-size: 16px;
+    color: #E7E4E6;
+}
+
+#calculator-content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1290px;
+}
+
+#shiftstoned-heading {
+    margin-left: 40px;
+    height: 104px;
+    width: 1250px;
+}
+
+#calculator-body {
+    margin-left: 40px;
+    background-color: #17141D;
+    border: 1px solid;
+    border-bottom: none;
+    width: 1250px;
+    min-height: 924px;
+}
+
+#influence-panel {
+    background-color: #533D4F;
+    border-bottom: 1px solid;
+    width: 100%;
+    height: 100px;
+}
+
+#deck-edit-panel {
+    float: left;
+    background-color: #533D4F;
+    border-right: 1px solid;
+    width: 306px;
+    min-height: 1050px
+}
+
+#charts-panel {
+    float: left;
+    width: 942px;
+}
+
+#charts-menu {
+    height: 94px;
+    width: 100%;
+}
+
+#charts-heading {
+    width: 942px;
+    height: 74px;
+}
+
+#deck-title {
+  font-size: 45px;
+  line-height: 74px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Open Sans Condensed Bold', sans-serif;
+  max-height: 74px;
+}
+
+#calculator-body-footer {
+    clear: both;
+}
+
+.help {
+    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 10px;
+}
+
+/*
+    Heading elements
+*/
+
+#background {
+    position: fixed;
+    width: 140%;
+    z-index: -1;
+    /* top: -100px; */
+    left: 0px;
+    margin: 0px auto;
+}
+
+#heading-top {
+    position: relative;
+    width: 100%;
+    height: 65px;
+}
+
+#heading-page-top {
+    width: 100%;
+    height: 39px;
+    background-color: #17141D;
+}
+
+#shiftstoned-img {
+    position: absolute;
+    left: 23px;
+    top: 27px;
+}
+
+#power-calculator-img {
+    position: absolute;
+    left: 308px;
+    top: 16px;
+}
+
+#about-heading {
+    position: absolute;
+    top: 34px;
+    left: 1085px;
+
+    cursor: pointer;
+    font-family: 'Open Sans ExtraBold', sans-serif;
+    font-size: 20px;
+}
+
+#calc-heading {
+    position: absolute;
+    top: 34px;
+    left: 1000px;
+
+    <!-- cursor: pointer; -->
+    font-family: 'Open Sans ExtraBold', sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+/*
+    The nagivation menu in the upper right
+*/
+
+#navigation-separator {
+    position: absolute;
+    top: 10px;
+    left: 1176px;
+
+    width: 2px;
+    height: 44px;
+    background-color: #FFFFFF;
+}
+
+#navigation-menu {
+    position: absolute;
+    left: 1200px;
+    top: 10px;
+
+    font-family: 'Open Sans ExtraBold', sans-serif;
+}
+
+#navigation-menu .menu {
+    left: auto;
+    right: 0px;
+
+    background-color: #2E2C3D;
+    border: 1px solid #FFFFFF;
+}
+
+#navigation-menu .menu > .item {
+    padding: 0px !important;
+}
+
+#navigation-menu a:hover {
+    border-radius: 5px;
+    background-color: #443D66;
+}
+
+#navigation-menu a {
+    padding: 14px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #FFFFFF;
+}
+
+.navigation-menu-indent {
+    float: left;
+    width: 30px;
+    min-height: 1px;
+}
+
+
+/*
+    Influence panel
+*/
+
+#influence-panel > div {
+    position: relative;
+    float: left;
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 48px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+#influence-panel img {
+    position: absolute;
+    left: 72px;
+    top: -25px;
+}
+
+#card-count-number, #power-sources-number {
+    margin-top: 28px;
+}
+
+#influence-panel #card-count-panel, #influence-panel #power-sources-panel {
+    width: 153px;
+    border-right: solid 1px;
+    font-family: 'Open Sans ExtraBold', sans-serif;
+}
+
+#card-count-label, #power-sources-label {
+    margin-top: 19px;
+    font-size: 12px;
+}
+
+.influence-number {
+    margin-top: 46px;
+}
+
+/*  Use a partially transparent color for zeroed out influence counts  */
+.influence-number.zero {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#fire-sources-panel {
+    width: 188px;
+    background-color: #A30C0E;
+}
+
+#time-sources-panel {
+    width: 189px;
+    background-color: #B26F03;
+}
+
+#justice-sources-panel {
+    width: 188px;
+    background-color: #3A6727;
+}
+
+#primal-sources-panel {
+    width: 189px;
+    background-color: #033276;
+}
+
+#shadow-sources-panel {
+    width: 188px;
+    background-color: #331745;
+}
+
+
+/*
+    Decklist editing panel
+*/
+
+.deck-edit-header,
+.deck-edit-footer {
+    margin: 30px 15px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deck-edit-header .button,
+.deck-edit-footer .button {
+    clear: both;
+    margin: 0px 0px 6px 0px;
+    padding: 0px;
+    height: 38px;
+}
+
+.deck-edit-header .button {
+    width: 96px;
+}
+
+.deck-edit-header #link-button {
+    width: 38px;
+}
+
+.deck-edit-header #ewc-button {
+    width: 44px;
+}
+
+.deck-edit-footer .button {
+    width: 118px;
+}
+
+#link-button img {
+    width: 18px;
+    height: 18px;
+}
+
+#ewc-button img {
+    width: 24px;
+    height: 18px;
+}
+
+#deck-edit-panel .deck-edit {
+    width: 305px;
+}
+
+.card-count-edit {
+    height: 32px;
+    margin-left: 30px;
+}
+
+.card-name {
+    clear: both;
+    float: left;
+    width: 158px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-name.fire {
+    font-style: italic;
+    color: #CC0000;
+}
+
+.card-name.time {
+    font-style: italic;
+    color: #F1C232;
+}
+
+.card-name.justice {
+    font-style: italic;
+    color: #6AA84F;
+}
+
+.card-name.primal {
+    font-style: italic;
+    color: #3C78D8;
+}
+
+.card-name.shadow {
+    font-style: italic;
+    color: #A64D79;
+}
+
+.card-name.multi {
+    font-style: italic;
+    color: #000000;
+}
+
+.card-count {
+    margin-left: 4px;
+    float: left;
+    width: 18px;
+}
+
+.deck-edit-section {
+    width: 245px;
+    margin: 25px;
+
+    font-family: 'Open Sans', serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+.deck-edit-section-description {
+    font-size: 14px;
+    font-style: italic;
+}
+
+#deck-edit-panel .deck-edit button {
+    float: left;
+    width: 30px;
+    height: 22px;
+    padding: 2px;
+    margin: 0px 0px 0px 4px;
+    font-size: 16px;
+}
+
+#deck-edit-market-rows.add-disabled .add-button {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
+}
+
+/*
+    Charts panel menu
+*/
+
+.menu-item {
+    float: left;
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+    background-color: #2E2E2E;
+}
+
+.menu-item.active {
+    background-color: #17141D;
+}
+
+#charts-menu img {
+    display: block;
+}
+
+#influence-graph-menu-title {
+    float: left;
+    margin: 40px 0px 0px 60px;
+}
+
+#power-odds-table-menu-title {
+    float: left;
+    margin: 40px 0px 0px 40px;
+}
+
+.output-tab-help-icon {
+    float: right;
+    margin: 40px 40px 0px 0px;
+}
+
+
+/*
+    Influence Graph style
+*/
+
+#power-graph-container {
+    position: relative;
+}
+
+#power-graph-div {
+    position: relative;
+    width: 942px;
+    height: 450px;
+}
+
+.power-graph-canvas {
+    display: block;
+    width: 942px;
+    height: 450px;
+}
+
+#power-table-sources {
+    clear: both;
+    font-size: 14px;
+    padding-top: 30px;
+    margin-left: 63px;
+    width: 814px;
+    text-align: center;
+}
+
+#graph-y-label {
+    font-family: 'Merriweather', serif;
+    font-size: 18px;
+    letter-spacing: 15px;
+
+    position: relative;
+    left: 906px;
+    padding-left: 114px;
+    width: 450px;
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+}
+
+#graph-x-label {
+    font-family: 'Merriweather', serif;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 5px;
+    margin-top: 6px;
+}
+
+.power-graph-popup-anchor {
+    height: 1px;
+    width: 1px;
+}
+
+.power-graph-popup.ui.popup {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+}
+
+.power-graph-popup-odds {
+    margin-bottom: 15px;
+}
+
+.power-graph-popup-cards {
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/*
+    Power type panel
+*/
+
+#power-type-panel {
+    margin-left: 72px;
+    margin-top: 94px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    width: 833px;
+    border-radius: 10px;
+    background-color: #27252D;
+    border: solid 1px #FFFFFF;
+}
+
+.power-type-item {
+    float: left;
+    margin-left: 42px;
+    margin-right: 42px;
+    width: 193px;
+    height: 66px;
+
+    text-align: center;
+    font-size: 18px;
+}
+
+.power-type-item img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.power-type-label {
+    margin: 22px 8px 22px 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.power-type-count {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 24px;
+}
+
+#power-type-panel-footer {
+    clear: both;
+}
+
+
+/*
+    Power Odds Table style
+*/
+
+#power-table-container {
+    position: relative;
+    font-family: 'Open Sans ExtraBold', sans-serif;
+    width: 812px;
+    margin-top: 8px;
+    margin-left: 64px;
+    float: left;
+}
+
+#power-table-cost-div {
+    width: 162px;
+    float: left;
+}
+
+#power-table-odds-div {
+    width: 650px;
+    float: left;
+    overflow-x: scroll;
+}
+
+#power-table-odds-div::-webkit-scrollbar-thumb {
+    background-color: #513D4E;
+}
+
+.power-table {
+    background-color: #000000;
+    border-collapse: collapse;
+}
+
+.power-table th,
+.power-table td {
+    border: 2px solid #000000;
+    height: 34px;
+}
+
+.power-table tr {
+    height: 2em;
+}
+
+.power-table-influence-icon {
+    vertical-align: bottom;
+}
+
+/*  Alternate row colors for readability  */
+.power-table tr:nth-child(even) {
+    background-color: #664B61;
+}
+
+.power-table tr:nth-child(odd) {
+    background-color: #533D4F;
+}
+
+.power-table-head-draws {
+    min-width: 160px;
+}
+
+.power-table-head-draw-count {
+    min-width: 50px;
+}
+
+.power-table-odds {
+    font-family: 'Open Sans', sans-serif;
+    text-align: right;
+    padding: 0px 8px 0px 8px;
+}
+
+.power-table-head-draw-count:first-child,
+.power-table-odds:first-child {
+    border-left: 0px;
+}
+
+/*  Darken cells with fewer draws than the number of power required  */
+tr:nth-child(even) .power-table-odds-shaded {
+    background-color: #3D2D3A;
+}
+
+tr:nth-child(odd) .power-table-odds-shaded {
+    background-color: #332530;
+}
+
+.odds-popup-content {
+    width: 150px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+}
+
+.table-cost-popup-content {
+    width: 150px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/*
+    Import modal dialog
+*/
+
+#import-validation-result {
+    font-size: 14px;
+    height: 14px;
+    color: #400000;
+    text-align: center;
+}
