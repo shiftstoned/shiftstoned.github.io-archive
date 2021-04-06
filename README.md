@@ -1,3 +1,10 @@
+This repository contains outdated versions of site assets being stored for archival purposes. 
+
+To access the most recent repository for Shiftstoned, please visit https://github.com/PapaCapricorn/shiftstoned
+
+---
+
+
 # Shiftstoned.com
 Player resources for Eternal card game
 
